@@ -1,0 +1,109 @@
+@startuml Model
+
+entity dances {
+    **id** : bigint
+    --
+    **short_name** : text
+    **name** : text
+}
+
+entity couples {
+    **id** : bigint
+    --
+    **male_partner_fullname** : text
+    **female_partner_fullname** : text
+    **contact_phone** : text
+}
+
+entity tournaments {
+    **id** : bigint
+    --
+    **user_id** : bigint
+    --
+    **name** : text
+    **date** : timestamp
+    **started_at** : timestamp
+    **finished_at** : timestamp
+    **state** : text
+}
+
+entity categories {
+    **id** : bigint
+    --
+    **tournament_id** : bigint
+    **dances_ids** : jsonb
+    --
+    **name** : text
+}
+
+entity rounds {
+    **id** : bigint
+    --
+    **category_id** : bigint
+    --
+    **order_number** : int
+}
+
+entity judges {
+    **id** : bigint
+    --
+    **fullname** : text
+}
+
+entity semi_grades {
+    **id** : bigint
+    --
+    **couple_id** : bigint
+    **semi_round_id** : bigint
+    **judge_id** : bigint
+    **dance_id** : bigint
+    --
+    **grade** : boolean
+}
+
+entity final_grades {
+    **id** : bigint
+    --
+    **couple_id** : bigint
+    **final_round_id** : bigint
+    **judge_id** : bigint
+    **dance_id** : bigint
+    --
+    **grade** : int
+}
+
+entity judge_round {
+    **id** : bigint
+    --
+    **judge_id** : bigint
+    **round_id** : bigint
+}
+
+entity couple_round {
+    **id** : bigint
+    --
+    **couple_id** : bigint
+    **round_id** : bigint
+}
+
+tournaments }o--|| categories
+
+categories }o--|| rounds
+
+rounds }o--|| judge_round
+judge_round ||--o{ judges
+
+rounds }o--|| couple_round
+couple_round ||--o{ couples
+
+semi_grades ||--o{ rounds
+semi_grades ||--o{ judges
+semi_grades ||--o{ couples
+semi_grades ||--|| dances
+
+final_grades ||--o{ rounds
+final_grades ||--o{ judges
+final_grades ||--o{ couples
+final_grades ||--|| dances
+
+@enduml

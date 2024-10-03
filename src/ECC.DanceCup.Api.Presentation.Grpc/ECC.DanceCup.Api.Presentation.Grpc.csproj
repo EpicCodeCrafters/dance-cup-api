@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="Protos\dance-cup-api.proto" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECC.DanceCup.Api.Application\ECC.DanceCup.Api.Application.csproj" />
+  </ItemGroup>
+</Project>

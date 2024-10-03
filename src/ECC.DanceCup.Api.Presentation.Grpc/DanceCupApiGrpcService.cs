@@ -3,11 +3,11 @@ using MediatR;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc;
 
-public class DanceCupGrpcService : DanceCupService.DanceCupServiceBase
+public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
 {
     private readonly ISender _sender;
 
-    public DanceCupGrpcService(ISender sender)
+    public DanceCupApiGrpcService(ISender sender)
     {
         _sender = sender;
     }

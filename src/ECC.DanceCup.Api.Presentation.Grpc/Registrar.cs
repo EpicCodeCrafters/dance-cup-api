@@ -7,7 +7,7 @@ public static class Registrar
 {
     public static IEndpointRouteBuilder UseGrpcServices(this IEndpointRouteBuilder endpointRouteBuilder)
     {
-        endpointRouteBuilder.MapGrpcService<DanceCupGrpcService>();
+        endpointRouteBuilder.MapGrpcService<DanceCupApiGrpcService>();
 
         return endpointRouteBuilder;
     }

@@ -5,7 +5,7 @@ namespace ECC.DanceCup.Api.Domain.Model;
 /// <summary>
 /// Идентификатор категории
 /// </summary>
-public struct CategoryId : IValueObject<CategoryId, long>
+public readonly record struct CategoryId : IValueObject<CategoryId, long>
 {
     private CategoryId(long value)
     {

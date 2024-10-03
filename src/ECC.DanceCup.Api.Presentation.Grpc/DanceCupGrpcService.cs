@@ -23,4 +23,16 @@ public class DanceCupGrpcService : DanceCupService.DanceCupServiceBase
 
         return result.Value.ToGrpc();
     }
+
+    public override async Task<CreateTournamentResponse> CreateTournament(CreateTournamentRequest request, ServerCallContext context)
+    {
+        var command = request.ToInternal();
+        var result = await _sender.Send(command, context.CancellationToken);
+
+        result
+            .HandleCommonErrors()
+            .ThrowRpcUnknownIfError();
+
+        return result.Value.ToGrpc();
+    }
 }

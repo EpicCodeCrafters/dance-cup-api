@@ -6,6 +6,8 @@ option csharp_namespace = "ECC.DanceCup.Api.Presentation.Grpc";
 
 service DanceCupService {
     rpc GetDances (GetDancesRequest) returns (GetDancesResponse);
+    
+    rpc CreateTournament (CreateTournamentRequest) returns (CreateTournamentResponse);
 }
 
 message GetDancesRequest { }
@@ -18,4 +20,11 @@ message Dance {
     int64 id = 1;
     string short_name = 2;
     string name = 3;
+}
+
+message CreateTournamentRequest {
+}
+        
+message CreateTournamentResponse {
+    int64 tournament_id = 1;
 }

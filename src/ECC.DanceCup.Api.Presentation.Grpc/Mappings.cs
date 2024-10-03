@@ -1,4 +1,5 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
+using ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 using ECC.DanceCup.Api.Application.UseCases.GetDances;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc;
@@ -25,6 +26,19 @@ internal static class Mappings
             Id = dance.Id,
             ShortName = dance.ShortName,
             Name = dance.Name
+        };
+    }
+
+    public static CreateTournamentUseCase.Command ToInternal(this CreateTournamentRequest request)
+    {
+        return new CreateTournamentUseCase.Command();
+    }
+
+    public static CreateTournamentResponse ToGrpc(this CreateTournamentUseCase.CommandResponse response)
+    {
+        return new CreateTournamentResponse
+        {
+            TournamentId = response.TournamentId.Value
         };
     }
 }

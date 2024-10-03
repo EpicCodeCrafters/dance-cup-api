@@ -9,4 +9,9 @@ public class TournamentRepository : ITournamentRepository
     {
         return null;
     }
+
+    public async Task<TournamentId> AddAsync(Tournament tournament, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }

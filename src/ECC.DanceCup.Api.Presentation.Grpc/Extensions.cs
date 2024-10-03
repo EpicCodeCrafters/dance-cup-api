@@ -12,7 +12,7 @@ internal static class Extensions
     {
         if (result.HasError<TournamentNotFoundError>())
         {
-            throw new RpcException(new Status(StatusCode.InvalidArgument, result.StringifyErrors()));
+            throw new RpcException(new Status(StatusCode.NotFound, result.StringifyErrors()));
         }
         
         if (result.HasError<DomainError>())

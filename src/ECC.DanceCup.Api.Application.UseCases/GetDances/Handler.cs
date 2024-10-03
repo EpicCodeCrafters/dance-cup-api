@@ -1,5 +1,4 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
-using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using FluentResults;
 using MediatR;
 

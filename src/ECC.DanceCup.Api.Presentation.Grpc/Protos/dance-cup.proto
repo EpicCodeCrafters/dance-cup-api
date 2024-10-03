@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package ECC.DanceCup.Api.Presentation.Grpc;
+
+option csharp_namespace = "ECC.DanceCup.Api.Presentation.Grpc";
+
+service DanceCupService {
+    rpc GetDances (GetDancesRequest) returns (GetDancesResponse);
+}
+
+message GetDancesRequest { }
+
+message GetDancesResponse {
+    repeated Dance dances = 1;
+}
+
+message Dance {
+    int64 id = 1;
+    string short_name = 2;
+    string name = 3;
+}

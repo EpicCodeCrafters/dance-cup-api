@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="MediatR" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ECC.DanceCup.Api.Application.Abstractions\ECC.DanceCup.Api.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\ECC.DanceCup.Api.Domain\ECC.DanceCup.Api.Domain.csproj" />
+  </ItemGroup>
+</Project>

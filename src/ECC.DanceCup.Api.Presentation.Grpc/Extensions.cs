@@ -10,7 +10,7 @@ internal static class Extensions
     public static void HandleErrors<TResult>(this TResult result)
         where TResult : ResultBase
     {
-        if (result.HasError<TournamentNotFoundError>())
+        if (result.HasError<NotFoundError>())
         {
             throw new RpcException(new Status(StatusCode.NotFound, result.StringifyErrors()));
         }

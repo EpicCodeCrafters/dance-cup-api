@@ -1,12 +1,11 @@
 ﻿using ECC.DanceCup.Api.Domain.Model;
-using FluentResults;
 
 namespace ECC.DanceCup.Api.Application.Errors;
 
-public class TournamentNotFoundError : Error
+public class TournamentNotFoundError : NotFoundError
 {
     public TournamentNotFoundError(TournamentId tournamentId)
+        : base($"Турнир с идентификатором {tournamentId.Value} не найден")
     {
-        Message = $"Турнир с идентификатором {tournamentId.Value} не найден";
     }
 }

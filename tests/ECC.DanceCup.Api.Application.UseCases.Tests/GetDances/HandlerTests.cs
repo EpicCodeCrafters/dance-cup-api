@@ -1,6 +1,10 @@
-﻿using ECC.DanceCup.Api.Application.UseCases.GetDances;
+﻿using AutoFixture.Xunit2;
+using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
+using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
+using ECC.DanceCup.Api.Application.UseCases.GetDances;
 using ECC.DanceCup.Api.Tests.Common;
 using FluentAssertions;
+using Moq;
 
 namespace ECC.DanceCup.Api.Application.UseCases.Tests.GetDances;
 
@@ -8,9 +12,15 @@ public class HandlerTests
 {
     [Theory, AutoMoqData]
     public async Task Handle_ShouldGenerallySuccess(
+        IReadOnlyCollection<DanceView> dances,
+        [Frozen] Mock<IDanceViewRepository> danceViewRepositoryMock,
         GetDancesUseCase.QueryHandler handler)
     {
         // Arrange
+
+        danceViewRepositoryMock
+            .Setup(danceViewRepository => danceViewRepository.FindAllAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(dances);
 
         var query = new GetDancesUseCase.Query();
 
@@ -21,6 +31,12 @@ public class HandlerTests
         // Assert
 
         result.IsSuccess.Should().BeTrue();
+        result.Value.Dances.Should().BeEquivalentTo(dances);
+        
+        danceViewRepositoryMock.Verify(
+            danceViewRepository => danceViewRepository.FindAllAsync(It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+        danceViewRepositoryMock.VerifyNoOtherCalls();
     }
-
 }

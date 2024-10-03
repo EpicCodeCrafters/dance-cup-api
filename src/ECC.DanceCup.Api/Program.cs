@@ -2,13 +2,12 @@ using ECC.DanceCup.Api;
 using Microsoft.AspNetCore;
 
 var host = WebHost
-    .CreateDefaultBuilder()
+    .CreateDefaultBuilder(args)
     .UseStartup<Startup>()
     .ConfigureAppConfiguration(configurationBuilder =>
     {
-        // TODO Раскомментировать, если понадобится
-        // configurationBuilder.AddEnvironmentVariables();
-        // configurationBuilder.AddUserSecrets<Startup>();
+        configurationBuilder.AddEnvironmentVariables();
+        configurationBuilder.AddUserSecrets<Startup>();
     })
     .Build();
 

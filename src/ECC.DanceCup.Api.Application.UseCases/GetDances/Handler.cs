@@ -1,4 +1,5 @@
-﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
+﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
+using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using FluentResults;
 using MediatR;
 
@@ -8,26 +9,18 @@ public static partial class GetDancesUseCase
 {
     public class QueryHandler : IRequestHandler<Query, Result<QueryResponse>>
     {
-        public async Task<Result<QueryResponse>> Handle(Query request, CancellationToken cancellationToken)
-        {
-            // TODO брать из БД
-            var fakeDancesList = new[]
-            {
-                new DanceView
-                {
-                    Id = 1,
-                    ShortName = "Vw",
-                    Name = "Венский вальс"
-                },
-                new DanceView
-                {
-                    Id = 2,
-                    ShortName = "Ch",
-                    Name = "Ча-ча-ча"
-                }
-            };
+        private readonly IDanceViewRepository _danceViewRepository;
 
-            return new QueryResponse(fakeDancesList);
+        public QueryHandler(IDanceViewRepository danceViewRepository)
+        {
+            _danceViewRepository = danceViewRepository;
+        }
+
+        public async Task<Result<QueryResponse>> Handle(Query query, CancellationToken cancellationToken)
+        {
+            var dances = await _danceViewRepository.FindAllAsync(cancellationToken);
+
+            return new QueryResponse(dances);
         }
     }
 }

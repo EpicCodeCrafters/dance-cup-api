@@ -6,7 +6,7 @@ using ECC.DanceCup.Api.Tests.Common;
 using FluentAssertions;
 using Moq;
 
-namespace ECC.DanceCup.Api.Application.UseCases.Tests.GetDances;
+namespace ECC.DanceCup.Api.Application.Tests.UseCases.GetDances;
 
 public class HandlerTests
 {

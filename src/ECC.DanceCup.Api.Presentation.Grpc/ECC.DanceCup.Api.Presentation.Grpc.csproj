@@ -6,6 +6,6 @@
     <Protobuf Include="Protos\dance-cup.proto" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ECC.DanceCup.Api.Application.UseCases\ECC.DanceCup.Api.Application.UseCases.csproj" />
+    <ProjectReference Include="..\ECC.DanceCup.Api.Application\ECC.DanceCup.Api.Application.csproj" />
   </ItemGroup>
 </Project>

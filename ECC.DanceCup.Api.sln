@@ -35,8 +35,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api", "src\ECC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Application", "src\ECC.DanceCup.Api.Application\ECC.DanceCup.Api.Application.csproj", "{DADD953B-8A4E-49F4-95BC-0C289E545BEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Application.UseCases", "src\ECC.DanceCup.Api.Application.UseCases\ECC.DanceCup.Api.Application.UseCases.csproj", "{83152677-8548-44CD-A424-7F2CB6C68635}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Application.Abstractions", "src\ECC.DanceCup.Api.Application.Abstractions\ECC.DanceCup.Api.Application.Abstractions.csproj", "{2E53C6EB-DD55-4CFE-BDF2-E444FE3AC903}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Infrastructure.Storage", "src\ECC.DanceCup.Api.Infrastructure.Storage\ECC.DanceCup.Api.Infrastructure.Storage.csproj", "{200196EE-07E6-4DDE-956C-5F27E3996849}"
@@ -45,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Infrastruc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Presentation.Grpc", "src\ECC.DanceCup.Api.Presentation.Grpc\ECC.DanceCup.Api.Presentation.Grpc.csproj", "{3B01534C-42DC-40CA-8F36-575319A6DB59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Application.UseCases.Tests", "tests\ECC.DanceCup.Api.Application.UseCases.Tests\ECC.DanceCup.Api.Application.UseCases.Tests.csproj", "{940BC092-F894-417D-95B6-B28CF628D42B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Application.Tests", "tests\ECC.DanceCup.Api.Application.Tests\ECC.DanceCup.Api.Application.Tests.csproj", "{940BC092-F894-417D-95B6-B28CF628D42B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,7 +61,6 @@ Global
 		{CE762CEF-0E8F-4436-B3DF-3FB4363130F0} = {817D70FE-CAE4-4EBF-90C6-10FE9B378C6B}
 		{4EDA7319-ADBA-4EB1-A79D-E1782345D5D6} = {1C4FFBF8-1BF7-40A6-8F9F-6C9C5ECE2ABE}
 		{DADD953B-8A4E-49F4-95BC-0C289E545BEF} = {E0C675DE-5B1B-40A3-B482-ED11F5386223}
-		{83152677-8548-44CD-A424-7F2CB6C68635} = {E0C675DE-5B1B-40A3-B482-ED11F5386223}
 		{2E53C6EB-DD55-4CFE-BDF2-E444FE3AC903} = {E0C675DE-5B1B-40A3-B482-ED11F5386223}
 		{200196EE-07E6-4DDE-956C-5F27E3996849} = {80F02B12-07AC-4D8D-9087-1A17A155889F}
 		{E58F47D7-F6F1-4EBD-9B5E-F366BAF7D423} = {80F02B12-07AC-4D8D-9087-1A17A155889F}
@@ -95,10 +92,6 @@ Global
 		{DADD953B-8A4E-49F4-95BC-0C289E545BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DADD953B-8A4E-49F4-95BC-0C289E545BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DADD953B-8A4E-49F4-95BC-0C289E545BEF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83152677-8548-44CD-A424-7F2CB6C68635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83152677-8548-44CD-A424-7F2CB6C68635}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83152677-8548-44CD-A424-7F2CB6C68635}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83152677-8548-44CD-A424-7F2CB6C68635}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E53C6EB-DD55-4CFE-BDF2-E444FE3AC903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E53C6EB-DD55-4CFE-BDF2-E444FE3AC903}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E53C6EB-DD55-4CFE-BDF2-E444FE3AC903}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -17,9 +17,7 @@ public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
         var query = request.ToInternal();
         var result = await _sender.Send(query, context.CancellationToken);
 
-        result
-            .HandleCommonErrors()
-            .ThrowRpcUnknownIfError();
+        result.HandleErrors();
 
         return result.Value.ToGrpc();
     }
@@ -29,9 +27,7 @@ public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
         var command = request.ToInternal();
         var result = await _sender.Send(command, context.CancellationToken);
 
-        result
-            .HandleCommonErrors()
-            .ThrowRpcUnknownIfError();
+        result.HandleErrors();
 
         return result.Value.ToGrpc();
     }

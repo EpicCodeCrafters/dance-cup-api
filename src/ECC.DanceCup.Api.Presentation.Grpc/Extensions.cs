@@ -7,7 +7,7 @@ namespace ECC.DanceCup.Api.Presentation.Grpc;
 
 internal static class Extensions
 {
-    public static TResult HandleCommonErrors<TResult>(this TResult result)
+    public static void HandleErrors<TResult>(this TResult result)
         where TResult : ResultBase
     {
         if (result.HasError<TournamentNotFoundError>())
@@ -20,18 +20,10 @@ internal static class Extensions
             throw new RpcException(new Status(StatusCode.InvalidArgument, result.StringifyErrors()));
         }
         
-        return result;
-    }
-    
-    public static TResult ThrowRpcUnknownIfError<TResult>(this TResult result)
-        where TResult : ResultBase
-    {
         if (result.IsFailed)
         {
             throw new RpcException(new Status(StatusCode.Unknown, result.StringifyErrors()));
         }
-
-        return result;
     }
 
     public static string StringifyErrors<TResult>(this TResult result)

@@ -1,5 +1,6 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
+using ECC.DanceCup.Api.Infrastructure.Storage.DomainModel;
 using ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +10,7 @@ public static class Registrar
 {
     public static IServiceCollection AddStorage(this IServiceCollection services)
     {
-        services.AddScoped<ITournamentRepository, ITournamentRepository>();
+        services.AddScoped<ITournamentRepository, TournamentRepository>();
         
         services.AddScoped<IDanceViewRepository, DanceViewRepository>();
         

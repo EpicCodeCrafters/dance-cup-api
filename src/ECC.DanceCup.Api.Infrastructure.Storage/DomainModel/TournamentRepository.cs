@@ -12,6 +12,6 @@ public class TournamentRepository : ITournamentRepository
 
     public async Task<TournamentId> AddAsync(Tournament tournament, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return TournamentId.Empty;
     }
 }

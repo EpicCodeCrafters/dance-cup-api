@@ -9,6 +9,19 @@ public class TournamentFactory : ITournamentFactory
     /// <inheritdoc />
     public Result<Tournament> Create()
     {
-        return Result.Fail("Пока не сделано");
+        var tournament = new Tournament(
+            id: TournamentId.Empty,
+            createdAt: DateTime.UtcNow,
+            changedAt: DateTime.UtcNow,
+            userId: UserId.From(1)!.Value,
+            name: TournamentName.From("aaa")!.Value,
+            date: TournamentDate.From(DateTime.UtcNow)!.Value,
+            state: TournamentState.Created,
+            startedAt: DateTime.UtcNow,
+            finishedAt: DateTime.UtcNow,
+            categories: []
+        );
+
+        return tournament;
     }
 }

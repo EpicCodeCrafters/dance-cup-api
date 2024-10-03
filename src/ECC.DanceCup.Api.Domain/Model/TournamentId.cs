@@ -2,6 +2,9 @@
 
 namespace ECC.DanceCup.Api.Domain.Model;
 
+/// <summary>
+/// Идентификатор турнира
+/// </summary>
 public readonly record struct TournamentId : IValueObject<TournamentId, long>
 {
     private TournamentId(long value)
@@ -9,12 +12,22 @@ public readonly record struct TournamentId : IValueObject<TournamentId, long>
         Value = value;
     }
 
+    /// <summary>
+    /// Пустой идентификатор турнира
+    /// </summary>
     public static TournamentId Empty => new(default);
 
+    /// <inheritdoc />
     public long Value { get; }
 
+    /// <inheritdoc />
     public static TournamentId? From(long value)
     {
-        throw new NotImplementedException();
+        if (value <= 0)
+        {
+            return null;
+        }
+
+        return new TournamentId(value);
     }
 }

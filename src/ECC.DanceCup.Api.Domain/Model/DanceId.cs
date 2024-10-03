@@ -3,26 +3,26 @@
 namespace ECC.DanceCup.Api.Domain.Model;
 
 /// <summary>
-/// Идентификатор категории
+/// Идентификатор танца
 /// </summary>
-public struct CategoryId : IValueObject<CategoryId, long>
+public readonly record struct DanceId : IValueObject<DanceId, long>
 {
-    private CategoryId(long value)
+    private DanceId(long value)
     {
         Value = value;
     }
 
     /// <inheritdoc />
     public long Value { get; }
-    
+
     /// <inheritdoc />
-    public static CategoryId? From(long value)
+    public static DanceId? From(long value)
     {
         if (value <= 0)
         {
             return null;
         }
-
-        return new CategoryId(value);
+        
+        return new DanceId(value);
     }
 }

@@ -2,6 +2,9 @@
 
 namespace ECC.DanceCup.Api.Domain.Model;
 
+/// <summary>
+/// Идентификатор пользователя
+/// </summary>
 public readonly record struct UserId : IValueObject<UserId, long>
 {
     private UserId(long value)
@@ -9,8 +12,10 @@ public readonly record struct UserId : IValueObject<UserId, long>
         Value = value;
     }
 
+    /// <inheritdoc />
     public long Value { get; }
     
+    /// <inheritdoc />
     public static UserId? From(long value)
     {
         if (value <= 0)

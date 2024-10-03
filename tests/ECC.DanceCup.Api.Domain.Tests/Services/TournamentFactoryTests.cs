@@ -18,6 +18,6 @@ public class TournamentFactoryTests
 
         // Assert
 
-        result.IsSuccess.Should().BeFalse();
+        result.IsSuccess.Should().BeTrue();
     }
 }

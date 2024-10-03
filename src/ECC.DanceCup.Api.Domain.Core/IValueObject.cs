@@ -12,11 +12,18 @@ public interface IValueObject<TValueObject>
 /// </summary>
 /// <typeparam name="TValueObject"></typeparam>
 /// <typeparam name="TValue"></typeparam>
-public interface IValueObject<TValueObject, out TValue> : IValueObject<TValueObject>
+public interface IValueObject<TValueObject, TValue> : IValueObject<TValueObject>
     where TValueObject : struct
 {
     /// <summary>
     /// Значение
     /// </summary>
     TValue Value { get; }
+
+    /// <summary>
+    /// Возвращает корректный тип значения или null
+    /// </summary>
+    /// <param name="value">Значение</param>
+    /// <returns></returns>
+    static abstract TValueObject? From(TValue value);
 }

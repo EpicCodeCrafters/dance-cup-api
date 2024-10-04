@@ -8,13 +8,20 @@ namespace ECC.DanceCup.Api;
 
 public class Startup
 {
+    private readonly IConfiguration _configuration;
+
+    public Startup(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDomainServices();
         
         services.AddApplicationServices();
 
-        services.AddStorage();
+        services.AddStorage(_configuration);
         services.AddTgApi();
 
         services.AddGrpc();

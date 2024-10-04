@@ -1,29 +1,33 @@
-﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
+﻿using Dapper;
+using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
+using ECC.DanceCup.Api.Infrastructure.Storage.Options;
+using ECC.DanceCup.Api.Infrastructure.Storage.Repositories;
+using Microsoft.Extensions.Options;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
 
-public class DanceViewRepository : IDanceViewRepository
+public class DanceViewRepository : PostgresRepositoryBase, IDanceViewRepository
 {
+    public DanceViewRepository(IOptions<StorageOptions> storageOptions)
+        : base(storageOptions)
+    {
+    }
+    
     public async Task<IReadOnlyCollection<DanceView>> FindAllAsync(CancellationToken cancellationToken)
     {
-        // TODO Брать из БД
-        var fakeDancesList = new[]
-        {
-            new DanceView
-            {
-                Id = 1,
-                ShortName = "Vw",
-                Name = "Венский вальс"
-            },
-            new DanceView
-            {
-                Id = 2,
-                ShortName = "Ch",
-                Name = "Ча-ча-ча"
-            }
-        };
+        const string sqlCommand =
+            """
+            select d."id" as "id"
+                 , d."short_name" as "short_name"
+                 , d."name" as "name"
+              from "dances" as d;
+            """;
+        
+        await using var connection = await GetConnectionAsync();
 
-        return fakeDancesList;
+        var dances = await connection.QueryAsync<DanceView>(sqlCommand, cancellationToken);
+
+        return dances.ToArray();
     }
 }

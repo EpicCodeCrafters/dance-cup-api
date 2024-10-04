@@ -4,10 +4,15 @@
     <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="Dapper" Version="2.1.35" />
+    <PackageVersion Include="FluentMigrator" Version="6.2.0" />
+    <PackageVersion Include="FluentMigrator.Runner" Version="6.2.0" />
     <PackageVersion Include="FluentResults" Version="3.16.0" />
     <PackageVersion Include="Grpc.AspNetCore" Version="2.66.0" />
     <PackageVersion Include="MediatR" Version="12.4.1" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+    <PackageVersion Include="Npgsql" Version="8.0.4" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />

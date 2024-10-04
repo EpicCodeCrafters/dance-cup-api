@@ -3,7 +3,7 @@ using ECC.DanceCup.Api.Infrastructure.Storage.Options;
 using Microsoft.Extensions.Options;
 using Npgsql;
 
-namespace ECC.DanceCup.Api.Infrastructure.Storage.Repositories;
+namespace ECC.DanceCup.Api.Infrastructure.Storage;
 
 public abstract class PostgresRepositoryBase
 {

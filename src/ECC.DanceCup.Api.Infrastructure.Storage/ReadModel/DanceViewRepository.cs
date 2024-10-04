@@ -2,7 +2,6 @@
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using ECC.DanceCup.Api.Infrastructure.Storage.Options;
-using ECC.DanceCup.Api.Infrastructure.Storage.Repositories;
 using Microsoft.Extensions.Options;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;

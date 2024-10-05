@@ -23,8 +23,15 @@ message Dance {
 }
 
 message CreateTournamentRequest {
+    int64 userId=1;
+    string name=2;
+    repeated CreateCategoryModel catigories=3;
 }
         
 message CreateTournamentResponse {
     int64 tournament_id = 1;
+}
+
+message CreateCategoryModel{
+    repeated int64 dances_ids = 1;
 }

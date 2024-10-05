@@ -1,6 +1,9 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 using ECC.DanceCup.Api.Application.UseCases.GetDances;
+using ECC.DanceCup.Api.Domain.Model;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc;
 
@@ -31,7 +34,7 @@ internal static class Mappings
 
     public static CreateTournamentUseCase.Command ToInternal(this CreateTournamentRequest request)
     {
-        return new CreateTournamentUseCase.Command();
+        return new CreateTournamentUseCase.Command(request.UserId, request.Name, request.Catigories);
     }
 
     public static CreateTournamentResponse ToGrpc(this CreateTournamentUseCase.CommandResponse response)

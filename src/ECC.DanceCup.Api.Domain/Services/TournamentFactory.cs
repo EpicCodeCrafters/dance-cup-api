@@ -7,19 +7,19 @@ namespace ECC.DanceCup.Api.Domain.Services;
 public class TournamentFactory : ITournamentFactory
 {
     /// <inheritdoc />
-    public Result<Tournament> Create()
+    public Result<Tournament> Create(UserId userId, TournamentName name, List<Category> catigories)
     {
         var tournament = new Tournament(
             id: TournamentId.Empty,
             createdAt: DateTime.UtcNow,
             changedAt: DateTime.UtcNow,
-            userId: UserId.From(1)!.Value,
-            name: TournamentName.From("aaa")!.Value,
+            userId: userId,
+            name: name,
             date: TournamentDate.From(DateTime.UtcNow)!.Value,
             state: TournamentState.Created,
             startedAt: DateTime.UtcNow,
             finishedAt: DateTime.UtcNow,
-            categories: []
+            categories: catigories
         );
 
         return tournament;

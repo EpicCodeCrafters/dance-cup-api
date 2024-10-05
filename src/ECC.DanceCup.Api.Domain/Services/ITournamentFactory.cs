@@ -12,5 +12,5 @@ public interface ITournamentFactory
     /// Создаёт турнир
     /// </summary>
     /// <returns></returns>
-    Result<Tournament> Create();
+    Result<Tournament> Create(UserId userId, TournamentName name, List<Category> catigories);
 }

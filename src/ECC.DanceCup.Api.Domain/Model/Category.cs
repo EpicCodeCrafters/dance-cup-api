@@ -20,7 +20,7 @@ public class Category : Entity<CategoryId>
     }
 
     /// <summary>
-    /// Список танцев категории
+    /// Список идентификаторов танцев категории
     /// </summary>
     public IReadOnlyCollection<DanceId> DancesIds => _dancesIds;
 }

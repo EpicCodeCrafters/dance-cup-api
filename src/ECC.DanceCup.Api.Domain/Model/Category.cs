@@ -1,6 +1,4 @@
 ﻿using ECC.DanceCup.Api.Domain.Core;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
 
 namespace ECC.DanceCup.Api.Domain.Model;
 
@@ -9,20 +7,20 @@ namespace ECC.DanceCup.Api.Domain.Model;
 /// </summary>
 public class Category : Entity<CategoryId>
 {
-    private readonly List<DanceId> _dances;
+    private readonly List<DanceId> _dancesIds;
 
     public Category(
         CategoryId id,
         DateTime createdAt,
         DateTime changedAt,
-        List<DanceId> dances)
+        List<DanceId> dancesIds)
         : base(id, createdAt, changedAt)
     {
-        _dances = dances;
+        _dancesIds = dancesIds;
     }
 
     /// <summary>
     /// Список танцев категории
     /// </summary>
-    public IReadOnlyCollection<DanceId> Dances => _dances;
+    public IReadOnlyCollection<DanceId> DancesIds => _dancesIds;
 }

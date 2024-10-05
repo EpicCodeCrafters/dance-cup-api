@@ -8,7 +8,6 @@ var host = WebHost
     .ConfigureAppConfiguration(configurationBuilder =>
     {
         configurationBuilder.AddEnvironmentVariables();
-        configurationBuilder.AddUserSecrets<Startup>();
     })
     .Build();
 

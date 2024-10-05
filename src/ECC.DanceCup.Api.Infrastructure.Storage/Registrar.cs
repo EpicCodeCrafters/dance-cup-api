@@ -17,11 +17,11 @@ public static class Registrar
         
         services.AddScoped<IDanceViewRepository, DanceViewRepository>();
 
-        services.Configure<StorageOptions>(configuration.GetSection(nameof(StorageOptions)));
+        services.Configure<StorageOptions>(configuration.GetSection("StorageOptions"));
         
         Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
-        var connectionString = configuration.GetSection(nameof(StorageOptions))[nameof(StorageOptions.ConnectionString)];
+        var connectionString = configuration["StorageOptions:ConnectionString"];
         services
             .AddFluentMigratorCore()
             .ConfigureRunner(runnerBuilder =>

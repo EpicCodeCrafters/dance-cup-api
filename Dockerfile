@@ -5,13 +5,13 @@ COPY ./src ./src
 COPY *.sln .
 COPY ./*.props ./
 
-WORKDIR /source/src/DanceCup.Api
+WORKDIR /source/src/ECC.DanceCup.Api
 RUN dotnet restore
 
-WORKDIR /source/src/DanceCup.Api
+WORKDIR /source/src/ECC.DanceCup.Api
 RUN dotnet publish -c release -o /app --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app ./
-ENTRYPOINT ["dotnet", "DanceCup.Api.dll"]
+ENTRYPOINT ["dotnet", "ECC.DanceCup.Api.dll"]

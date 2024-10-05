@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{5BB485
 		README.md = README.md
 		.editorconfig = .editorconfig
 		.github\workflows\github-ci.yml = .github\workflows\github-ci.yml
+		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{2298E37F-DB8D-4FFF-8143-FFF1EF6492D5}"

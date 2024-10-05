@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  dance-cup-api-db:
+    container_name: dance-cup-api-db
+    image: postgres
+    ports:
+      - 15432:5432
+    environment:
+      POSTGRES_USER: postgres-user
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dance-cup-api
+      PGDATA: /data/postgres
+    command: -c log_statement=all
+    volumes:
+      - dance-cup-api-db-volume:/data/postgres
+
+volumes:
+  dance-cup-api-db-volume:

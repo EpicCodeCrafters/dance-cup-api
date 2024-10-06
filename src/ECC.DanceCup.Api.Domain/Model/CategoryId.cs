@@ -12,6 +12,11 @@ public readonly record struct CategoryId : IValueObject<CategoryId, long>
         Value = value;
     }
 
+    /// <summary>
+    /// Пустой идентификатор категории
+    /// </summary>
+    public static CategoryId Empty => new(default);
+
     /// <inheritdoc />
     public long Value { get; }
     

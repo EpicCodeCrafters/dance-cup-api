@@ -14,13 +14,27 @@ public class Category : Entity<CategoryId>
         CategoryId id,
         DateTime createdAt,
         DateTime changedAt,
+        TournamentId tournamentId,
+        CategoryName categoryName,
         List<DanceId> dancesIds,
         List<RefereeId> refereesIds)
         : base(id, createdAt, changedAt)
     {
+        TournamentId= tournamentId;
+        CategoryName= categoryName;
         _dancesIds = dancesIds;
         _refereesIds = refereesIds;
     }
+
+    /// <summary>
+    /// Идентификатор турнира категории
+    /// </summary>
+    public TournamentId TournamentId { get; }
+
+    /// <summary>
+    /// Название категории
+    /// </summary>
+    public CategoryName CategoryName { get; }
 
     /// <summary>
     /// Список идентификаторов танцев категории
@@ -31,4 +45,6 @@ public class Category : Entity<CategoryId>
     /// Список идентификаторов судей категории
     /// </summary>
     public IReadOnlyCollection<RefereeId> RefereesIds => _refereesIds;
+
+
 }

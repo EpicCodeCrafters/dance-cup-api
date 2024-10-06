@@ -1,5 +1,6 @@
 ﻿using ECC.DanceCup.Api.Domain.Model;
 using FluentResults;
+using System.Collections.Generic;
 
 namespace ECC.DanceCup.Api.Domain.Services;
 
@@ -7,21 +8,35 @@ namespace ECC.DanceCup.Api.Domain.Services;
 public class TournamentFactory : ITournamentFactory
 {
     /// <inheritdoc />
-    public Result<Tournament> Create(UserId userId, TournamentName name, List<Category> catigories)
+    public Result<Tournament> Create(UserId userId, TournamentName name, TournamentDate date, IReadOnlyCollection<CreateCategoryModel> createCategoryModels)
     {
+        var now = DateTime.UtcNow;
+
+        var categories = createCategoryModels
+            .Select(
+                createCategoryModel => new Category(
+                    id: CategoryId.Empty,
+                    createdAt: now,
+                    changedAt: now,
+                    tournamentId: TournamentId.Empty,
+                    categoryName: createCategoryModel.CategoryName,
+                    dancesIds: createCategoryModel.DancesIds.ToList(),
+                    refereesIds: createCategoryModel.RefereesIds.ToList()
+             )
+        ).ToList();
+        
         var tournament = new Tournament(
             id: TournamentId.Empty,
-            createdAt: DateTime.UtcNow,
-            changedAt: DateTime.UtcNow,
+            createdAt: now,
+            changedAt: now,
             userId: userId,
             name: name,
-            date: TournamentDate.From(DateTime.UtcNow)!.Value,
+            date: date,
             state: TournamentState.Created,
-            startedAt: DateTime.UtcNow,
-            finishedAt: DateTime.UtcNow,
-            categories: catigories
-        );
-
+            startedAt: null,
+            finishedAt: null,
+            categories:categories
+            );
         return tournament;
     }
 }

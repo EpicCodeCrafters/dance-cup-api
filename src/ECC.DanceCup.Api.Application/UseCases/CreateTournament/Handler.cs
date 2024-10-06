@@ -24,7 +24,7 @@ public static partial class CreateTournamentUseCase
         public async Task<Result<CommandResponse>> Handle(Command command, CancellationToken cancellationToken)
         {
             // TODO Передавать какие-то данные
-            var createTournamentResult = _tournamentFactory.Create(command.userId,command.name, command.catigories);
+            var createTournamentResult = _tournamentFactory.Create(command.UserId, command.Name, command.Date, command.CreateCategoryModels);
             if (createTournamentResult.IsFailed)
             {
                 return createTournamentResult.ToResult();

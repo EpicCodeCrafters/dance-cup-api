@@ -1,4 +1,5 @@
 ﻿using ECC.DanceCup.Api.Domain.Model;
+using ECC.DanceCup.Api.Domain.Services;
 using FluentResults;
 using MediatR;
 
@@ -6,7 +7,12 @@ namespace ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 
 public static partial class CreateTournamentUseCase
 {
-    public record Command() : IRequest<Result<CommandResponse>>;
+    public record Command(
+        UserId UserId,
+        TournamentName Name,
+        TournamentDate Date,
+        IReadOnlyCollection<CreateCategoryModel> CreateCategoryModels
+    ) : IRequest<Result<CommandResponse>>;
 
     public record CommandResponse(TournamentId TournamentId);
 }

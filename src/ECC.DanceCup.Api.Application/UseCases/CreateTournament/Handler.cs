@@ -1,7 +1,10 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
+using ECC.DanceCup.Api.Domain.Model;
 using ECC.DanceCup.Api.Domain.Services;
 using FluentResults;
 using MediatR;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 
@@ -21,7 +24,7 @@ public static partial class CreateTournamentUseCase
         public async Task<Result<CommandResponse>> Handle(Command command, CancellationToken cancellationToken)
         {
             // TODO Передавать какие-то данные
-            var createTournamentResult = _tournamentFactory.Create();
+            var createTournamentResult = _tournamentFactory.Create(command.UserId, command.Name, command.Date, command.CreateCategoryModels);
             if (createTournamentResult.IsFailed)
             {
                 return createTournamentResult.ToResult();

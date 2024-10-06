@@ -7,7 +7,44 @@ namespace ECC.DanceCup.Api.Domain.Model;
 /// </summary>
 public class Category : Entity<CategoryId>
 {
-    public Category(CategoryId id, DateTime createdAt, DateTime changedAt) : base(id, createdAt, changedAt)
+    private readonly List<DanceId> _dancesIds;
+    private readonly List<RefereeId> _refereesIds;
+
+    public Category(
+        CategoryId id,
+        DateTime createdAt,
+        DateTime changedAt,
+        TournamentId tournamentId,
+        CategoryName categoryName,
+        List<DanceId> dancesIds,
+        List<RefereeId> refereesIds)
+        : base(id, createdAt, changedAt)
     {
+        TournamentId= tournamentId;
+        CategoryName= categoryName;
+        _dancesIds = dancesIds;
+        _refereesIds = refereesIds;
     }
+
+    /// <summary>
+    /// Идентификатор турнира категории
+    /// </summary>
+    public TournamentId TournamentId { get; }
+
+    /// <summary>
+    /// Название категории
+    /// </summary>
+    public CategoryName CategoryName { get; }
+
+    /// <summary>
+    /// Список идентификаторов танцев категории
+    /// </summary>
+    public IReadOnlyCollection<DanceId> DancesIds => _dancesIds;
+
+    /// <summary>
+    /// Список идентификаторов судей категории
+    /// </summary>
+    public IReadOnlyCollection<RefereeId> RefereesIds => _refereesIds;
+
+
 }

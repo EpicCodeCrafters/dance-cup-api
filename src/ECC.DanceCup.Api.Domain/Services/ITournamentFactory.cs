@@ -12,5 +12,11 @@ public interface ITournamentFactory
     /// Создаёт турнир
     /// </summary>
     /// <returns></returns>
-    Result<Tournament> Create();
+    Result<Tournament> Create(UserId userId, TournamentName name, TournamentDate date, IReadOnlyCollection<CreateCategoryModel> createCatigoryModels);
 }
+
+public record CreateCategoryModel(
+    CategoryName CategoryName,
+    IReadOnlyCollection<DanceId> DancesIds,
+    IReadOnlyCollection<RefereeId> RefereesIds
+);

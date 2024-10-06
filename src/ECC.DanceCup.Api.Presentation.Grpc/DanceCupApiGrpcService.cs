@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using ECC.DanceCup.Api.Presentation.Grpc.Extensions;
+using Grpc.Core;
 using MediatR;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc;

@@ -1,11 +1,12 @@
 ﻿using ECC.DanceCup.Api.Application.Errors;
 using ECC.DanceCup.Api.Domain.Core;
+using ECC.DanceCup.Api.Utils.Extensions;
 using FluentResults;
 using Grpc.Core;
 
-namespace ECC.DanceCup.Api.Presentation.Grpc;
+namespace ECC.DanceCup.Api.Presentation.Grpc.Extensions;
 
-internal static class Extensions
+public static class ResultExtensions
 {
     public static void HandleErrors<TResult>(this TResult result)
         where TResult : ResultBase
@@ -24,11 +25,5 @@ internal static class Extensions
         {
             throw new RpcException(new Status(StatusCode.Unknown, result.StringifyErrors()));
         }
-    }
-
-    public static string StringifyErrors<TResult>(this TResult result)
-        where TResult : ResultBase
-    {
-        return string.Join("; ", result.Errors.Select(error => error.Message));
     }
 }

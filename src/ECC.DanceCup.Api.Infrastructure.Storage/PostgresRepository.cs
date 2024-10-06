@@ -5,11 +5,11 @@ using Npgsql;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage;
 
-public abstract class PostgresRepositoryBase
+public abstract class PostgresRepository
 {
     private readonly IOptions<StorageOptions> _storageOptions;
 
-    protected PostgresRepositoryBase(IOptions<StorageOptions> storageOptions)
+    protected PostgresRepository(IOptions<StorageOptions> storageOptions)
     {
         _storageOptions = storageOptions;
     }

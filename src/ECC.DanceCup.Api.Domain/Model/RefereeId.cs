@@ -7,7 +7,7 @@ namespace ECC.DanceCup.Api.Domain.Model;
 /// </summary>
 public readonly record struct RefereeId : IValueObject<RefereeId, long>
 {
-    private RefereeId(long value)
+    public RefereeId(long value)
     {
         Value = value;
     }

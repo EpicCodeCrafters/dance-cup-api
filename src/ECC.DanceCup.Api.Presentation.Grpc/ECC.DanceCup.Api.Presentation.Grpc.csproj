@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="Grpc.AspNetCore" />
   </ItemGroup>
   <ItemGroup>
@@ -7,5 +9,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECC.DanceCup.Api.Application\ECC.DanceCup.Api.Application.csproj" />
+    <ProjectReference Include="..\ECC.DanceCup.Api.Utils\ECC.DanceCup.Api.Utils.csproj" />
   </ItemGroup>
 </Project>

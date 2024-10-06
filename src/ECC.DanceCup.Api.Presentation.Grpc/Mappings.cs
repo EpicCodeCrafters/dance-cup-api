@@ -2,10 +2,7 @@
 using ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 using ECC.DanceCup.Api.Application.UseCases.GetDances;
 using ECC.DanceCup.Api.Domain.Model;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Xml.Linq;
+using ECC.DanceCup.Api.Utils.Extensions;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc;
 
@@ -37,20 +34,20 @@ internal static class Mappings
     public static CreateTournamentUseCase.Command ToInternal(this CreateTournamentRequest request)
     {
         return new CreateTournamentUseCase.Command(
-            UserId: UserId.From(request.UserId)!.Value,
-            Name: TournamentName.From(request.Name)!.Value,
-            Date: TournamentDate.From(request.Date.ToDateTime())!.Value,
+            UserId: UserId.From(request.UserId).AsRequired(),
+            Name: TournamentName.From(request.Name).AsRequired(),
+            Date: TournamentDate.From(request.Date.ToDateTime()).AsRequired(),
             CreateCategoryModels: request.CreateCategoryModels.Select(ToInternal).ToArray()
-            );
+        );
     }
 
-    private static ECC.DanceCup.Api.Domain.Services.CreateCategoryModel ToInternal(this CreateCategoryModel createCategoryModel)
+    private static Domain.Services.CreateCategoryModel ToInternal(this CreateCategoryModel createCategoryModel)
     {
         return new Domain.Services.CreateCategoryModel(
-          CategoryName: CategoryName.From(createCategoryModel.CategoryName)!.Value,
-          DancesIds: createCategoryModel.DancesIds.Select(danceId=>DanceId.From(danceId)!.Value).ToArray(),
-          RefereesIds: createCategoryModel.RefereesIds.Select(refereeId => RefereeId.From(refereeId)!.Value).ToArray()
-         );
+            Name: CategoryName.From(createCategoryModel.Name).AsRequired(),
+            DancesIds: createCategoryModel.DancesIds.Select(danceId => DanceId.From(danceId).AsRequired()).ToArray(),
+            RefereesIds: createCategoryModel.RefereesIds.Select(refereeId => RefereeId.From(refereeId).AsRequired()).ToArray()
+        );
     }
 
     public static CreateTournamentResponse ToGrpc(this CreateTournamentUseCase.CommandResponse response)

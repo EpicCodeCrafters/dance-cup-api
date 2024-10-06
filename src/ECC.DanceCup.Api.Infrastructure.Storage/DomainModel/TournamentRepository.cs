@@ -5,13 +5,18 @@ namespace ECC.DanceCup.Api.Infrastructure.Storage.DomainModel;
 
 public class TournamentRepository : ITournamentRepository
 {
-    public async Task<Tournament?> FindAsync(TournamentId tournamentId, CancellationToken cancellationToken)
+    public Task<Tournament?> FindAsync(TournamentId tournamentId, CancellationToken cancellationToken)
     {
-        return null;
+        return Task.FromResult((Tournament?)null);
     }
 
-    public async Task<TournamentId> AddAsync(Tournament tournament, CancellationToken cancellationToken)
+    public Task<TournamentId> AddAsync(Tournament tournament, CancellationToken cancellationToken)
     {
-        return TournamentId.Empty;
+        return Task.FromResult(TournamentId.Empty);
+    }
+
+    public Task UpdateAsync(Tournament tournament, CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }

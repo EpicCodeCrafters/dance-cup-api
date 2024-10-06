@@ -36,7 +36,7 @@ message CreateTournamentResponse {
 }
 
 message CreateCategoryModel {
-    string category_name = 1;
+    string name = 1;
     repeated int64 dances_ids = 2;
     repeated int64 referees_ids = 3;
 }

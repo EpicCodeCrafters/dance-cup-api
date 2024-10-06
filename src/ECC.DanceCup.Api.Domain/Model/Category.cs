@@ -12,16 +12,14 @@ public class Category : Entity<CategoryId>
 
     public Category(
         CategoryId id,
-        DateTime createdAt,
-        DateTime changedAt,
         TournamentId tournamentId,
         CategoryName categoryName,
         List<DanceId> dancesIds,
-        List<RefereeId> refereesIds)
-        : base(id, createdAt, changedAt)
+        List<RefereeId> refereesIds
+    ) : base(id)
     {
-        TournamentId= tournamentId;
-        CategoryName= categoryName;
+        TournamentId = tournamentId;
+        CategoryName = categoryName;
         _dancesIds = dancesIds;
         _refereesIds = refereesIds;
     }
@@ -45,6 +43,4 @@ public class Category : Entity<CategoryId>
     /// Список идентификаторов судей категории
     /// </summary>
     public IReadOnlyCollection<RefereeId> RefereesIds => _refereesIds;
-
-
 }

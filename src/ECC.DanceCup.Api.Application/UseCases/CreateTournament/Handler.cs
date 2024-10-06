@@ -1,10 +1,7 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
-using ECC.DanceCup.Api.Domain.Model;
 using ECC.DanceCup.Api.Domain.Services;
 using FluentResults;
 using MediatR;
-using System.Collections.Generic;
-using System.Xml.Linq;
 
 namespace ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 

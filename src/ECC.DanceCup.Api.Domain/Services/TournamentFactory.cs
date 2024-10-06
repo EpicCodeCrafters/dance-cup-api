@@ -1,5 +1,4 @@
-﻿using ECC.DanceCup.Api.Domain.Error;
-using ECC.DanceCup.Api.Domain.Model;
+﻿using ECC.DanceCup.Api.Domain.Model;
 using FluentResults;
 
 namespace ECC.DanceCup.Api.Domain.Services;

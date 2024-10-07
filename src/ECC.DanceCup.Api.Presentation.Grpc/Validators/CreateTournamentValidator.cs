@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace ECC.DanceCup.Api.Presentation.Grpc.RequestsValidators;
+namespace ECC.DanceCup.Api.Presentation.Grpc.Validators;
 
 public class CreateTournamentValidator : AbstractValidator<CreateTournamentRequest>
 {

@@ -12,6 +12,8 @@ service DanceCupApi {
     rpc CreateTournament (CreateTournamentRequest) returns (CreateTournamentResponse);
     
     rpc StartTournamentRegistration (StartTournamentRegistrationRequest) returns (StartTournamentRegistrationResponse);
+    rpc FinishTournamentRegistration (FinishTournamentRegistrationRequest) returns (FinishTournamentRegistrationResponse);
+    rpc ReopenTournamentRegistration (ReopenTournamentRegistrationRequest) returns (ReopenTournamentRegistrationResponse);
 }
 
 message GetDancesRequest { }
@@ -48,3 +50,15 @@ message StartTournamentRegistrationRequest {
 }
 
 message StartTournamentRegistrationResponse { }
+
+message FinishTournamentRegistrationRequest {
+    int64 tournament_id = 1;
+}
+
+message FinishTournamentRegistrationResponse { }
+
+message ReopenTournamentRegistrationRequest {
+    int64 tournament_id = 1;
+}
+
+message ReopenTournamentRegistrationResponse { }

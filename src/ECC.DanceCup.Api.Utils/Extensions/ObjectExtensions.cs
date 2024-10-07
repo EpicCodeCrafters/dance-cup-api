@@ -23,5 +23,4 @@ public static class ObjectExtensions
 
         return obj.Value;
     }
-
 }

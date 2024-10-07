@@ -59,7 +59,7 @@ public class Tournament : AggregateRoot<TournamentId>
     public TournamentState State { get; private set; }
     
     /// <summary>
-    /// Время начала решистрации
+    /// Время начала регистрации
     /// </summary>
     public DateTime? RegistrationStartedAt { get; private set; }
     

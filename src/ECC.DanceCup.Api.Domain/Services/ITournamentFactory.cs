@@ -11,12 +11,27 @@ public interface ITournamentFactory
     /// <summary>
     /// Создаёт турнир
     /// </summary>
+    /// <param name="userId">Идентификатор пользователя</param>
+    /// <param name="name">Название турнира</param>
+    /// <param name="date">Дата турнира</param>
+    /// <param name="createCategoryModels">Список описаний категорий</param>
     /// <returns></returns>
-    Result<Tournament> Create(UserId userId, TournamentName name, TournamentDate date, IReadOnlyCollection<CreateCategoryModel> createCatigoryModels);
+    Result<Tournament> Create(
+        UserId userId,
+        TournamentName name,
+        TournamentDate date,
+        IReadOnlyCollection<CreateCategoryModel> createCategoryModels
+    );
 }
 
+/// <summary>
+/// Описание категории при создании
+/// </summary>
+/// <param name="Name">Название категории</param>
+/// <param name="DancesIds">Список идентификаторов танцев категории</param>
+/// <param name="RefereesIds">Список идентификаторов судей категории</param>
 public record CreateCategoryModel(
-    CategoryName CategoryName,
+    CategoryName Name,
     IReadOnlyCollection<DanceId> DancesIds,
     IReadOnlyCollection<RefereeId> RefereesIds
 );

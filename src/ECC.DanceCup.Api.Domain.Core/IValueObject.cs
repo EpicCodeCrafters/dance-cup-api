@@ -1,17 +1,17 @@
 ﻿namespace ECC.DanceCup.Api.Domain.Core;
 
 /// <summary>
-/// 
+/// Объект значения
 /// </summary>
-/// <typeparam name="TValueObject"></typeparam>
+/// <typeparam name="TValueObject">Тип объекта значения</typeparam>
 public interface IValueObject<TValueObject>
     where TValueObject : struct;
 
 /// <summary>
-/// 
+/// Объект значения
 /// </summary>
-/// <typeparam name="TValueObject"></typeparam>
-/// <typeparam name="TValue"></typeparam>
+/// <typeparam name="TValueObject">Тип объекта значения</typeparam>
+/// <typeparam name="TValue">Тип значения</typeparam>
 public interface IValueObject<TValueObject, TValue> : IValueObject<TValueObject>
     where TValueObject : struct
 {

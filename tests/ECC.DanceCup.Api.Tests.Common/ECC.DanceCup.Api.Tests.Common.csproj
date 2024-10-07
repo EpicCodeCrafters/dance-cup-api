@@ -6,4 +6,8 @@
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Moq" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ECC.DanceCup.Api.Domain\ECC.DanceCup.Api.Domain.csproj" />
+    <ProjectReference Include="..\..\src\ECC.DanceCup.Api.Utils\ECC.DanceCup.Api.Utils.csproj" />
+  </ItemGroup>
 </Project>

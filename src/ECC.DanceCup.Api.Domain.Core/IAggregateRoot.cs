@@ -1,7 +1,23 @@
 ﻿namespace ECC.DanceCup.Api.Domain.Core;
 
 /// <summary>
-/// Корень аггрегации
+/// Корень агрегации
 /// </summary>
 /// <typeparam name="TKey">Тип идентификатора</typeparam>
-public interface IAggregateRoot<TKey> : IEntity<TKey>;
+public interface IAggregateRoot<TKey> : IEntity<TKey>
+{
+    /// <summary>
+    /// Версия
+    /// </summary>
+    public int Version { get; }
+    
+    /// <summary>
+    /// Время создания
+    /// </summary>
+    public DateTime CreatedAt { get; }
+
+    /// <summary>
+    /// Время последнего изменения
+    /// </summary>
+    public DateTime ChangedAt { get; }
+}

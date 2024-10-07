@@ -8,5 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECC.DanceCup.Api.Application.Abstractions\ECC.DanceCup.Api.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\ECC.DanceCup.Api.Utils\ECC.DanceCup.Api.Utils.csproj" />
   </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@ public class Startup
         services.AddStorage(_configuration);
         services.AddTgApi();
 
-        services.AddGrpc();
+        services.AddGrpcServices();
     }
 
     public void Configure(IApplicationBuilder app)

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
 
-public class DanceViewRepository : PostgresRepositoryBase, IDanceViewRepository
+public class DanceViewRepository : PostgresRepository, IDanceViewRepository
 {
     public DanceViewRepository(IOptions<StorageOptions> storageOptions)
         : base(storageOptions)

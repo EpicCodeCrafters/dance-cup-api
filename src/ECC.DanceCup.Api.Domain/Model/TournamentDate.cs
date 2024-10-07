@@ -3,7 +3,7 @@
 namespace ECC.DanceCup.Api.Domain.Model;
 
 /// <summary>
-/// Дата турнирам
+/// Дата турнира
 /// </summary>
 public readonly record struct TournamentDate : IValueObject<TournamentDate, DateTime>
 {

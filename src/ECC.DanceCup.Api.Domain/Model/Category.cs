@@ -12,16 +12,14 @@ public class Category : Entity<CategoryId>
 
     public Category(
         CategoryId id,
-        DateTime createdAt,
-        DateTime changedAt,
         TournamentId tournamentId,
-        CategoryName categoryName,
+        CategoryName name,
         List<DanceId> dancesIds,
-        List<RefereeId> refereesIds)
-        : base(id, createdAt, changedAt)
+        List<RefereeId> refereesIds
+    ) : base(id)
     {
-        TournamentId= tournamentId;
-        CategoryName= categoryName;
+        TournamentId = tournamentId;
+        Name = name;
         _dancesIds = dancesIds;
         _refereesIds = refereesIds;
     }
@@ -34,7 +32,7 @@ public class Category : Entity<CategoryId>
     /// <summary>
     /// Название категории
     /// </summary>
-    public CategoryName CategoryName { get; }
+    public CategoryName Name { get; }
 
     /// <summary>
     /// Список идентификаторов танцев категории
@@ -42,9 +40,17 @@ public class Category : Entity<CategoryId>
     public IReadOnlyCollection<DanceId> DancesIds => _dancesIds;
 
     /// <summary>
+    /// Количество танцев категории 
+    /// </summary>
+    public int DancesCount => _dancesIds.Count;
+
+    /// <summary>
     /// Список идентификаторов судей категории
     /// </summary>
     public IReadOnlyCollection<RefereeId> RefereesIds => _refereesIds;
 
-
+    /// <summary>
+    /// Количество судей категории
+    /// </summary>
+    public int RefereesCount => _refereesIds.Count;
 }

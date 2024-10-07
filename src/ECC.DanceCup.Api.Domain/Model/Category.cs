@@ -13,13 +13,13 @@ public class Category : Entity<CategoryId>
     public Category(
         CategoryId id,
         TournamentId tournamentId,
-        CategoryName categoryName,
+        CategoryName name,
         List<DanceId> dancesIds,
         List<RefereeId> refereesIds
     ) : base(id)
     {
         TournamentId = tournamentId;
-        CategoryName = categoryName;
+        Name = name;
         _dancesIds = dancesIds;
         _refereesIds = refereesIds;
     }
@@ -32,7 +32,7 @@ public class Category : Entity<CategoryId>
     /// <summary>
     /// Название категории
     /// </summary>
-    public CategoryName CategoryName { get; }
+    public CategoryName Name { get; }
 
     /// <summary>
     /// Список идентификаторов танцев категории

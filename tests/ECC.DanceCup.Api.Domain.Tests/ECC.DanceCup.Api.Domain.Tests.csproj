@@ -17,7 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ECC.DanceCup.Api.Domain\ECC.DanceCup.Api.Domain.csproj" />
       <ProjectReference Include="..\ECC.DanceCup.Api.Tests.Common\ECC.DanceCup.Api.Tests.Common.csproj" />
     </ItemGroup>
 

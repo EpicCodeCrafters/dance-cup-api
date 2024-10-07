@@ -3,6 +3,8 @@ using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using ECC.DanceCup.Api.Application.UseCases.GetDances;
 using ECC.DanceCup.Api.Tests.Common;
+using ECC.DanceCup.Api.Tests.Common.Attributes;
+using ECC.DanceCup.Api.Tests.Common.Extensions;
 using FluentAssertions;
 using Moq;
 
@@ -30,7 +32,7 @@ public class HandlerTests
 
         // Assert
 
-        result.IsSuccess.Should().BeTrue();
+        result.ShouldBeSuccess();
         result.Value.Dances.Should().BeEquivalentTo(dances);
         
         danceViewRepositoryMock.Verify(

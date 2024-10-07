@@ -7,7 +7,7 @@ namespace ECC.DanceCup.Api.Domain.Model;
 /// </summary>
 public readonly record struct TournamentName : IValueObject<TournamentName, string>
 {
-    public TournamentName(string value)
+    private TournamentName(string value)
     {
         Value = value;
     }

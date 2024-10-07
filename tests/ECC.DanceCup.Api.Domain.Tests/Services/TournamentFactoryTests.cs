@@ -1,7 +1,7 @@
 ﻿using ECC.DanceCup.Api.Domain.Model;
 using ECC.DanceCup.Api.Domain.Services;
-using ECC.DanceCup.Api.Tests.Common;
-using FluentAssertions;
+using ECC.DanceCup.Api.Tests.Common.Attributes;
+using ECC.DanceCup.Api.Tests.Common.Extensions;
 
 namespace ECC.DanceCup.Api.Domain.Tests.Services;
 
@@ -12,17 +12,17 @@ public class TournamentFactoryTests
         UserId userId,
         TournamentName name,
         TournamentDate date,
-        IReadOnlyCollection<CreateCategoryModel> createCatigoryModels,
+        IReadOnlyCollection<CreateCategoryModel> createCategoryModels,
         TournamentFactory tournamentFactory)
     {
         // Arrange
 
         // Act
 
-        var result = tournamentFactory.Create(userId, name, date, createCatigoryModels);
+        var result = tournamentFactory.Create(userId, name, date, createCategoryModels);
 
         // Assert
 
-        result.IsSuccess.Should().BeTrue();
+        result.ShouldBeSuccess();
     }
 }

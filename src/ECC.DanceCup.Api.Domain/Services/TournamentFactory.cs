@@ -22,7 +22,7 @@ public class TournamentFactory : ITournamentFactory
                 createCategoryModel => new Category(
                     id: CategoryId.Empty,
                     tournamentId: TournamentId.Empty,
-                    categoryName: createCategoryModel.Name,
+                    name: createCategoryModel.Name,
                     dancesIds: createCategoryModel.DancesIds.ToList(),
                     refereesIds: createCategoryModel.RefereesIds.ToList()
                 )

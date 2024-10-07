@@ -10,6 +10,8 @@ service DanceCupApi {
     rpc GetDances (GetDancesRequest) returns (GetDancesResponse);
     
     rpc CreateTournament (CreateTournamentRequest) returns (CreateTournamentResponse);
+    
+    rpc StartTournamentRegistration (StartTournamentRegistrationRequest) returns (StartTournamentRegistrationResponse);
 }
 
 message GetDancesRequest { }
@@ -40,3 +42,9 @@ message CreateCategoryModel {
     repeated int64 dances_ids = 2;
     repeated int64 referees_ids = 3;
 }
+
+message StartTournamentRegistrationRequest {
+    int64 tournament_id = 1;
+}
+
+message StartTournamentRegistrationResponse { }

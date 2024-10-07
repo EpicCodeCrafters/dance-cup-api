@@ -7,7 +7,7 @@ namespace ECC.DanceCup.Api.Domain.Model;
 /// </summary>
 public readonly record struct TournamentDate : IValueObject<TournamentDate, DateTime>
 {
-    public TournamentDate(DateTime value)
+    private TournamentDate(DateTime value)
     {
         Value = value;
     }

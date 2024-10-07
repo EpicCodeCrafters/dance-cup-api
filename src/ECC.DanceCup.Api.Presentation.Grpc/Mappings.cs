@@ -1,6 +1,7 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 using ECC.DanceCup.Api.Application.UseCases.GetDances;
+using ECC.DanceCup.Api.Application.UseCases.StartTournamentRegistration;
 using ECC.DanceCup.Api.Domain.Model;
 using ECC.DanceCup.Api.Utils.Extensions;
 
@@ -56,5 +57,12 @@ internal static class Mappings
         {
             TournamentId = response.TournamentId.Value
         };
+    }
+
+    public static StartTournamentRegistrationUseCase.Command ToInternal(this StartTournamentRegistrationRequest request)
+    {
+        return new StartTournamentRegistrationUseCase.Command(
+            TournamentId: TournamentId.From(request.TournamentId).AsRequired()
+        );
     }
 }

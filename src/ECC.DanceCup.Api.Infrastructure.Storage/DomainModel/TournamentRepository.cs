@@ -10,11 +10,8 @@ public class TournamentRepository : ITournamentRepository
     
     public Task<Tournament?> FindAsync(TournamentId tournamentId, CancellationToken cancellationToken)
     {
-        if (_tournaments.TryGetValue(tournamentId, out var tournament))
-        {
-            tournament = null;
-        }
-        
+        var tournament = _tournaments.GetValueOrDefault(tournamentId);
+
         return Task.FromResult(tournament);
     }
 

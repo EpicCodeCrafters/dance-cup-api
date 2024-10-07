@@ -84,6 +84,11 @@ public class Tournament : AggregateRoot<TournamentId>
     public IReadOnlyCollection<Category> Categories => _categories;
 
     /// <summary>
+    /// Количество категорий турнира
+    /// </summary>
+    public int CategoriesCount => _categories.Count;
+
+    /// <summary>
     /// Начинает процесс регистрации на турнир
     /// </summary>
     /// <returns></returns>

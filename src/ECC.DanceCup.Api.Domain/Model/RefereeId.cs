@@ -3,7 +3,7 @@
 namespace ECC.DanceCup.Api.Domain.Model;
 
 /// <summary>
-/// Идентификатор рефери
+/// Идентификатор судьи
 /// </summary>
 public readonly record struct RefereeId : IValueObject<RefereeId, long>
 {

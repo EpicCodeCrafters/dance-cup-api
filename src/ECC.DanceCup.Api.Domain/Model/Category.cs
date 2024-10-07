@@ -40,7 +40,17 @@ public class Category : Entity<CategoryId>
     public IReadOnlyCollection<DanceId> DancesIds => _dancesIds;
 
     /// <summary>
+    /// Количество танцев категории 
+    /// </summary>
+    public int DancesCount => _dancesIds.Count;
+
+    /// <summary>
     /// Список идентификаторов судей категории
     /// </summary>
     public IReadOnlyCollection<RefereeId> RefereesIds => _refereesIds;
+
+    /// <summary>
+    /// Количество судей категории
+    /// </summary>
+    public int RefereesCount => _refereesIds.Count;
 }

@@ -79,5 +79,4 @@ public class HandlerTests
         );
         tournamentRepositoryMock.VerifyNoOtherCalls();
     }
-
 }

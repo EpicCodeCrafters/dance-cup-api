@@ -60,7 +60,7 @@ public class HandlerTests
     }
     
     [Theory, AutoMoqData]
-    public async Task Handle_CreateFailed_ShouldFail(
+    public async Task Handle_TournamentFactoryCreateFailed_ShouldFail(
         UserId userId,
         TournamentName name,
         TournamentDate date,

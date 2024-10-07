@@ -3,7 +3,6 @@ using ECC.DanceCup.Api.Domain.Error;
 using ECC.DanceCup.Api.Domain.Model;
 using ECC.DanceCup.Api.Tests.Common.Attributes;
 using ECC.DanceCup.Api.Tests.Common.Extensions;
-using FluentAssertions;
 
 namespace ECC.DanceCup.Api.Domain.Tests.Model.Tournament;
 

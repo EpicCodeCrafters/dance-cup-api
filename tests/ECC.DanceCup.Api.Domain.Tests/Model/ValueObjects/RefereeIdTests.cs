@@ -15,12 +15,12 @@ public class RefereeIdTests
 
         // Act
 
-        var refereeid = RefereeId.From(value);
+        var refereeId = RefereeId.From(value);
 
         // Assert
 
-        refereeid.Should().NotBeNull();
-        refereeid.Value.Value.Should().Be(value);
+        refereeId.Should().NotBeNull();
+        refereeId.Value.Value.Should().Be(value);
     }
 
     [Theory]
@@ -34,10 +34,10 @@ public class RefereeIdTests
 
         // Act
 
-        var refereeid = RefereeId.From(value);
+        var refereeId = RefereeId.From(value);
 
         // Assert
 
-        refereeid.Should().BeNull();
+        refereeId.Should().BeNull();
     }
 }

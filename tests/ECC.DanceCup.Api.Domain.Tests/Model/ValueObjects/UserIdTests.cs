@@ -35,10 +35,10 @@ public class UserIdTests
 
         // Act
 
-        var user = UserId.From(value);
+        var userId = UserId.From(value);
 
         // Assert
 
-        user.Should().BeNull();
+        userId.Should().BeNull();
     }
 }

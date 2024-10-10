@@ -34,7 +34,7 @@ public class CategoryIdTests
 
         //Act
 
-        var categoryId= CategoryId.From(value);
+        var categoryId = CategoryId.From(value);
 
         //Assert
 

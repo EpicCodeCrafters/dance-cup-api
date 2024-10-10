@@ -1,4 +1,5 @@
 ﻿using ECC.DanceCup.Api.Domain.Core;
+using System.Text.RegularExpressions;
 
 namespace ECC.DanceCup.Api.Domain.Model;
 
@@ -7,6 +8,8 @@ namespace ECC.DanceCup.Api.Domain.Model;
 /// </summary>
 public readonly record struct CategoryName : IValueObject<CategoryName, string>
 {
+    private static readonly Regex _regex = new(@"^(?!\s*$)[\p{L}0-9 _\-,.]+$", RegexOptions.Compiled);
+
     private CategoryName(string value)
     {
         Value = value;
@@ -18,7 +21,7 @@ public readonly record struct CategoryName : IValueObject<CategoryName, string>
     /// <inheritdoc />
     public static CategoryName? From(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (_regex.IsMatch(value) is false)
         {
             return null;
         }

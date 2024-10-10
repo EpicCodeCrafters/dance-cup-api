@@ -10,13 +10,13 @@ public class TournamentNameTests
     [InlineData("Abama is matter")]
     public void Create_FromIncorrectValue_ShouldNotBeNull(string value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var tournamentName = TournamentName.From(value);
 
-        //Assert
+        // Assert
 
         tournamentName.Should().NotBeNull();
         tournamentName.Value.Value.Should().Be(value);
@@ -29,13 +29,13 @@ public class TournamentNameTests
     [InlineData("")]
     public void Create_FromIncorrectValue_ShouldBeNull(string value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var tournamentName = TournamentName.From(value);
 
-        //Assert
+        // Assert
 
         tournamentName.Should().BeNull();
     }

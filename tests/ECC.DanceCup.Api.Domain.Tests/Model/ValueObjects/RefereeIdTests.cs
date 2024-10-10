@@ -11,13 +11,13 @@ public class RefereeIdTests
     [InlineData(long.MaxValue)]
     public void Create_FromIncorrectValue_ShouldNotBeNull(long value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var refereeid = RefereeId.From(value);
 
-        //Assert
+        // Assert
 
         refereeid.Should().NotBeNull();
         refereeid.Value.Value.Should().Be(value);
@@ -30,13 +30,13 @@ public class RefereeIdTests
     [InlineData(long.MinValue)]
     public void Create_FromIncorrectValue_ShouldBeNull(long value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var refereeid = RefereeId.From(value);
 
-        //Assert
+        // Assert
 
         refereeid.Should().BeNull();
     }

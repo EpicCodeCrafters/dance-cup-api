@@ -12,13 +12,13 @@ public class UserIdTests
     [InlineData(long.MaxValue)]
     public void Create_FromIncorrectValue_ShouldNotBeNull(long value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var userId = UserId.From(value);
 
-        //Assert
+        // Assert
 
         userId.Should().NotBeNull();
         userId.Value.Value.Should().Be(value);
@@ -31,13 +31,13 @@ public class UserIdTests
     [InlineData(long.MinValue)]
     public void Create_FromIncorrectValue_ShouldBeNull(long value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var user = UserId.From(value);
 
-        //Assert
+        // Assert
 
         user.Should().BeNull();
     }

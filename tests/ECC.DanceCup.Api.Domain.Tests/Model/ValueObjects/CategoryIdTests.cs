@@ -11,13 +11,13 @@ public class CategoryIdTests
     [InlineData(long.MaxValue)]
     public void Create_FromIncorrectValue_ShouldNotBeNull(long value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var categoryId = CategoryId.From(value); 
 
-        //Assert
+        // Assert
 
         categoryId.Should().NotBeNull();
         categoryId.Value.Value.Should().Be(value);
@@ -30,13 +30,13 @@ public class CategoryIdTests
     [InlineData(long.MinValue)]
     public void Create_FromIncorrectValue_ShouldBeNull(long value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var categoryId = CategoryId.From(value);
-
-        //Assert
+         
+        // Assert
 
         categoryId.Should().BeNull();
     }

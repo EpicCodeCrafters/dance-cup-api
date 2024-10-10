@@ -10,13 +10,13 @@ public class CategoryNameTests
     [InlineData("Abama is matter")]
     public void Create_FromIncorrectValue_ShouldNotBeNull(string value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var categoryName = CategoryName.From(value);
 
-        //Assert
+        // Assert
 
         categoryName.Should().NotBeNull();
         categoryName.Value.Value.Should().Be(value);
@@ -29,13 +29,13 @@ public class CategoryNameTests
     [InlineData("")]
     public void Create_FromIncorrectValue_ShouldBeNull(string value)
     {
-        //Arrange
+        // Arrange
 
-        //Act
+        // Act
 
         var categoryName = CategoryName.From(value);
 
-        //Assert
+        // Assert
 
         categoryName.Should().BeNull();
     }

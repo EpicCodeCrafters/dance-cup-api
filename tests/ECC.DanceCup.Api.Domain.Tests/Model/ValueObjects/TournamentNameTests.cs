@@ -8,7 +8,7 @@ public class TournamentNameTests
     [Theory]
     [InlineData("закрытая чашка итмо по чачача")]
     [InlineData("Abama is matter")]
-    public void Create_FromIncorrectValue_ShouldNotBeNull(string value)
+    public void Create_FromValidValue_ShouldNotBeNull(string value)
     {
         // Arrange
 
@@ -27,7 +27,7 @@ public class TournamentNameTests
     [InlineData("!@#$%^&*()_+")]
     [InlineData("\t\n\r")]
     [InlineData("")]
-    public void Create_FromIncorrectValue_ShouldBeNull(string value)
+    public void Create_FromInvalidValue_ShouldBeNull(string value)
     {
         // Arrange
 

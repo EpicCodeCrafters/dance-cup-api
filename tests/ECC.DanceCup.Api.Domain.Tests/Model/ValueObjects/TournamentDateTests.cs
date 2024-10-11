@@ -3,22 +3,22 @@ using FluentAssertions;
 
 namespace ECC.DanceCup.Api.Domain.Tests.Model.ValueObjects;
 
-public class ToutnamentDateTests
+public class TournamentDateTests
 {
     [Fact]
     public void Create_ShouldContainOnlyDate()
     {
         // Arrange
 
-        var dateTime = DateTime.UtcNow;
+        var value = DateTime.UtcNow;
 
         // Act
 
-        var tournamentDate = TournamentDate.From(dateTime);
+        var tournamentDate = TournamentDate.From(value);
 
         // Assert
 
         tournamentDate.Should().NotBeNull();
-        tournamentDate.Value.Value.Should().Be(dateTime.Date);
+        tournamentDate.Value.Value.Should().Be(value.Date);
     }
 }

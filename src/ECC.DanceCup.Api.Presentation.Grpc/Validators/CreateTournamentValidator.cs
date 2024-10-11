@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ECC.DanceCup.Api.Presentation.Grpc.Extensions;
+using FluentValidation;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc.Validators;
 
@@ -6,20 +7,13 @@ public class CreateTournamentValidator : AbstractValidator<CreateTournamentReque
 {
     public CreateTournamentValidator()
     {
-        RuleFor(request => request.UserId)
-            .GreaterThan(0)
-            .WithMessage("Необходимо передать корректный идентификатор пользователя");
+        RuleFor(request => request.UserId).IsValidUserId();
 
-        RuleFor(request => request.Name)
-            .NotEmpty()
-            .WithMessage("Необходимо передать название турнира");
+        RuleFor(request => request.Name).IsValidTournamentName();
 
-        RuleFor(request => request.Date)
-            .NotEmpty()
-            .WithMessage("Необходимо передать дату турнира");
+        RuleFor(request => request.Date).IsValidTournamentDate();
 
-        RuleForEach(request => request.CreateCategoryModels)
-            .SetValidator(new CreateCategoryModelValidator());
+        RuleForEach(request => request.CreateCategoryModels).SetValidator(new CreateCategoryModelValidator());
     }
 }
 
@@ -27,24 +21,18 @@ public class CreateCategoryModelValidator : AbstractValidator<CreateCategoryMode
 {
     public CreateCategoryModelValidator()
     {
-        RuleFor(model => model.Name)
-            .NotEmpty()
-            .WithMessage("Необходимо передать название категории");
+        RuleFor(model => model.Name).IsValidCategoryName();
 
         RuleFor(model => model.DancesIds)
             .NotEmpty()
             .WithMessage("Необходимо передать список идентификаторов танцев категории");
 
-        RuleForEach(model => model.DancesIds)
-            .GreaterThan(0)
-            .WithMessage("Необходимо передать корректный идентификатор танца");
+        RuleForEach(model => model.DancesIds).IsValidDanceId();
         
         RuleFor(model => model.RefereesIds)
             .NotEmpty()
             .WithMessage("Необходимо передать список идентификаторов судей категории");
 
-        RuleForEach(model => model.RefereesIds)
-            .GreaterThan(0)
-            .WithMessage("Необходимо передать корректный идентификатор судьи");
+        RuleForEach(model => model.RefereesIds).IsValidRefereeId();
     }
 }

@@ -1,0 +1,47 @@
+@startuml Model
+
+rectangle {
+    class Dance {}
+}
+
+rectangle {
+    class Referee {}
+}
+
+rectangle {
+    class Tournament {}
+
+    class Category {}
+
+    class Couple {}
+
+    class rounds {}
+
+    class RoundResult {}
+
+    class CategoryResult {}
+}
+
+Tournament }o--|| Category
+
+Tournament }o--|| Couple
+
+Category }o--o{ Dance 
+
+Category }o--o{ Referee
+
+Category }o--|| rounds
+
+Category }o--o{ Couple
+
+rounds }o--o{ Couple
+
+RoundResult ||--o{ rounds
+RoundResult ||--o{ Couple
+RoundResult ||--o{ Dance
+RoundResult ||--o{ Referee
+
+CategoryResult ||--o{ Category
+CategoryResult ||--o{ Couple
+
+@enduml

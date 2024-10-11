@@ -5,6 +5,7 @@ namespace ECC.DanceCup.Api.Domain.Tests.Model.ValueObjects;
 
 public class ToutnamentDateTests
 {
+    [Fact]
     public void Create_ShouldContainOnlyDate()
     {
         // Arrange

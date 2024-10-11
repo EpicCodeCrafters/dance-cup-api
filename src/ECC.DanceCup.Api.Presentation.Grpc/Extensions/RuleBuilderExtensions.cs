@@ -6,92 +6,76 @@ namespace ECC.DanceCup.Api.Presentation.Grpc.Extensions;
 
 internal static class RuleBuilderExtensions
 {
-    public static void IsValidUserId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
+    public static IRuleBuilder<TProperty, long> IsValidUserId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
     {
-        ruleBuilder
-            .NotEmpty()
-            .WithMessage("Необходимо передать идентификатор пользователя");
-
         ruleBuilder
             .Must(value => UserId.From(value) is not null)
             .WithMessage("Необходимо передать корректный идентификатор пользователя");
+
+        return ruleBuilder;
     }
     
-    public static void IsValidDanceId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
+    public static IRuleBuilder<TProperty, long> IsValidDanceId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
     {
-        ruleBuilder
-            .NotEmpty()
-            .WithMessage("Необходимо передать идентификатор танца");
-
         ruleBuilder
             .Must(value => DanceId.From(value) is not null)
             .WithMessage("Необходимо передать корректный идентификатор танца");
+
+        return ruleBuilder;
     }
     
-    public static void IsValidRefereeId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
+    public static IRuleBuilder<TProperty, long> IsValidRefereeId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
     {
-        ruleBuilder
-            .NotEmpty()
-            .WithMessage("Необходимо передать идентификатор судьи");
-
         ruleBuilder
             .Must(value => RefereeId.From(value) is not null)
             .WithMessage("Необходимо передать корректный идентификатор судьи");
+
+        return ruleBuilder;
     }
     
-    public static void IsValidTournamentId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
+    public static IRuleBuilder<TProperty, long> IsValidTournamentId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
     {
-        ruleBuilder
-            .NotEmpty()
-            .WithMessage("Необходимо передать идентификатор турнира");
-
         ruleBuilder
             .Must(value => TournamentId.From(value) is not null)
             .WithMessage("Необходимо передать корректный идентификатор турнира");
+
+        return ruleBuilder;
     }
     
-    public static void IsValidTournamentName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
+    public static IRuleBuilder<TProperty, string> IsValidTournamentName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
     {
-        ruleBuilder
-            .NotEmpty()
-            .WithMessage("Необходимо передать название турнира");
-
         ruleBuilder
             .Must(value => TournamentName.From(value) is not null)
             .WithMessage("Необходимо передать корректное название турнира");
+
+        return ruleBuilder;
     }
     
-    public static void IsValidTournamentDate<TProperty>(this IRuleBuilder<TProperty, Timestamp> ruleBuilder)
+    public static IRuleBuilder<TProperty, Timestamp> IsValidTournamentDate<TProperty>(this IRuleBuilder<TProperty, Timestamp> ruleBuilder)
     {
-        ruleBuilder
-            .NotEmpty()
-            .WithMessage("Необходимо передать дату турнира");
- 
         ruleBuilder
             .Must(value => TournamentDate.From(value.ToDateTime()) is not null)
             .WithMessage("Необходимо передать корректную дату турнира");
+
+        return ruleBuilder;
     }
     
     
-    public static void IsValidCategoryId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
+    public static IRuleBuilder<TProperty, long> IsValidCategoryId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
     {
-        ruleBuilder
-            .NotEmpty()
-            .WithMessage("Необходимо передать идентификатор категории");
-
         ruleBuilder
             .Must(value => DanceId.From(value) is not null)
             .WithMessage("Необходимо передать корректный идентификатор категории");
+
+        return ruleBuilder;
     }
     
-    public static void IsValidCategoryName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
+    public static IRuleBuilder<TProperty, string> IsValidCategoryName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
     {
-        ruleBuilder
-            .NotEmpty()
-            .WithMessage("Необходимо передать название категории");
-
         ruleBuilder
             .Must(value => CategoryName.From(value) is not null)
             .WithMessage("Необходимо передать корректное название категории");
+
+        return ruleBuilder;
     }
 }

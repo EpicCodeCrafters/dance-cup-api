@@ -10,7 +10,7 @@ public class UserIdTests
     [InlineData(1)]
     [InlineData(int.MaxValue)]
     [InlineData(long.MaxValue)]
-    public void Create_FromIncorrectValue_ShouldNotBeNull(long value)
+    public void Create_FromValidValue_ShouldNotBeNull(long value)
     {
         // Arrange
 
@@ -29,7 +29,7 @@ public class UserIdTests
     [InlineData(-1)]
     [InlineData(int.MinValue)]
     [InlineData(long.MinValue)]
-    public void Create_FromIncorrectValue_ShouldBeNull(long value)
+    public void Create_FromInvalidValue_ShouldBeNull(long value)
     {
         // Arrange
 

@@ -6,7 +6,7 @@ using Grpc.Core;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc.Extensions;
 
-public static class ResultExtensions
+internal static class ResultExtensions
 {
     public static void HandleErrors<TResult>(this TResult result)
         where TResult : ResultBase

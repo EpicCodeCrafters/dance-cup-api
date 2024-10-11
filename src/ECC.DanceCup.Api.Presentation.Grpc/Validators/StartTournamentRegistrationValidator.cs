@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ECC.DanceCup.Api.Presentation.Grpc.Extensions;
+using FluentValidation;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc.Validators;
 
@@ -6,8 +7,6 @@ public class StartTournamentRegistrationValidator : AbstractValidator<StartTourn
 {
     public StartTournamentRegistrationValidator()
     {
-        RuleFor(request => request.TournamentId)
-            .GreaterThan(0)
-            .WithMessage("Необходимо передать корректный идентификатор турнира");
+        RuleFor(request => request.TournamentId).IsValidTournamentId();
     }
 }

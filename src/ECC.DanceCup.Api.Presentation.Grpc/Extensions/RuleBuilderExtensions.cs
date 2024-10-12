@@ -1,4 +1,7 @@
-﻿using ECC.DanceCup.Api.Domain.Model;
+﻿using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
+using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using FluentValidation;
 using Google.Protobuf.WellKnownTypes;
 
@@ -29,6 +32,15 @@ internal static class RuleBuilderExtensions
         ruleBuilder
             .Must(value => RefereeId.From(value) is not null)
             .WithMessage("Необходимо передать корректный идентификатор судьи");
+
+        return ruleBuilder;
+    }
+    
+    public static IRuleBuilder<TProperty, string> IsValidRefereeFullName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
+    {
+        ruleBuilder
+            .Must(value => RefereeFullName.From(value) is not null)
+            .WithMessage("Необходимо передать корректое полное имя судьи");
 
         return ruleBuilder;
     }

@@ -7,6 +7,7 @@ public static class Registrar
 {
     public static IServiceCollection AddDomainServices(this IServiceCollection services)
     {
+        services.AddTransient<IRefereeFactory, RefereeFactory>();
         services.AddTransient<ITournamentFactory, TournamentFactory>();
         
         return services;

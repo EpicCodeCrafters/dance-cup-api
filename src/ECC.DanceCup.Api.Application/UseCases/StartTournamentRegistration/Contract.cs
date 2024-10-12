@@ -1,4 +1,4 @@
-﻿using ECC.DanceCup.Api.Domain.Model;
+﻿using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using FluentResults;
 using MediatR;
 

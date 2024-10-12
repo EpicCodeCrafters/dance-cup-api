@@ -15,6 +15,8 @@ public class DanceViewRepository : PostgresRepository, IDanceViewRepository
     
     public async Task<IReadOnlyCollection<DanceView>> FindAllAsync(CancellationToken cancellationToken)
     {
+        await using var connection = await GetConnectionAsync();
+        
         const string sqlCommand =
             """
             select d."id" as "id"
@@ -23,8 +25,6 @@ public class DanceViewRepository : PostgresRepository, IDanceViewRepository
               from "dances" as d;
             """;
         
-        await using var connection = await GetConnectionAsync();
-
         var dances = await connection.QueryAsync<DanceView>(sqlCommand, cancellationToken);
 
         return dances.ToArray();

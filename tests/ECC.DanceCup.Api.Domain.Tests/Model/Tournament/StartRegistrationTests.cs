@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
 using ECC.DanceCup.Api.Domain.Error;
-using ECC.DanceCup.Api.Domain.Model;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using ECC.DanceCup.Api.Tests.Common.Attributes;
 using ECC.DanceCup.Api.Tests.Common.Extensions;
 
@@ -10,7 +10,7 @@ public class StartRegistrationTests
 {
     [Theory]
     [InlineAutoMoqData(TournamentState.Created)]
-    public void StartRegistration_CorrectTournamentState_ShouldSuccess(
+    public void Invoke_CorrectTournamentState_ShouldSuccess(
         TournamentState tournamentState,
         IFixture fixture)
     {
@@ -34,7 +34,7 @@ public class StartRegistrationTests
     [InlineAutoMoqData(TournamentState.RegistrationFinished)]
     [InlineAutoMoqData(TournamentState.InProgress)]
     [InlineAutoMoqData(TournamentState.Finished)]
-    public void StartRegistration_IncorrectTournamentState_ShouldFail(
+    public void Invoke_IncorrectTournamentState_ShouldFail(
         TournamentState tournamentState,
         IFixture fixture)
     {

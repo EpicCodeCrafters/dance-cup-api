@@ -1,7 +1,8 @@
 ﻿using AutoFixture.Xunit2;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
 using ECC.DanceCup.Api.Application.UseCases.CreateTournament;
-using ECC.DanceCup.Api.Domain.Model;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using ECC.DanceCup.Api.Domain.Services;
 using ECC.DanceCup.Api.Tests.Common.Attributes;
 using ECC.DanceCup.Api.Tests.Common.Errors;
@@ -9,9 +10,9 @@ using ECC.DanceCup.Api.Tests.Common.Extensions;
 using FluentAssertions;
 using Moq;
 
-namespace ECC.DanceCup.Api.Application.Tests.UseCases.CreateTournament;
+namespace ECC.DanceCup.Api.Application.Tests.UseCases;
 
-public class HandlerTests
+public class CreateTournamentTests
 {
     [Theory, AutoMoqData]
     public async Task Handle_ShouldGenerallySuccess(

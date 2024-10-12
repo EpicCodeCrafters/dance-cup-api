@@ -1,6 +1,6 @@
 ﻿using ECC.DanceCup.Api.Domain.Core;
 
-namespace ECC.DanceCup.Api.Domain.Model;
+namespace ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 
 /// <summary>
 /// Идентификатор судьи
@@ -11,6 +11,11 @@ public readonly record struct RefereeId : IValueObject<RefereeId, long>
     {
         Value = value;
     }
+
+    /// <summary>
+    /// Пустой идентификатор судьи
+    /// </summary>
+    public static RefereeId Empty => new(default);
 
     /// <inheritdoc />
     public long Value { get; }

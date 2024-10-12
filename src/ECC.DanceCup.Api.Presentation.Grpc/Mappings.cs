@@ -1,8 +1,12 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
+using ECC.DanceCup.Api.Application.UseCases.CreateReferee;
 using ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 using ECC.DanceCup.Api.Application.UseCases.GetDances;
 using ECC.DanceCup.Api.Application.UseCases.StartTournamentRegistration;
-using ECC.DanceCup.Api.Domain.Model;
+using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
+using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using ECC.DanceCup.Api.Utils.Extensions;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc;
@@ -29,6 +33,21 @@ internal static class Mappings
             Id = dance.Id,
             ShortName = dance.ShortName,
             Name = dance.Name
+        };
+    }
+
+    public static CreateRefereeUseCase.Command ToInternal(this CreateRefereeRequest request)
+    {
+        return new CreateRefereeUseCase.Command(
+            FullName: RefereeFullName.From(request.FullName).AsRequired()
+        );
+    }
+
+    public static CreateRefereeResponse ToGrpc(this CreateRefereeUseCase.CommandResponse response)
+    {
+        return new CreateRefereeResponse
+        {
+            RefereeId = response.RefereeId.Value
         };
     }
 

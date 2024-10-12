@@ -1,5 +1,5 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
-using ECC.DanceCup.Api.Domain.Model;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using ECC.DanceCup.Api.Utils.Extensions;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.DomainModel;

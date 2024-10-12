@@ -1,6 +1,6 @@
 ﻿using ECC.DanceCup.Api.Domain.Core;
 
-namespace ECC.DanceCup.Api.Domain.Model;
+namespace ECC.DanceCup.Api.Domain.Model.UserAggregate;
 
 /// <summary>
 /// Идентификатор пользователя

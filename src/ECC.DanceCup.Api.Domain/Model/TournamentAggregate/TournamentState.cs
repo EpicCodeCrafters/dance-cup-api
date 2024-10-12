@@ -1,4 +1,4 @@
-﻿namespace ECC.DanceCup.Api.Domain.Model;
+﻿namespace ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 
 /// <summary>
 /// Состояние турнира

@@ -1,4 +1,5 @@
-﻿using ECC.DanceCup.Api.Domain.Model;
+﻿using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using ECC.DanceCup.Api.Domain.Services;
 using FluentResults;
 using MediatR;

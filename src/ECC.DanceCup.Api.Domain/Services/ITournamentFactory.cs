@@ -1,4 +1,8 @@
-﻿using ECC.DanceCup.Api.Domain.Model;
+﻿using ECC.DanceCup.Api.Domain.Core;
+using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
+using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using FluentResults;
 
 namespace ECC.DanceCup.Api.Domain.Services;
@@ -34,4 +38,4 @@ public record CreateCategoryModel(
     CategoryName Name,
     IReadOnlyCollection<DanceId> DancesIds,
     IReadOnlyCollection<RefereeId> RefereesIds
-);
+) : IValueObject<CreateCategoryModel>;

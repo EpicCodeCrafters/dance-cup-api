@@ -13,6 +13,7 @@ public static class Registrar
 {
     public static IServiceCollection AddStorage(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<IRefereeRepository, RefereeRepository>();
         // TODO Сделать scoped
         services.AddSingleton<ITournamentRepository, TournamentRepository>();
         

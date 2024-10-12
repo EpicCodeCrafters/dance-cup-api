@@ -4,13 +4,14 @@ using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
 using ECC.DanceCup.Api.Application.Errors;
 using ECC.DanceCup.Api.Application.UseCases.StartTournamentRegistration;
 using ECC.DanceCup.Api.Domain.Model;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using ECC.DanceCup.Api.Tests.Common.Attributes;
 using ECC.DanceCup.Api.Tests.Common.Extensions;
 using Moq;
 
-namespace ECC.DanceCup.Api.Application.Tests.UseCases.StartTournamentRegistration;
+namespace ECC.DanceCup.Api.Application.Tests.UseCases;
 
-public class HandlerTests
+public class StartTournamentRegistrationTests
 {
     [Theory, AutoMoqData]
     public async Task Handle_ShouldGenerallySuccess(

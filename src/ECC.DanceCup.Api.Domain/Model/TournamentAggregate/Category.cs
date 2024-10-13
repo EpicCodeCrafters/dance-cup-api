@@ -1,6 +1,8 @@
 ﻿using ECC.DanceCup.Api.Domain.Core;
+using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
+using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 
-namespace ECC.DanceCup.Api.Domain.Model;
+namespace ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 
 /// <summary>
 /// Категория

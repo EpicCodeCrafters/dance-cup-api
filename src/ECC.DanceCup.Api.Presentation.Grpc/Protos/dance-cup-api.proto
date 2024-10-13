@@ -9,8 +9,9 @@ import "google/protobuf/timestamp.proto";
 service DanceCupApi {
     rpc GetDances (GetDancesRequest) returns (GetDancesResponse);
     
-    rpc CreateTournament (CreateTournamentRequest) returns (CreateTournamentResponse);
+    rpc CreateReferee (CreateRefereeRequest) returns (CreateRefereeResponse);
     
+    rpc CreateTournament (CreateTournamentRequest) returns (CreateTournamentResponse);
     rpc StartTournamentRegistration (StartTournamentRegistrationRequest) returns (StartTournamentRegistrationResponse);
     rpc FinishTournamentRegistration (FinishTournamentRegistrationRequest) returns (FinishTournamentRegistrationResponse);
     rpc ReopenTournamentRegistration (ReopenTournamentRegistrationRequest) returns (ReopenTournamentRegistrationResponse);
@@ -26,6 +27,14 @@ message Dance {
     int64 id = 1;
     string short_name = 2;
     string name = 3;
+}
+
+message CreateRefereeRequest {
+    string full_name = 1;
+}
+
+message CreateRefereeResponse {
+    int64 referee_id = 1;
 }
 
 message CreateTournamentRequest {

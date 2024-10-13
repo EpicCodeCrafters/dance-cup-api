@@ -9,7 +9,7 @@ public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot<TKey>
 {
     protected AggregateRoot(
         TKey id,
-        int version,
+        AggregateVersion version,
         DateTime createdAt,
         DateTime changedAt
     ) : base(id)
@@ -20,7 +20,7 @@ public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot<TKey>
     }
 
     /// <inheritdoc />
-    public int Version { get; }
+    public AggregateVersion Version { get; private set; }
 
     /// <inheritdoc />
     public DateTime CreatedAt { get; }
@@ -33,6 +33,7 @@ public abstract class AggregateRoot<TKey> : Entity<TKey>, IAggregateRoot<TKey>
     /// </summary>
     protected void RegisterChange()
     {
+        Version = Version.Increase();
         ChangedAt = DateTime.UtcNow;
     }
 }

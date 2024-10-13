@@ -1,8 +1,9 @@
 ﻿using ECC.DanceCup.Api.Domain.Core;
 using ECC.DanceCup.Api.Domain.Error;
+using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using FluentResults;
 
-namespace ECC.DanceCup.Api.Domain.Model;
+namespace ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 
 /// <summary>
 /// Турнир
@@ -13,7 +14,7 @@ public class Tournament : AggregateRoot<TournamentId>
     
     public Tournament(
         TournamentId id, 
-        int version,
+        AggregateVersion version,
         DateTime createdAt, 
         DateTime changedAt,
         UserId userId,

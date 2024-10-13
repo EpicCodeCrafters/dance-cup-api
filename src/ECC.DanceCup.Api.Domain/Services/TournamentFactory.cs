@@ -1,4 +1,6 @@
-﻿using ECC.DanceCup.Api.Domain.Model;
+﻿using ECC.DanceCup.Api.Domain.Core;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using FluentResults;
 
 namespace ECC.DanceCup.Api.Domain.Services;
@@ -30,7 +32,7 @@ public class TournamentFactory : ITournamentFactory
 
         var tournament = new Tournament(
             id: TournamentId.Empty,
-            version: 1,
+            version: AggregateVersion.Default,
             createdAt: now,
             changedAt: now,
             userId: userId,

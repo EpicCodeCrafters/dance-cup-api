@@ -1,4 +1,4 @@
-﻿using ECC.DanceCup.Api.Domain.Model;
+﻿using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 
 namespace ECC.DanceCup.Api.Application.Errors;
 

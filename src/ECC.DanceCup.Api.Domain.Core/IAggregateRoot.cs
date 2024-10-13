@@ -9,7 +9,7 @@ public interface IAggregateRoot<TKey> : IEntity<TKey>
     /// <summary>
     /// Версия
     /// </summary>
-    public int Version { get; }
+    public AggregateVersion Version { get; }
     
     /// <summary>
     /// Время создания

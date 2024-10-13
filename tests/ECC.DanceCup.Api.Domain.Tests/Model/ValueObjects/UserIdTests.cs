@@ -1,4 +1,4 @@
-﻿using ECC.DanceCup.Api.Domain.Model;
+﻿using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using FluentAssertions;
 
 namespace ECC.DanceCup.Api.Domain.Tests.Model.ValueObjects;

@@ -7,9 +7,9 @@ using ECC.DanceCup.Api.Tests.Common.Extensions;
 using FluentAssertions;
 using Moq;
 
-namespace ECC.DanceCup.Api.Application.Tests.UseCases.GetDances;
+namespace ECC.DanceCup.Api.Application.Tests.UseCases;
 
-public class HandlerTests
+public class GetDancesTests
 {
     [Theory, AutoMoqData]
     public async Task Handle_ShouldGenerallySuccess(

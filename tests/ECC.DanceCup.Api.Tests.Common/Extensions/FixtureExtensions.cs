@@ -1,37 +1,41 @@
 ﻿using AutoFixture;
-using ECC.DanceCup.Api.Domain.Model;
+using ECC.DanceCup.Api.Domain.Core;
+using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
+using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 
 namespace ECC.DanceCup.Api.Tests.Common.Extensions;
 
 public static class FixtureExtensions
 {
-    public static Category CreateCategory(
+    public static Referee CreateReferee(
         this IFixture fixture,
-        CategoryId? id = null,
-        TournamentId? tournamentId = null,
-        CategoryName? name = null,
-        List<DanceId>? dancesIds = null,
-        List<RefereeId>? refereesIds = null)
+        RefereeId? id = null, 
+        AggregateVersion? version = null,
+        DateTime? createdAt = null, 
+        DateTime? changedAt = null,
+        RefereeFullName? fullName = null)
     {
-        id ??= fixture.Create<CategoryId>();
-        tournamentId ??= fixture.Create<TournamentId>();
-        name ??= fixture.Create<CategoryName>();
-        dancesIds ??= fixture.Create<List<DanceId>>();
-        refereesIds ??= fixture.Create<List<RefereeId>>();
-        
-        return new Category(
+        id ??= fixture.Create<RefereeId>();
+        version ??= fixture.Create<AggregateVersion>();
+        createdAt ??= fixture.Create<DateTime>();
+        changedAt ??= fixture.Create<DateTime>();
+        fullName ??= fixture.Create<RefereeFullName>();
+
+        return new Referee(
             id: id.Value,
-            tournamentId: tournamentId.Value,
-            name: name.Value,
-            dancesIds: dancesIds,
-            refereesIds: refereesIds
+            version: version.Value,
+            createdAt: createdAt.Value,
+            changedAt: changedAt.Value,
+            fullName: fullName.Value
         );
     }
     
     public static Tournament CreateTournament(
         this IFixture fixture,
         TournamentId? id = null, 
-        int? version = null,
+        AggregateVersion? version = null,
         DateTime? createdAt = null, 
         DateTime? changedAt = null,
         UserId? userId = null,
@@ -45,7 +49,7 @@ public static class FixtureExtensions
         List<Category>? categories = null)
     {
         id ??= fixture.Create<TournamentId>();
-        version ??= fixture.Create<int>();
+        version ??= fixture.Create<AggregateVersion>();
         createdAt ??= fixture.Create<DateTime>();
         changedAt ??= fixture.Create<DateTime>();
         userId ??= fixture.Create<UserId>();
@@ -68,6 +72,29 @@ public static class FixtureExtensions
             startedAt: startedAt,
             finishedAt: finishedAt,
             categories: categories
+        );
+    }
+    
+    public static Category CreateCategory(
+        this IFixture fixture,
+        CategoryId? id = null,
+        TournamentId? tournamentId = null,
+        CategoryName? name = null,
+        List<DanceId>? dancesIds = null,
+        List<RefereeId>? refereesIds = null)
+    {
+        id ??= fixture.Create<CategoryId>();
+        tournamentId ??= fixture.Create<TournamentId>();
+        name ??= fixture.Create<CategoryName>();
+        dancesIds ??= fixture.Create<List<DanceId>>();
+        refereesIds ??= fixture.Create<List<RefereeId>>();
+        
+        return new Category(
+            id: id.Value,
+            tournamentId: tournamentId.Value,
+            name: name.Value,
+            dancesIds: dancesIds,
+            refereesIds: refereesIds
         );
     }
 }

@@ -1,5 +1,5 @@
 ﻿using ECC.DanceCup.Api.Domain.Core;
-using ECC.DanceCup.Api.Domain.Model;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 
 namespace ECC.DanceCup.Api.Domain.Error;
 

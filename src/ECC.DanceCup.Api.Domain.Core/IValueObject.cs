@@ -4,8 +4,7 @@
 /// Объект значения
 /// </summary>
 /// <typeparam name="TValueObject">Тип объекта значения</typeparam>
-public interface IValueObject<TValueObject>
-    where TValueObject : struct;
+public interface IValueObject<TValueObject>;
 
 /// <summary>
 /// Объект значения

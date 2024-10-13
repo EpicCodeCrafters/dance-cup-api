@@ -25,8 +25,8 @@ public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
 
     public override async Task<CreateRefereeResponse> CreateReferee(CreateRefereeRequest request, ServerCallContext context)
     {
-        var query = request.ToInternal();
-        var result = await _sender.Send(query, context.CancellationToken);
+        var command = request.ToInternal();
+        var result = await _sender.Send(command, context.CancellationToken);
 
         result.HandleErrors();
 

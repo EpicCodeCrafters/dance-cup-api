@@ -3,7 +3,7 @@
 /// <summary>
 /// Версия агрегата
 /// </summary>
-public struct AggregateVersion : IValueObject<AggregateVersion, int>
+public readonly record struct AggregateVersion : IValueObject<AggregateVersion, int>
 {
     private AggregateVersion(int value)
     {

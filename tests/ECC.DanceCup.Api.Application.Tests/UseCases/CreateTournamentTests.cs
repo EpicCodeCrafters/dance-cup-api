@@ -18,6 +18,7 @@ public class CreateTournamentTests
     public async Task Handle_ShouldGenerallySuccess(
         UserId userId,
         TournamentName name,
+        TournamentDescription description,
         TournamentDate date,
         IReadOnlyCollection<CreateCategoryModel> createCategoryModels,
         TournamentId tournamentId,
@@ -29,14 +30,14 @@ public class CreateTournamentTests
         // Arrange
 
         tournamentFactoryMock
-            .Setup(tournamentFactory => tournamentFactory.Create(userId, name, date, createCategoryModels))
+            .Setup(tournamentFactory => tournamentFactory.Create(userId, name, description, date, createCategoryModels))
             .Returns(tournament);
 
         tournamentRepositoryMock
             .Setup(tournamentRepository => tournamentRepository.AddAsync(tournament, It.IsAny<CancellationToken>()))
             .ReturnsAsync(tournamentId);
 
-        var command = new CreateTournamentUseCase.Command(userId, name, date, createCategoryModels);
+        var command = new CreateTournamentUseCase.Command(userId, name, description, date, createCategoryModels);
 
         // Act
 
@@ -48,7 +49,7 @@ public class CreateTournamentTests
         result.Value.TournamentId.Should().Be(tournamentId);
         
         tournamentFactoryMock.Verify(
-            tournamentFactory => tournamentFactory.Create(userId, name, date, createCategoryModels),
+            tournamentFactory => tournamentFactory.Create(userId, name, description, date, createCategoryModels),
             Times.Once
         );
         tournamentFactoryMock.VerifyNoOtherCalls();
@@ -64,6 +65,7 @@ public class CreateTournamentTests
     public async Task Handle_TournamentFactoryCreateFailed_ShouldFail(
         UserId userId,
         TournamentName name,
+        TournamentDescription description,
         TournamentDate date,
         IReadOnlyCollection<CreateCategoryModel> createCategoryModels,
         [Frozen] Mock<ITournamentFactory> tournamentFactoryMock,
@@ -73,10 +75,10 @@ public class CreateTournamentTests
         // Arrange
 
         tournamentFactoryMock
-            .Setup(tournamentFactory => tournamentFactory.Create(userId, name, date, createCategoryModels))
+            .Setup(tournamentFactory => tournamentFactory.Create(userId, name,description, date, createCategoryModels))
             .Returns(new TestError());
 
-        var command = new CreateTournamentUseCase.Command(userId, name, date, createCategoryModels);
+        var command = new CreateTournamentUseCase.Command(userId, name, description, date, createCategoryModels);
 
         // Act
 
@@ -87,7 +89,7 @@ public class CreateTournamentTests
         result.ShouldBeFailWith<TestError>();
         
         tournamentFactoryMock.Verify(
-            tournamentFactory => tournamentFactory.Create(userId, name, date, createCategoryModels),
+            tournamentFactory => tournamentFactory.Create(userId, name, description, date, createCategoryModels),
             Times.Once
         );
         tournamentFactoryMock.VerifyNoOtherCalls();

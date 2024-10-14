@@ -40,6 +40,7 @@ public static class FixtureExtensions
         DateTime? changedAt = null,
         UserId? userId = null,
         TournamentName? name = null,
+        TournamentDescription? description = null,
         TournamentDate? date = null,
         TournamentState? state = null,
         DateTime? registrationStartedAt = null,
@@ -54,6 +55,7 @@ public static class FixtureExtensions
         changedAt ??= fixture.Create<DateTime>();
         userId ??= fixture.Create<UserId>();
         name ??= fixture.Create<TournamentName>();
+        description ??= fixture.Create<TournamentDescription>();
         date ??= fixture.Create<TournamentDate>();
         state ??= fixture.Create<TournamentState>();
         categories ??= fixture.Create<List<Category>>();
@@ -65,6 +67,7 @@ public static class FixtureExtensions
             changedAt: changedAt.Value,
             userId: userId.Value,
             name: name.Value,
+            description:description.Value,
             date: date.Value,
             state: state.Value,
             registrationStartedAt: registrationStartedAt,

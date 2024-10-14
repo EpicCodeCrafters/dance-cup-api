@@ -37,7 +37,7 @@ public interface ITournamentFactory
 /// <param name="DancesIds">Список идентификаторов танцев категории</param>
 /// <param name="RefereesIds">Список идентификаторов судей категории</param>
 public record CreateCategoryModel(
-    TournamentDescription Name,
+    CategoryName Name,
     IReadOnlyCollection<DanceId> DancesIds,
     IReadOnlyCollection<RefereeId> RefereesIds
 ) : IValueObject<CreateCategoryModel>;

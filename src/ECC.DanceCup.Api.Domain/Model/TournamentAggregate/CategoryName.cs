@@ -6,11 +6,11 @@ namespace ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 /// <summary>
 /// Название категории
 /// </summary>
-public readonly record struct TournamentDescription : IValueObject<TournamentDescription, string>
+public readonly record struct CategoryName : IValueObject<CategoryName, string>
 {
     private static readonly Regex Regex = new(@"^(?!\s*$)[\p{L}0-9 _\-,.]+$", RegexOptions.Compiled);
 
-    private TournamentDescription(string value)
+    private CategoryName(string value)
     {
         Value = value;
     }
@@ -19,14 +19,14 @@ public readonly record struct TournamentDescription : IValueObject<TournamentDes
     public string Value { get; }
 
     /// <inheritdoc />
-    public static TournamentDescription? From(string value)
+    public static CategoryName? From(string value)
     {
         if (Regex.IsMatch(value) is false)
         {
             return null;
         }
 
-        return new TournamentDescription(value);
+        return new CategoryName(value);
     }
 }
 

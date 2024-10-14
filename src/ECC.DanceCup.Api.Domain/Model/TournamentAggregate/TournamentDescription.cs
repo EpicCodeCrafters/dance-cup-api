@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using ECC.DanceCup.Api.Domain.Core;
 
-namespace ECC.DanceCup.Api.Domain.Model;
+namespace ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 
 /// <summary>
 /// Описание турнира
@@ -19,7 +19,7 @@ public readonly record struct TournamentDescription : IValueObject<TournamentDes
     /// <inheritdoc />
     public static TournamentDescription? From(string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (string.IsNullOrWhiteSpace(value) is true)
         {
             return null;
         }

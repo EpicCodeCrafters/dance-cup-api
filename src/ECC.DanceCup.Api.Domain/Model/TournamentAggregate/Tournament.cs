@@ -19,6 +19,7 @@ public class Tournament : AggregateRoot<TournamentId>
         DateTime changedAt,
         UserId userId,
         TournamentName name,
+        TournamentDescription description,
         TournamentDate date,
         TournamentState state,
         DateTime? registrationStartedAt,
@@ -30,6 +31,7 @@ public class Tournament : AggregateRoot<TournamentId>
     {
         UserId = userId;
         Name = name;
+        Description = description;
         Date = date;
         State = state;
         RegistrationStartedAt = registrationStartedAt;
@@ -48,6 +50,11 @@ public class Tournament : AggregateRoot<TournamentId>
     /// Название турнира
     /// </summary>
     public TournamentName Name { get; }
+
+    /// <summary>
+    /// Описание турнира
+    /// </summary>
+    public TournamentDescription Description { get; }
     
     /// <summary>
     /// Дата турнира

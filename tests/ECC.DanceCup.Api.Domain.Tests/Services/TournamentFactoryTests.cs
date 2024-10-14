@@ -12,6 +12,7 @@ public class TournamentFactoryTests
     public void Create_ShouldGenerallySuccess(
         UserId userId,
         TournamentName name,
+        TournamentDescription description,
         TournamentDate date,
         IReadOnlyCollection<CreateCategoryModel> createCategoryModels,
         TournamentFactory tournamentFactory)
@@ -20,7 +21,7 @@ public class TournamentFactoryTests
 
         // Act
 
-        var result = tournamentFactory.Create(userId, name, date, createCategoryModels);
+        var result = tournamentFactory.Create(userId, name, description, date, createCategoryModels);
 
         // Assert
 

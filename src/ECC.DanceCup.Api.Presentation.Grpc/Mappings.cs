@@ -56,6 +56,7 @@ internal static class Mappings
         return new CreateTournamentUseCase.Command(
             UserId: UserId.From(request.UserId).AsRequired(),
             Name: TournamentName.From(request.Name).AsRequired(),
+            Description: TournamentDescription.From(request.Description).AsRequired(),
             Date: TournamentDate.From(request.Date.ToDateTime()).AsRequired(),
             CreateCategoryModels: request.CreateCategoryModels.Select(ToInternal).ToArray()
         );

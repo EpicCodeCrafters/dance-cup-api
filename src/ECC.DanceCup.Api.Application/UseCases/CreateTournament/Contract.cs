@@ -11,6 +11,7 @@ public static partial class CreateTournamentUseCase
     public record Command(
         UserId UserId,
         TournamentName Name,
+        TournamentDescription Description,
         TournamentDate Date,
         IReadOnlyCollection<CreateCategoryModel> CreateCategoryModels
     ) : IRequest<Result<CommandResponse>>;

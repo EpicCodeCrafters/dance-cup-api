@@ -20,7 +20,7 @@ public static partial class CreateTournamentUseCase
 
         public async Task<Result<CommandResponse>> Handle(Command command, CancellationToken cancellationToken)
         {
-            var createTournamentResult = _tournamentFactory.Create(command.UserId, command.Name, command.Date, command.CreateCategoryModels);
+            var createTournamentResult = _tournamentFactory.Create(command.UserId, command.Name, command.Description, command.Date, command.CreateCategoryModels);
             if (createTournamentResult.IsFailed)
             {
                 return createTournamentResult.ToResult();

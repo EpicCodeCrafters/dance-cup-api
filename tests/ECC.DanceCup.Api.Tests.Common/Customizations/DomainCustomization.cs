@@ -48,8 +48,8 @@ public class DomainCustomization : ICustomization
             composer.FromFactory(() => CategoryId.From(fixture.Create<long>()).AsRequired())
         );
         
-        fixture.Customize<CategoryName>(composer =>
-            composer.FromFactory(() => CategoryName.From(fixture.Create<string>()).AsRequired())
+        fixture.Customize<TournamentDescription>(composer =>
+            composer.FromFactory(() => TournamentDescription.From(fixture.Create<string>()).AsRequired())
         );
     }
 }

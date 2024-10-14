@@ -15,7 +15,7 @@ public class Category : Entity<CategoryId>
     public Category(
         CategoryId id,
         TournamentId tournamentId,
-        CategoryName name,
+        TournamentDescription name,
         List<DanceId> dancesIds,
         List<RefereeId> refereesIds
     ) : base(id)
@@ -34,7 +34,7 @@ public class Category : Entity<CategoryId>
     /// <summary>
     /// Название категории
     /// </summary>
-    public CategoryName Name { get; }
+    public TournamentDescription Name { get; }
 
     /// <summary>
     /// Список идентификаторов танцев категории

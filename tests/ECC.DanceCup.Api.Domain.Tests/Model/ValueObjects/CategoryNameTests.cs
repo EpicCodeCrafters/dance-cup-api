@@ -14,7 +14,7 @@ public class CategoryNameTests
 
         // Act
 
-        var categoryName = CategoryName.From(value);
+        var categoryName = TournamentDescription.From(value);
 
         // Assert
 
@@ -33,7 +33,7 @@ public class CategoryNameTests
 
         // Act
 
-        var categoryName = CategoryName.From(value);
+        var categoryName = TournamentDescription.From(value);
 
         // Assert
 

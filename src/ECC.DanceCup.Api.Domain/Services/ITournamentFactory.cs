@@ -17,12 +17,14 @@ public interface ITournamentFactory
     /// </summary>
     /// <param name="userId">Идентификатор пользователя</param>
     /// <param name="name">Название турнира</param>
+    /// <param name="description">Описание турнира</param>
     /// <param name="date">Дата турнира</param>
     /// <param name="createCategoryModels">Список описаний категорий</param>
     /// <returns></returns>
     Result<Tournament> Create(
         UserId userId,
         TournamentName name,
+        TournamentDescription description,
         TournamentDate date,
         IReadOnlyCollection<CreateCategoryModel> createCategoryModels
     );
@@ -35,7 +37,7 @@ public interface ITournamentFactory
 /// <param name="DancesIds">Список идентификаторов танцев категории</param>
 /// <param name="RefereesIds">Список идентификаторов судей категории</param>
 public record CreateCategoryModel(
-    CategoryName Name,
+    TournamentDescription Name,
     IReadOnlyCollection<DanceId> DancesIds,
     IReadOnlyCollection<RefereeId> RefereesIds
 ) : IValueObject<CreateCategoryModel>;

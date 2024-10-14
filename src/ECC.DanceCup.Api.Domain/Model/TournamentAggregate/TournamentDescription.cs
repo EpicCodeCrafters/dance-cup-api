@@ -1,15 +1,13 @@
 ﻿using System.Text.RegularExpressions;
 using ECC.DanceCup.Api.Domain.Core;
 
-namespace ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+namespace ECC.DanceCup.Api.Domain.Model;
 
 /// <summary>
-/// Название категории
+/// Описание турнира
 /// </summary>
 public readonly record struct TournamentDescription : IValueObject<TournamentDescription, string>
 {
-    private static readonly Regex Regex = new(@"^(?!\s*$)[\p{L}0-9 _\-,.]+$", RegexOptions.Compiled);
-
     private TournamentDescription(string value)
     {
         Value = value;
@@ -21,7 +19,7 @@ public readonly record struct TournamentDescription : IValueObject<TournamentDes
     /// <inheritdoc />
     public static TournamentDescription? From(string value)
     {
-        if (Regex.IsMatch(value) is false)
+        if (string.IsNullOrWhiteSpace(value))
         {
             return null;
         }

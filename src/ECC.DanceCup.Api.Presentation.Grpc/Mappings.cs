@@ -64,7 +64,7 @@ internal static class Mappings
     private static Domain.Services.CreateCategoryModel ToInternal(this CreateCategoryModel createCategoryModel)
     {
         return new Domain.Services.CreateCategoryModel(
-            Name: CategoryName.From(createCategoryModel.Name).AsRequired(),
+            Name: TournamentDescription.From(createCategoryModel.Name).AsRequired(),
             DancesIds: createCategoryModel.DancesIds.Select(danceId => DanceId.From(danceId).AsRequired()).ToArray(),
             RefereesIds: createCategoryModel.RefereesIds.Select(refereeId => RefereeId.From(refereeId).AsRequired()).ToArray()
         );

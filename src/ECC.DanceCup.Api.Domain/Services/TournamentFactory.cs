@@ -9,7 +9,7 @@ namespace ECC.DanceCup.Api.Domain.Services;
 public class TournamentFactory : ITournamentFactory
 {
     /// <inheritdoc />
-    public Result<Tournament> Create(UserId userId, TournamentName name, TournamentDate date, IReadOnlyCollection<CreateCategoryModel> createCategoryModels)
+    public Result<Tournament> Create(UserId userId, TournamentName name, TournamentDescription description, TournamentDate date, IReadOnlyCollection<CreateCategoryModel> createCategoryModels)
     {
         var now = DateTime.UtcNow;
 
@@ -37,6 +37,7 @@ public class TournamentFactory : ITournamentFactory
             changedAt: now,
             userId: userId,
             name: name,
+            description:description,
             date: date,
             state: TournamentState.Created,
             registrationStartedAt: null,

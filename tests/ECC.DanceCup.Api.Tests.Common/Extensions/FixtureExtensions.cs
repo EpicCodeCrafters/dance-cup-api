@@ -79,13 +79,13 @@ public static class FixtureExtensions
         this IFixture fixture,
         CategoryId? id = null,
         TournamentId? tournamentId = null,
-        CategoryName? name = null,
+        TournamentDescription? name = null,
         List<DanceId>? dancesIds = null,
         List<RefereeId>? refereesIds = null)
     {
         id ??= fixture.Create<CategoryId>();
         tournamentId ??= fixture.Create<TournamentId>();
-        name ??= fixture.Create<CategoryName>();
+        name ??= fixture.Create<TournamentDescription>();
         dancesIds ??= fixture.Create<List<DanceId>>();
         refereesIds ??= fixture.Create<List<RefereeId>>();
         

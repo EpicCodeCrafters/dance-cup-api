@@ -62,7 +62,16 @@ internal static class RuleBuilderExtensions
 
         return ruleBuilder;
     }
-    
+
+    public static IRuleBuilder<TProperty, string> IsValidTournamentDescription<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
+    {
+        ruleBuilder
+            .Must(value => TournamentDescription.From(value) is not null)
+            .WithMessage("Необходимо передать корректное описание турнира");
+
+        return ruleBuilder;
+    }
+
     public static IRuleBuilder<TProperty, Timestamp> IsValidTournamentDate<TProperty>(this IRuleBuilder<TProperty, Timestamp> ruleBuilder)
     {
         ruleBuilder

@@ -11,6 +11,8 @@ public class CreateTournamentValidator : AbstractValidator<CreateTournamentReque
 
         RuleFor(request => request.Name).IsValidTournamentName();
 
+        RuleFor(request => request.Description).IsValidTournamentDescription();
+
         RuleFor(request => request.Date).IsValidTournamentDate();
 
         RuleForEach(request => request.CreateCategoryModels).SetValidator(new CreateCategoryModelValidator());

@@ -67,7 +67,7 @@ public static class FixtureExtensions
             changedAt: changedAt.Value,
             userId: userId.Value,
             name: name.Value,
-            description:description.Value,
+            description: description.Value,
             date: date.Value,
             state: state.Value,
             registrationStartedAt: registrationStartedAt,

@@ -37,7 +37,7 @@ public class TournamentFactory : ITournamentFactory
             changedAt: now,
             userId: userId,
             name: name,
-            description:description,
+            description: description,
             date: date,
             state: TournamentState.Created,
             registrationStartedAt: null,

@@ -40,7 +40,7 @@ message CreateRefereeResponse {
 message CreateTournamentRequest {
     int64 user_id = 1;
     string name = 2;
-    string description =3;
+    string description = 3;
     google.protobuf.Timestamp date = 4;
     repeated CreateCategoryModel create_category_models = 5;
 }

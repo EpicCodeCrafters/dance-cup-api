@@ -94,7 +94,7 @@ internal static class RuleBuilderExtensions
     public static IRuleBuilder<TProperty, string> IsValidCategoryName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
     {
         ruleBuilder
-            .Must(value => TournamentDescription.From(value) is not null)
+            .Must(value => CategoryName.From(value) is not null)
             .WithMessage("Необходимо передать корректное название категории");
 
         return ruleBuilder;

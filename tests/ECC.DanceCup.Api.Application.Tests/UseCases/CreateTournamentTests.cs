@@ -75,7 +75,7 @@ public class CreateTournamentTests
         // Arrange
 
         tournamentFactoryMock
-            .Setup(tournamentFactory => tournamentFactory.Create(userId, name,description, date, createCategoryModels))
+            .Setup(tournamentFactory => tournamentFactory.Create(userId, name, description, date, createCategoryModels))
             .Returns(new TestError());
 
         var command = new CreateTournamentUseCase.Command(userId, name, description, date, createCategoryModels);

@@ -25,7 +25,7 @@ public class TournamentDescriptionTests
     [Theory]
     [InlineData("")]
     [InlineData("    ")]
-    public void Create_FromValidValue_ShouldBeNull(string value)
+    public void Create_FromInvalidValue_ShouldBeNull(string value)
     {
         //Arrange
 

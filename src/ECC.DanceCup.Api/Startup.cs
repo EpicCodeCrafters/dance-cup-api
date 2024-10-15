@@ -25,6 +25,7 @@ public class Startup
         services.AddTgApi();
 
         services.AddGrpcServices();
+        services.AddGrpcHealthChecks();
     }
 
     public void Configure(IApplicationBuilder app)
@@ -34,6 +35,7 @@ public class Startup
         app.UseEndpoints(endpointRouteBuilder =>
         {
             endpointRouteBuilder.UseGrpcServices();
+            endpointRouteBuilder.MapGrpcHealthChecksService();
         });
     }
 }

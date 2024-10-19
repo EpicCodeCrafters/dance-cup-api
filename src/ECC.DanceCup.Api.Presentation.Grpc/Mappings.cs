@@ -3,6 +3,8 @@ using ECC.DanceCup.Api.Application.UseCases.CreateReferee;
 using ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 using ECC.DanceCup.Api.Application.UseCases.GetDances;
 using ECC.DanceCup.Api.Application.UseCases.StartTournamentRegistration;
+using ECC.DanceCup.Api.Application.UseCases.FinishTournamentRegistration;
+using ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
@@ -84,5 +86,19 @@ internal static class Mappings
         return new StartTournamentRegistrationUseCase.Command(
             TournamentId: TournamentId.From(request.TournamentId).AsRequired()
         );
+    }
+
+    public static FinishTournamentRegistrationUseCase.Command ToInternal(this FinishTournamentRegistrationRequest request)
+    {
+        return new FinishTournamentRegistrationUseCase.Command(
+            TournamentId: TournamentId.From(request.TournamentId).AsRequired()
+         );
+    }
+
+    public static ReopenTournamentRegistrationUseCase.Command ToInternal(this ReopenTournamentRegistrationRequest request)
+    {
+        return new ReopenTournamentRegistrationUseCase.Command(
+            TournamentId: TournamentId.From(request.TournamentId).AsRequired()
+         );
     }
 }

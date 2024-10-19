@@ -24,10 +24,10 @@ public static partial class FinishTournamentRegistrationUseCase
                 return new TournamentNotFoundError(command.TournamentId);
             }
 
-            var finishTournamentRegistrationResult = tournament.FinishRegistration();
-            if (finishTournamentRegistrationResult.IsFailed)
+            var finishResult = tournament.FinishRegistration();
+            if (finishResult.IsFailed)
             {
-                return finishTournamentRegistrationResult;
+                return finishResult;
             }
 
             await _tournamentRepository.UpdateAsync(tournament, cancellationToken);

@@ -14,17 +14,17 @@ public class ReopenRegistrationTests
         TournamentState tournamentState,
         IFixture fixture)
     {
-        //Arrange
+        // Arrange
 
         var tournament = fixture.CreateTournament(
             state: tournamentState
-            );
+        );
 
-        //Act
+        // Act
 
         var result = tournament.ReopenRegistration();
 
-        //Assert
+        // Assert
 
         result.ShouldBeSuccess();
     }
@@ -38,15 +38,17 @@ public class ReopenRegistrationTests
         TournamentState tournamentState,
         IFixture fixture)
     {
-        //Arrange 
+        // Arrange 
 
-        var tournament = fixture.CreateTournament();
+        var tournament = fixture.CreateTournament(
+            state: tournamentState
+        );
 
-        //Act
+        // Act
 
         var result = tournament.ReopenRegistration();
 
-        //Assert
+        // Assert
 
         result.ShouldBeFailWith<TournamentShouldBeInStatusError>();
     }

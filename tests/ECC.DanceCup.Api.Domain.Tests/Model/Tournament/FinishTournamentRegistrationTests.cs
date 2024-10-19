@@ -14,17 +14,17 @@ public class FinishRegistrationTests
         TournamentState tournamentState,
         IFixture fixture)
     {
-        //Arrange
+        // Arrange
 
         var tournament = fixture.CreateTournament(
             state: tournamentState
-            );
+        );
 
-        //Act
+        // Act
 
         var result = tournament.FinishRegistration();
 
-        //Assert
+        // Assert
 
         result.ShouldBeSuccess();
     }
@@ -38,17 +38,17 @@ public class FinishRegistrationTests
         TournamentState tournamentState,
         IFixture fixture)
     {
-        //Arrange
+        // Arrange
 
         var tournament = fixture.CreateTournament(
             state: tournamentState
-            );
+        );
 
-        //Act
+        // Act
 
         var result = tournament.FinishRegistration();
 
-        //Assert
+        // Assert
 
         result.ShouldBeFailWith<TournamentShouldBeInStatusError>();
     }

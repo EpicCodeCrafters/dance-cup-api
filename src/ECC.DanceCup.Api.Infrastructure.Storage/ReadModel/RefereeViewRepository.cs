@@ -14,18 +14,26 @@ public class RefereeViewRepository : PostgresRepository, IRefereeViewRepository
     {
     }
 
-    public async Task<IReadOnlyCollection<RefereeView>> FindAllAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<RefereeView>> FindAllAsync(RefereeFullName? refereeFullName, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         await using var connection = await GetConnectionAsync();
 
         const string sqlCommand =
-            """
-            select r."id" as "id"
-                 , r."full_name" as "fullname"
-              from "referees" as r;
+           """
+            select "id", "full_name"
+            from "referees"
+            order by "id"
+            limit @Limit offset @Offset;
             """;
 
-        var referees = await connection.QueryAsync<RefereeView>(sqlCommand, cancellationToken);
+        var referees = await connection.QueryAsync<RefereeView>(
+            sqlCommand,
+            new
+            {
+            Limit = pageSize,
+            Offset = pageNumber*pageSize--,
+            }
+        );
 
         return referees.ToArray();
     }

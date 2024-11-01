@@ -19,19 +19,23 @@ public class RefereeViewRepository : PostgresRepository, IRefereeViewRepository
         await using var connection = await GetConnectionAsync();
 
         const string sqlCommand =
-           """
-            select "id", "full_name"
-            from "referees"
-            order by "id"
-            limit @Limit offset @Offset;
+            """
+            select r."id" as "id"
+                 , r."full_name" as "full_name"
+              from "referees" as r
+             where (@FullName IS NULL OR r."full_name" = @FullName)
+             order by "id"
+             limit @Limit
+            offset @Offset;
             """;
 
         var referees = await connection.QueryAsync<RefereeView>(
             sqlCommand,
             new
             {
-            Limit = pageSize,
-            Offset = pageNumber*pageSize--,
+                FullName = refereeFullName?.Value,
+                Limit = pageSize,
+                Offset = (pageNumber - 1) * pageSize,
             }
         );
 

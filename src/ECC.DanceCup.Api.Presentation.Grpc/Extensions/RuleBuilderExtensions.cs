@@ -99,4 +99,25 @@ internal static class RuleBuilderExtensions
 
         return ruleBuilder;
     }
+    
+    public static IRuleBuilderOptions<TProperty, string> IsValidCoupleParticipantFullName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
+    {
+        return ruleBuilder
+            .Must(value => CoupleParticipantFullName.From(value) is not null)
+            .WithMessage("Необходимо передать корректное полное имя участника пары");
+    }
+    
+    public static IRuleBuilderOptions<TProperty, string> IsValidCoupleDanceOrganizationName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
+    {
+        return ruleBuilder
+            .Must(value => CoupleDanceOrganizationName.From(value) is not null)
+            .WithMessage("Необходимо передать корректное название организации, в которой пара занимается танцами");
+    }
+    
+    public static IRuleBuilderOptions<TProperty, string> IsValidCoupleTrainerFullName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
+    {
+        return ruleBuilder
+            .Must(value => CoupleTrainerFullName.From(value) is not null)
+            .WithMessage("Необходимо передать корректное полное имя тренера пары");
+    }
 }

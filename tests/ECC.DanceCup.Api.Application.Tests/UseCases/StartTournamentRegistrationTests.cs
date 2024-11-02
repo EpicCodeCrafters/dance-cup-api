@@ -28,7 +28,7 @@ public class StartTournamentRegistrationTests
         );
 
         tournamentRepositoryMock
-            .Setup(tournamentRepository => tournamentRepository.FindAsync(tournamentId, It.IsAny<CancellationToken>()))
+            .Setup(tournamentRepository => tournamentRepository.FindByIdAsync(tournamentId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(tournament);
 
         var command = new StartTournamentRegistrationUseCase.Command(tournamentId);
@@ -42,7 +42,7 @@ public class StartTournamentRegistrationTests
         result.ShouldBeSuccess();
         
         tournamentRepositoryMock.Verify(
-            tournamentRepository => tournamentRepository.FindAsync(tournamentId, It.IsAny<CancellationToken>()),
+            tournamentRepository => tournamentRepository.FindByIdAsync(tournamentId, It.IsAny<CancellationToken>()),
             Times.Once
         );
         tournamentRepositoryMock.Verify(
@@ -61,7 +61,7 @@ public class StartTournamentRegistrationTests
         // Arrange
         
         tournamentRepositoryMock
-            .Setup(tournamentRepository => tournamentRepository.FindAsync(tournamentId, It.IsAny<CancellationToken>()))
+            .Setup(tournamentRepository => tournamentRepository.FindByIdAsync(tournamentId, It.IsAny<CancellationToken>()))
             .ReturnsAsync((Tournament?)null);
 
         var command = new StartTournamentRegistrationUseCase.Command(tournamentId);
@@ -75,7 +75,7 @@ public class StartTournamentRegistrationTests
         result.ShouldBeFailWith<TournamentNotFoundError>();
         
         tournamentRepositoryMock.Verify(
-            tournamentRepository => tournamentRepository.FindAsync(tournamentId, It.IsAny<CancellationToken>()),
+            tournamentRepository => tournamentRepository.FindByIdAsync(tournamentId, It.IsAny<CancellationToken>()),
             Times.Once
         );
         tournamentRepositoryMock.VerifyNoOtherCalls();

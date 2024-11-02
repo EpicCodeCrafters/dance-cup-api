@@ -16,9 +16,9 @@ public static partial class ReopenTournamentRegistrationUseCase
             _tournamentRepository = tournamentRepository;
         }
 
-        public async Task<Result> Handle(Command command,CancellationToken cancellationToken)
+        public async Task<Result> Handle(Command command, CancellationToken cancellationToken)
         {
-            var tournament = await _tournamentRepository.FindAsync(command.TournamentId, cancellationToken);
+            var tournament = await _tournamentRepository.FindByIdAsync(command.TournamentId, cancellationToken);
             if (tournament is null)
             {
                 return new TournamentNotFoundError(command.TournamentId);

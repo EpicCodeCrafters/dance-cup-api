@@ -1,6 +1,8 @@
 ﻿using ECC.DanceCup.Api.Domain.Core;
+using ECC.DanceCup.Api.Domain.Errors;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
+using FluentResults;
 
 namespace ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 
@@ -11,19 +13,22 @@ public class Category : Entity<CategoryId>
 {
     private readonly List<DanceId> _dancesIds;
     private readonly List<RefereeId> _refereesIds;
+    private readonly List<CoupleId> _couplesIds;
 
     public Category(
         CategoryId id,
         TournamentId tournamentId,
         CategoryName name,
         List<DanceId> dancesIds,
-        List<RefereeId> refereesIds
+        List<RefereeId> refereesIds,
+        List<CoupleId> couplesIds
     ) : base(id)
     {
         TournamentId = tournamentId;
         Name = name;
         _dancesIds = dancesIds;
         _refereesIds = refereesIds;
+        _couplesIds = couplesIds;
     }
 
     /// <summary>
@@ -55,4 +60,26 @@ public class Category : Entity<CategoryId>
     /// Количество судей категории
     /// </summary>
     public int RefereesCount => _refereesIds.Count;
+
+    /// <summary>
+    /// Список идентификаторов пар, участвующих в категории
+    /// </summary>
+    public IReadOnlyCollection<CoupleId> CouplesIds => _couplesIds;
+
+    /// <summary>
+    /// Количеситво пар, участвующих в категории
+    /// </summary>
+    public int CouplesCount => _couplesIds.Count;
+
+    internal Result RegisterCouple(CoupleId coupleId)
+    {
+        if (_couplesIds.Contains(coupleId))
+        {
+            return new CoupleAlreadyRegisteredInCategoryError();
+        }
+        
+        _couplesIds.Add(coupleId);
+        
+        return Result.Ok();
+    }
 }

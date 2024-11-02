@@ -47,7 +47,8 @@ public static class FixtureExtensions
         DateTime? registrationFinishedAt = null,
         DateTime? startedAt = null,
         DateTime? finishedAt = null,
-        List<Category>? categories = null)
+        List<Category>? categories = null,
+        List<Couple>? couples = null)
     {
         id ??= fixture.Create<TournamentId>();
         version ??= fixture.Create<AggregateVersion>();
@@ -59,6 +60,7 @@ public static class FixtureExtensions
         date ??= fixture.Create<TournamentDate>();
         state ??= fixture.Create<TournamentState>();
         categories ??= fixture.Create<List<Category>>();
+        couples ??= fixture.Create<List<Couple>>();
         
         return new Tournament(
             id: id.Value,
@@ -74,7 +76,8 @@ public static class FixtureExtensions
             registrationFinishedAt: registrationFinishedAt,
             startedAt: startedAt,
             finishedAt: finishedAt,
-            categories: categories
+            categories: categories,
+            couples: couples
         );
     }
     
@@ -84,20 +87,23 @@ public static class FixtureExtensions
         TournamentId? tournamentId = null,
         CategoryName? name = null,
         List<DanceId>? dancesIds = null,
-        List<RefereeId>? refereesIds = null)
+        List<RefereeId>? refereesIds = null,
+        List<CoupleId>? couplesIds = null)
     {
         id ??= fixture.Create<CategoryId>();
         tournamentId ??= fixture.Create<TournamentId>();
         name ??= fixture.Create<CategoryName>();
         dancesIds ??= fixture.Create<List<DanceId>>();
         refereesIds ??= fixture.Create<List<RefereeId>>();
+        couplesIds ??= fixture.Create<List<CoupleId>>();
         
         return new Category(
             id: id.Value,
             tournamentId: tournamentId.Value,
             name: name.Value,
             dancesIds: dancesIds,
-            refereesIds: refereesIds
+            refereesIds: refereesIds,
+            couplesIds: couplesIds
         );
     }
 }

@@ -34,7 +34,7 @@ public class CreateTournamentTests
             .Returns(tournament);
 
         tournamentRepositoryMock
-            .Setup(tournamentRepository => tournamentRepository.AddAsync(tournament, It.IsAny<CancellationToken>()))
+            .Setup(tournamentRepository => tournamentRepository.InsertAsync(tournament, It.IsAny<CancellationToken>()))
             .ReturnsAsync(tournamentId);
 
         var command = new CreateTournamentUseCase.Command(userId, name, description, date, createCategoryModels);
@@ -55,7 +55,7 @@ public class CreateTournamentTests
         tournamentFactoryMock.VerifyNoOtherCalls();
         
         tournamentRepositoryMock.Verify(
-            tournamentRepository => tournamentRepository.AddAsync(tournament, It.IsAny<CancellationToken>()),
+            tournamentRepository => tournamentRepository.InsertAsync(tournament, It.IsAny<CancellationToken>()),
             Times.Once
         );
         tournamentRepositoryMock.VerifyNoOtherCalls();

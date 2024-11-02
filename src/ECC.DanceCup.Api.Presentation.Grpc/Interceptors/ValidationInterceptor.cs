@@ -22,7 +22,7 @@ public class ValidationInterceptor : Interceptor
         var requestValidator = _serviceProvider.GetService<IValidator<TRequest>>();
         await ValidateRequestAsync(request, requestValidator, context.CancellationToken);
 
-        return await base.UnaryServerHandler(request, context, continuation);
+        return await continuation(request, context);
     }
 
     private static async Task ValidateRequestAsync<TRequest>(TRequest request, IValidator<TRequest>? requestValidator, CancellationToken cancellationToken)

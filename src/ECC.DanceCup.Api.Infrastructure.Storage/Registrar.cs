@@ -1,8 +1,11 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
+using ECC.DanceCup.Api.Application.Abstractions.Storage.Providers;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 using ECC.DanceCup.Api.Infrastructure.Storage.DomainModel;
 using ECC.DanceCup.Api.Infrastructure.Storage.Options;
+using ECC.DanceCup.Api.Infrastructure.Storage.Providers;
 using ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
+using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,11 +19,15 @@ public static class Registrar
         services.AddScoped<IRefereeRepository, RefereeRepository>();
         // TODO Сделать scoped
         services.AddSingleton<ITournamentRepository, TournamentRepository>();
-        
+
+        services.AddScoped<ICoupleIdProvider, CoupleIdProvider>();
+
         services.AddScoped<IDanceViewRepository, DanceViewRepository>();
 
+        services.AddTransient<IPostgresConnectionFactory, PostgresConnectionFactory>();
+
         services.Configure<StorageOptions>(configuration.GetSection("StorageOptions"));
-        
+
         Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
 
         var connectionString = configuration["StorageOptions:ConnectionString"];
@@ -33,7 +40,7 @@ public static class Registrar
                     .WithGlobalConnectionString(connectionString)
                     .ScanIn(typeof(Registrar).Assembly);
             });
-        
+
         return services;
     }
 }

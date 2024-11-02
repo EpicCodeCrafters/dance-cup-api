@@ -2,20 +2,23 @@
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using ECC.DanceCup.Api.Infrastructure.Storage.Options;
+using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 using Microsoft.Extensions.Options;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
 
-public class DanceViewRepository : PostgresRepository, IDanceViewRepository
+public class DanceViewRepository : IDanceViewRepository
 {
-    public DanceViewRepository(IOptions<StorageOptions> storageOptions)
-        : base(storageOptions)
+    private readonly IPostgresConnectionFactory _connectionFactory;
+
+    public DanceViewRepository(IPostgresConnectionFactory connectionFactory)
     {
+        _connectionFactory = connectionFactory;
     }
-    
+
     public async Task<IReadOnlyCollection<DanceView>> FindAllAsync(CancellationToken cancellationToken)
     {
-        await using var connection = await GetConnectionAsync();
+        await using var connection = await _connectionFactory.CreateAsync();
         
         const string sqlCommand =
             """

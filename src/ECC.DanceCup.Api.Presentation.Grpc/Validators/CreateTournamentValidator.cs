@@ -15,6 +15,10 @@ public class CreateTournamentValidator : AbstractValidator<CreateTournamentReque
 
         RuleFor(request => request.Date).IsValidTournamentDate();
 
+        RuleFor(request => request.CreateCategoryModels)
+            .NotEmpty()
+            .WithMessage("Необходимо передать список категорий турнира");
+
         RuleForEach(request => request.CreateCategoryModels).SetValidator(new CreateCategoryModelValidator());
     }
 }

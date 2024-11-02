@@ -7,15 +7,8 @@ namespace ECC.DanceCup.Api.Infrastructure.Storage.DomainModel;
 public class TournamentRepository : ITournamentRepository
 {
     private readonly Dictionary<TournamentId, Tournament> _tournaments = new();
-    
-    public Task<Tournament?> FindAsync(TournamentId tournamentId, CancellationToken cancellationToken)
-    {
-        var tournament = _tournaments.GetValueOrDefault(tournamentId);
 
-        return Task.FromResult(tournament);
-    }
-
-    public Task<TournamentId> AddAsync(Tournament tournament, CancellationToken cancellationToken)
+    public Task<TournamentId> InsertAsync(Tournament tournament, CancellationToken cancellationToken)
     {
         var tournamentId = TournamentId.From(_tournaments.Count + 1).AsRequired();
         
@@ -29,5 +22,12 @@ public class TournamentRepository : ITournamentRepository
         _tournaments[tournament.Id] = tournament;
         
         return Task.CompletedTask;
+    }
+    
+    public Task<Tournament?> FindByIdAsync(TournamentId tournamentId, CancellationToken cancellationToken)
+    {
+        var tournament = _tournaments.GetValueOrDefault(tournamentId);
+
+        return Task.FromResult(tournament);
     }
 }

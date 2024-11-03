@@ -7,7 +7,7 @@ namespace ECC.DanceCup.Api.Application.UseCases.GetReferees;
 
 public static partial class GetRefereesUseCase
 {
-    public record Query(RefereeFullName RefereeFullName, int pageNumber, int pageSize) : IRequest<Result<QueryResponse>>;
+    public record Query(RefereeFullName? RefereeFullName, int pageNumber, int pageSize) : IRequest<Result<QueryResponse>>;
 
     public record QueryResponse(IReadOnlyCollection<RefereeView> Referees);
 }

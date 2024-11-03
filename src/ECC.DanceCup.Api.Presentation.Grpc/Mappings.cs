@@ -5,6 +5,7 @@ using ECC.DanceCup.Api.Application.UseCases.GetDances;
 using ECC.DanceCup.Api.Application.UseCases.StartTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.FinishTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration;
+using ECC.DanceCup.Api.Application.UseCases.GetReferees;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
@@ -20,11 +21,24 @@ internal static class Mappings
         return new GetDancesUseCase.Query();
     }
 
+    public static GetRefereesUseCase.Query ToInternal(this GetRefereesRequest request)
+    {
+        return new GetRefereesUseCase.Query(request.RefereeFullName is null ? null : RefereeFullName.From(request.RefereeFullName).AsRequired(), request.PageNumber ,request.PageSize);
+    }
+
     public static GetDancesResponse ToGrpc(this GetDancesUseCase.QueryResponse response)
     {
         return new GetDancesResponse
         {
             Dances = { response.Dances.Select(ToGrpc) }
+        };
+    }
+
+    public static GetRefereesResponse ToGrpc(this GetRefereesUseCase.QueryResponse response)
+    {
+        return new GetRefereesResponse
+        {
+            Referees = { response.Referees.Select(ToGrpc) }
         };
     }
 
@@ -35,6 +49,16 @@ internal static class Mappings
             Id = dance.Id,
             ShortName = dance.ShortName,
             Name = dance.Name
+        };
+    }
+
+
+    private static ECC.DanceCup.Api.Presentation.Grpc.Referee ToGrpc(this RefereeView referee)
+    {
+        return new ECC.DanceCup.Api.Presentation.Grpc.Referee
+        {
+            Id = referee.Id,
+            FullName = referee.FullName
         };
     }
 

@@ -9,7 +9,7 @@ namespace ECC.DanceCup.Api.Domain.Errors;
 public class CategoriesNotFountError : DomainError
 {
     public CategoriesNotFountError(IReadOnlyCollection<CategoryId> categoriesIds)
-        : base($"Турнир не содержит категории {string.Join(", ", categoriesIds)}")
+        : base($"Турнир не содержит категории {string.Join(", ", categoriesIds.Select(categoryId => categoryId.Value))}")
     {
     }
 }

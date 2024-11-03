@@ -42,6 +42,8 @@ public static partial class RegisterCoupleForTournamentUseCase
                 return registerCoupleForTournamentResult;
             }
 
+            await _tournamentRepository.UpdateAsync(tournament, cancellationToken);
+
             return Result.Ok();
         }
     }

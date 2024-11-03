@@ -166,13 +166,13 @@ public class Tournament : AggregateRoot<TournamentId>
     /// <summary>
     /// Регистрирует пару на турнир
     /// </summary>
-    /// <param name="coupleId"></param>
-    /// <param name="firstParticipantFullName"></param>
-    /// <param name="secondParticipantFullName"></param>
-    /// <param name="danceOrganizationName"></param>
-    /// <param name="firstTrainerFullName"></param>
-    /// <param name="secondTrainerFullName"></param>
-    /// <param name="categoriesIds"></param>
+    /// <param name="coupleId">Идентификатор пары</param>
+    /// <param name="firstParticipantFullName">Полное имя первого участика пары</param>
+    /// <param name="secondParticipantFullName">Полное имя второго участика пар</param>
+    /// <param name="danceOrganizationName">Название танцевальной организации пыры</param>
+    /// <param name="firstTrainerFullName">Полное имя первого тренера пары</param>
+    /// <param name="secondTrainerFullName">Полное имя второго тренера пары</param>
+    /// <param name="categoriesIds">Список идентификаторов категорий, в которые регистрируется пара</param>
     /// <returns></returns>
     public Result RegisterCouple(
         CoupleId coupleId,
@@ -183,6 +183,11 @@ public class Tournament : AggregateRoot<TournamentId>
         CoupleTrainerFullName? secondTrainerFullName,
         IReadOnlyCollection<CategoryId> categoriesIds)
     {
+        if (State is not TournamentState.RegistrationInProgress)
+        {
+            return new TournamentShouldBeInStatusError(TournamentState.RegistrationInProgress);
+        }
+        
         if (_couples.Any(couple => couple.Id == coupleId))
         {
             return new CoupleAlreadyRegisteredForTournamentError();

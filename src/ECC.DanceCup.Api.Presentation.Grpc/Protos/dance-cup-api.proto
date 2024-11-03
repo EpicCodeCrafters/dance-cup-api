@@ -32,7 +32,7 @@ message Dance {
 }
 
 message GetRefereesRequest {
-    google.protobuf.StringValue referee_full_name = 1;
+    google.protobuf.StringValue full_name = 1;
     int32 page_number = 2;
     int32 page_size = 3;
 }

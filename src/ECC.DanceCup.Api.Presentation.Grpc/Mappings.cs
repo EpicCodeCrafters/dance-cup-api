@@ -23,7 +23,7 @@ internal static class Mappings
 
     public static GetRefereesUseCase.Query ToInternal(this GetRefereesRequest request)
     {
-        return new GetRefereesUseCase.Query(request.RefereeFullName is null ? null : RefereeFullName.From(request.RefereeFullName).AsRequired(), request.PageNumber ,request.PageSize);
+        return new GetRefereesUseCase.Query(request.FullName is null ? null : RefereeFullName.From(request.FullName).AsRequired(), request.PageNumber, request.PageSize);
     }
 
     public static GetDancesResponse ToGrpc(this GetDancesUseCase.QueryResponse response)

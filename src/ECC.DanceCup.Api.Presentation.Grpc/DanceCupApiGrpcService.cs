@@ -82,5 +82,4 @@ public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
 
         return new ReopenTournamentRegistrationResponse();
     }
-
 }

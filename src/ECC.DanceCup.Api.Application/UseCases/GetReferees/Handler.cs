@@ -17,7 +17,7 @@ public static partial class GetRefereesUseCase
 
         public async Task<Result<QueryResponse>> Handle(Query query, CancellationToken cancellationToken)
         {
-            var referees = await _refereeViewRepository.FindAllAsync(query.RefereeFullName, query.PageNumber,query.PageSize, cancellationToken);
+            var referees = await _refereeViewRepository.FindAllAsync(query.RefereeFullName, query.PageNumber, query.PageSize, cancellationToken);
 
             return new QueryResponse(referees);
         }

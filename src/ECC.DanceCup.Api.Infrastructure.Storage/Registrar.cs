@@ -24,6 +24,8 @@ public static class Registrar
 
         services.AddScoped<IDanceViewRepository, DanceViewRepository>();
 
+        services.AddScoped<IRefereeViewRepository, RefereeViewRepository>();
+
         services.AddTransient<IPostgresConnectionFactory, PostgresConnectionFactory>();
 
         services.Configure<StorageOptions>(configuration.GetSection("StorageOptions"));

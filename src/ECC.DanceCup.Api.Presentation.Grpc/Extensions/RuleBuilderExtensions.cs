@@ -4,6 +4,7 @@ using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using FluentValidation;
 using Google.Protobuf.WellKnownTypes;
+using System.Runtime.CompilerServices;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc.Extensions;
 
@@ -36,15 +37,27 @@ internal static class RuleBuilderExtensions
         return ruleBuilder;
     }
     
-    public static IRuleBuilder<TProperty, string> IsValidRefereeFullName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
+    public static IRuleBuilderOptions<TProperty, string> IsValidRefereeFullName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
     {
-        ruleBuilder
+        return ruleBuilder
             .Must(value => RefereeFullName.From(value) is not null)
             .WithMessage("Необходимо передать корректое полное имя судьи");
-
-        return ruleBuilder;
     }
     
+    public static IRuleBuilder<TProperty, int> IsValidPageNumber<TProperty>(this IRuleBuilder<TProperty, int> ruleBuilder)
+    {
+        return ruleBuilder
+            .GreaterThan(0)
+            .WithMessage("Необходимо передать корректный номер страницы");
+    }
+
+    public static IRuleBuilder<TProperty, int> IsValidPageSize<TProperty>(this IRuleBuilder<TProperty, int> ruleBuilder)
+    {
+        return ruleBuilder
+            .GreaterThan(0)
+            .WithMessage("Необходимо передать корректный размер страницы");
+    }
+
     public static IRuleBuilder<TProperty, long> IsValidTournamentId<TProperty>(this IRuleBuilder<TProperty, long> ruleBuilder)
     {
         ruleBuilder

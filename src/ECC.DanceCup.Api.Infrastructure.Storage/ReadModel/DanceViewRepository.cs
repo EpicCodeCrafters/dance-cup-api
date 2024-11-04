@@ -28,7 +28,7 @@ public class DanceViewRepository : IDanceViewRepository
               from "dances" as d;
             """;
         
-        var dances = await connection.QueryAsync<DanceView>(sqlCommand, cancellationToken);
+        var dances = await connection.QueryAsync<DanceView>(sqlCommand);
 
         return dances.ToArray();
     }

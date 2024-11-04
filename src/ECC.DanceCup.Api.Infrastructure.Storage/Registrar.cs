@@ -19,6 +19,8 @@ public static class Registrar
         
         services.AddScoped<IDanceViewRepository, DanceViewRepository>();
 
+        services.AddScoped<IRefereeViewRepository, RefereeViewRepository>();
+
         services.Configure<StorageOptions>(configuration.GetSection("StorageOptions"));
         
         Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;

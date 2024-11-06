@@ -3,20 +3,23 @@ using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Infrastructure.Storage.Options;
+using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 using Microsoft.Extensions.Options;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
 
-public class RefereeViewRepository : PostgresRepository, IRefereeViewRepository
+public class RefereeViewRepository : IRefereeViewRepository
 {
-    public RefereeViewRepository(IOptions<StorageOptions> storageOptions)
-    : base(storageOptions)
+    private readonly IPostgresConnectionFactory _postgresConnectionFactory;
+
+    public RefereeViewRepository(IPostgresConnectionFactory postgresConnectionFactory)
     {
+        _postgresConnectionFactory = postgresConnectionFactory;
     }
 
     public async Task<IReadOnlyCollection<RefereeView>> FindAllAsync(RefereeFullName? refereeFullName, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        await using var connection = await GetConnectionAsync();
+        await using var connection = await _postgresConnectionFactory.CreateAsync();
 
         const string sqlCommand =
             """

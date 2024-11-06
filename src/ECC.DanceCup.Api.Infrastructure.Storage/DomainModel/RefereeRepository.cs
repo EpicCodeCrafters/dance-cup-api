@@ -3,21 +3,24 @@ using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Mappings;
 using ECC.DanceCup.Api.Infrastructure.Storage.Options;
+using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 using ECC.DanceCup.Api.Utils.Extensions;
 using Microsoft.Extensions.Options;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.DomainModel;
 
-public class RefereeRepository : PostgresRepository, IRefereeRepository
+public class RefereeRepository : IRefereeRepository
 {
-    public RefereeRepository(IOptions<StorageOptions> storageOptions)
-        : base(storageOptions)
+    private readonly IPostgresConnectionFactory _connectionFactory;
+
+    public RefereeRepository(IPostgresConnectionFactory connectionFactory)
     {
+        _connectionFactory = connectionFactory;
     }
-    
+
     public async Task<RefereeId> AddAsync(Referee referee, CancellationToken cancellationToken)
     {
-        await using var connection = await GetConnectionAsync();
+        await using var connection = await _connectionFactory.CreateAsync();
 
         const string sqlCommand =
             """

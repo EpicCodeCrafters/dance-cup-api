@@ -4,6 +4,7 @@ using ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 using ECC.DanceCup.Api.Application.UseCases.GetDances;
 using ECC.DanceCup.Api.Application.UseCases.StartTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.FinishTournamentRegistration;
+using ECC.DanceCup.Api.Application.UseCases.RegisterCoupleForTournament;
 using ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.GetReferees;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
@@ -116,13 +117,26 @@ internal static class Mappings
     {
         return new FinishTournamentRegistrationUseCase.Command(
             TournamentId: TournamentId.From(request.TournamentId).AsRequired()
-         );
+        );
     }
 
     public static ReopenTournamentRegistrationUseCase.Command ToInternal(this ReopenTournamentRegistrationRequest request)
     {
         return new ReopenTournamentRegistrationUseCase.Command(
             TournamentId: TournamentId.From(request.TournamentId).AsRequired()
-         );
+        );
+    }
+
+    public static RegisterCoupleForTournamentUseCase.Command ToInternal(this RegisterCoupleForTournamentRequest request)
+    {
+        return new RegisterCoupleForTournamentUseCase.Command(
+            TournamentId: TournamentId.From(request.TournamentId).AsRequired(),
+            FirstParticipantFullName: CoupleParticipantFullName.From(request.FirstParticipantFullName).AsRequired(),
+            SecondParticipantFullName: request.SecondParticipantFullName is null ? null : CoupleParticipantFullName.From(request.SecondParticipantFullName).AsRequired(),
+            DanceOrganizationName: request.DanceOrganizationName is null ? null : CoupleDanceOrganizationName.From(request.DanceOrganizationName).AsRequired(),
+            FirstTrainerFullName: request.FirstTrainerFullName is null ? null : CoupleTrainerFullName.From(request.FirstTrainerFullName).AsRequired(),
+            SecondTrainerFullName: request.SecondTrainerFullName is null ? null : CoupleTrainerFullName.From(request.SecondTrainerFullName).AsRequired(),
+            CategoriesIds: request.CategoriesIds.Select(categoryId => CategoryId.From(categoryId).AsRequired()).ToArray()
+        );
     }
 }

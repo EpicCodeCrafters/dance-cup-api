@@ -26,7 +26,8 @@ public class TournamentFactory : ITournamentFactory
                     tournamentId: TournamentId.Empty,
                     name: createCategoryModel.Name,
                     dancesIds: createCategoryModel.DancesIds.ToList(),
-                    refereesIds: createCategoryModel.RefereesIds.ToList()
+                    refereesIds: createCategoryModel.RefereesIds.ToList(),
+                    couplesIds: []
                 )
             ).ToList();
 
@@ -44,7 +45,8 @@ public class TournamentFactory : ITournamentFactory
             registrationFinishedAt: null,
             startedAt: null,
             finishedAt: null,
-            categories: categories
+            categories: categories,
+            couples: []
         );
         
         return tournament;

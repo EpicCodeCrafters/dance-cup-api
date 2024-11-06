@@ -55,5 +55,21 @@ public class DomainCustomization : ICustomization
         fixture.Customize<CategoryName>(composer =>
             composer.FromFactory(() => CategoryName.From(fixture.Create<string>()).AsRequired())
         );
+        
+        fixture.Customize<CoupleId>(composer =>
+            composer.FromFactory(() => CoupleId.From(fixture.Create<long>()).AsRequired())
+        );
+        
+        fixture.Customize<CoupleParticipantFullName>(composer =>
+            composer.FromFactory(() => CoupleParticipantFullName.From(fixture.Create<string>()).AsRequired())
+        );
+        
+        fixture.Customize<CoupleDanceOrganizationName>(composer =>
+            composer.FromFactory(() => CoupleDanceOrganizationName.From(fixture.Create<string>()).AsRequired())
+        );
+        
+        fixture.Customize<CoupleTrainerFullName>(composer =>
+            composer.FromFactory(() => CoupleTrainerFullName.From(fixture.Create<string>()).AsRequired())
+        );
     }
 }

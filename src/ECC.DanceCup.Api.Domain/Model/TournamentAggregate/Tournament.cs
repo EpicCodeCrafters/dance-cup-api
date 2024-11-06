@@ -1,5 +1,5 @@
 ﻿using ECC.DanceCup.Api.Domain.Core;
-using ECC.DanceCup.Api.Domain.Error;
+using ECC.DanceCup.Api.Domain.Errors;
 using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using FluentResults;
 
@@ -11,6 +11,7 @@ namespace ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 public class Tournament : AggregateRoot<TournamentId>
 {
     private readonly List<Category> _categories;
+    private readonly List<Couple> _couples;
     
     public Tournament(
         TournamentId id, 
@@ -26,7 +27,8 @@ public class Tournament : AggregateRoot<TournamentId>
         DateTime? registrationFinishedAt,
         DateTime? startedAt,
         DateTime? finishedAt,
-        List<Category> categories
+        List<Category> categories,
+        List<Couple> couples
     ) : base(id, version, createdAt, changedAt)
     {
         UserId = userId;
@@ -39,6 +41,7 @@ public class Tournament : AggregateRoot<TournamentId>
         StartedAt = startedAt;
         FinishedAt = finishedAt;
         _categories = categories;
+        _couples = couples;
     }
     
     /// <summary>
@@ -97,6 +100,16 @@ public class Tournament : AggregateRoot<TournamentId>
     public int CategoriesCount => _categories.Count;
 
     /// <summary>
+    /// Список пар, участвующих в турнире
+    /// </summary>
+    public IReadOnlyCollection<Couple> Couples => _couples;
+
+    /// <summary>
+    /// Количество пар, участвующих в турнире
+    /// </summary>
+    public int CouplesCount => _couples.Count;
+
+    /// <summary>
     /// Начинает процесс регистрации на турнир
     /// </summary>
     /// <returns></returns>
@@ -104,7 +117,7 @@ public class Tournament : AggregateRoot<TournamentId>
     {
         if (State is not TournamentState.Created)
         {
-            return new TournamentShouldBeInStatusError(Id, TournamentState.Created);
+            return new TournamentShouldBeInStatusError(TournamentState.Created);
         }
 
         State = TournamentState.RegistrationInProgress;
@@ -122,7 +135,7 @@ public class Tournament : AggregateRoot<TournamentId>
     {
         if (State is not TournamentState.RegistrationInProgress)
         {
-            return new TournamentShouldBeInStatusError(Id, TournamentState.RegistrationInProgress);
+            return new TournamentShouldBeInStatusError(TournamentState.RegistrationInProgress);
         }
 
         State = TournamentState.RegistrationFinished;
@@ -140,11 +153,83 @@ public class Tournament : AggregateRoot<TournamentId>
     {
         if (State is not TournamentState.RegistrationFinished)
         {
-            return new TournamentShouldBeInStatusError(Id, TournamentState.RegistrationFinished);
+            return new TournamentShouldBeInStatusError(TournamentState.RegistrationFinished);
         }
 
         State = TournamentState.RegistrationInProgress;
         RegistrationFinishedAt = null;
+        RegisterChange();
+        
+        return Result.Ok();
+    }
+
+    /// <summary>
+    /// Регистрирует пару на турнир
+    /// </summary>
+    /// <param name="coupleId">Идентификатор пары</param>
+    /// <param name="firstParticipantFullName">Полное имя первого участика пары</param>
+    /// <param name="secondParticipantFullName">Полное имя второго участика пар</param>
+    /// <param name="danceOrganizationName">Название танцевальной организации пыры</param>
+    /// <param name="firstTrainerFullName">Полное имя первого тренера пары</param>
+    /// <param name="secondTrainerFullName">Полное имя второго тренера пары</param>
+    /// <param name="categoriesIds">Список идентификаторов категорий, в которые регистрируется пара</param>
+    /// <returns></returns>
+    public Result RegisterCouple(
+        CoupleId coupleId,
+        CoupleParticipantFullName firstParticipantFullName,
+        CoupleParticipantFullName? secondParticipantFullName, 
+        CoupleDanceOrganizationName? danceOrganizationName, 
+        CoupleTrainerFullName? firstTrainerFullName, 
+        CoupleTrainerFullName? secondTrainerFullName,
+        IReadOnlyCollection<CategoryId> categoriesIds)
+    {
+        if (State is not TournamentState.RegistrationInProgress)
+        {
+            return new TournamentShouldBeInStatusError(TournamentState.RegistrationInProgress);
+        }
+        
+        if (_couples.Any(couple => couple.Id == coupleId))
+        {
+            return new CoupleAlreadyRegisteredForTournamentError();
+        }
+
+        if (categoriesIds.Count == 0)
+        {
+            return new CoupleCategoriesShouldNotBeEmptyError();
+        }
+        
+        var categories = _categories
+            .Where(category => categoriesIds.Contains(category.Id))
+            .ToArray();
+
+        var notFoundCategoriesIds = categoriesIds
+            .Except(categories.Select(category => category.Id))
+            .ToArray();
+        if (notFoundCategoriesIds.Length != 0)
+        {
+            return new CategoriesNotFountError(notFoundCategoriesIds);
+        }
+
+        foreach (var category in categories)
+        {
+            var registerCoupleInCategoryResult = category.RegisterCouple(coupleId);
+            if (registerCoupleInCategoryResult.IsFailed)
+            {
+                return registerCoupleInCategoryResult;
+            }
+        }
+
+        var couple = new Couple(
+            id: coupleId,
+            tournamentId: Id,
+            firstParticipantFullName: firstParticipantFullName,
+            secondParticipantFullName: secondParticipantFullName,
+            danceOrganizationName: danceOrganizationName,
+            firstTrainerFullName: firstTrainerFullName,
+            secondTrainerFullName: secondTrainerFullName
+        );
+        _couples.Add(couple);
+        
         RegisterChange();
         
         return Result.Ok();

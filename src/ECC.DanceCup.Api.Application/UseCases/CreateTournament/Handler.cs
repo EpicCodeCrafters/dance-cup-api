@@ -27,7 +27,7 @@ public static partial class CreateTournamentUseCase
             }
 
             var tournament = createTournamentResult.Value;
-            var tournamentId = await _tournamentRepository.AddAsync(tournament, cancellationToken);
+            var tournamentId = await _tournamentRepository.InsertAsync(tournament, cancellationToken);
 
             return new CommandResponse(tournamentId);
         }

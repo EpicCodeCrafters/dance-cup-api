@@ -16,11 +16,11 @@ public class Add_Tournaments : SqlMigration
             "name" text not null,
             "description" text,
             "date" timestamp not null,
-            "state" int not null,
-            "registration_started_at" timestamp,
-            "registration_finished_at" timestamp,
-            "started_at" timestamp,
-            "finished_at" timestamp
+            "state" text not null,
+            "registration_started_at" timestamp null,
+            "registration_finished_at" timestamp null,
+            "started_at" timestamp null,
+            "finished_at" timestamp null
         );
         """;
 

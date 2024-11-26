@@ -27,7 +27,5 @@ public class CoupleIdProvider : ICoupleIdProvider
         var coupleId = await connection.QuerySingleAsync<long>(sqlCommand, cancellationToken);
         
         return CoupleId.From(coupleId).AsRequired();
-
-        return CoupleId.From(Random.Shared.NextInt64()).AsRequired();
     }
 }

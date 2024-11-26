@@ -6,7 +6,6 @@ namespace ECC.DanceCup.Api.Infrastructure.Storage.Migrations;
 public class Add_Referees : SqlMigration
 {
     protected override string? UpSqlCommand =>
-        // language=SQL
         """
         create table "referees" (
             "id" bigserial primary key,
@@ -18,7 +17,6 @@ public class Add_Referees : SqlMigration
         """;
 
     protected override string? DownSqlCommand =>
-        // language=SQL
         """
         drop table "referees";
         """;

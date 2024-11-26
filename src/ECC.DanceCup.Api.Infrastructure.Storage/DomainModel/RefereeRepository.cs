@@ -2,10 +2,8 @@
 using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Mappings;
-using ECC.DanceCup.Api.Infrastructure.Storage.Options;
 using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 using ECC.DanceCup.Api.Utils.Extensions;
-using Microsoft.Extensions.Options;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.DomainModel;
 

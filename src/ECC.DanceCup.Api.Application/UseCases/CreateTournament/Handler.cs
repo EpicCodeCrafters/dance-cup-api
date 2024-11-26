@@ -1,4 +1,6 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
+using ECC.DanceCup.Api.Domain.Errors;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using ECC.DanceCup.Api.Domain.Services;
 using FluentResults;
 using MediatR;
@@ -27,7 +29,7 @@ public static partial class CreateTournamentUseCase
             }
 
             var tournament = createTournamentResult.Value;
-            var tournamentId = await _tournamentRepository.InsertAsync(tournament, cancellationToken);
+            var tournamentId = await _tournamentRepository.InsertAsync(tournament, catigories, cancellationToken);
 
             return new CommandResponse(tournamentId);
         }

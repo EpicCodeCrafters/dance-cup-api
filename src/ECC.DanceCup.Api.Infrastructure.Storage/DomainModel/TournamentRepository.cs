@@ -17,27 +17,27 @@ public class TournamentRepository : ITournamentRepository
         _connectionFactory = connectionFactory;
     }
 
-    public async Task<TournamentId> InsertAsync(Tournament? tournament, List<Category>? categories, CancellationToken cancellationToken)
+    public async Task<TournamentId> InsertAsync(Tournament tournament, CancellationToken cancellationToken)
     {
         await using var connection = await _connectionFactory.CreateAsync();
         await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
-
+        
         const string sqlCommandTournament =
             """
             insert into "tournaments" (
-            "id",
-            "version",
-            "created_at",
-            "changed_at",
-            "user_id",
-            "name",
-            "description",
-            "date",
-            "state",
-            "registration_started_at",
-            "registration_finished_at",
-            "started_at",
-            "finished_at")
+                "id",
+                "version",
+                "created_at",
+                "changed_at",
+                "user_id",
+                "name",
+                "description",
+                "date",
+                "state",
+                "registration_started_at",
+                "registration_finished_at",
+                "started_at",
+                "finished_at")
             values (
                 @id,
                 @version,
@@ -58,24 +58,22 @@ public class TournamentRepository : ITournamentRepository
 
         var tournamentId = await connection.QuerySingleAsync<long>(sqlCommandTournament, tournament.ToDbo());
         
-        foreach (var category in categories ?? new List<Category>())
-        {
-            const string SqlCommandCatrgories =
-                """
-                insert into "categories" (
+        const string SqlCommandCatrgories =
+            """
+            insert into "categories" (
                 "id",
                 "tournament_id",
                 "name")
-                values (
-                    @id,
-                    @tournamentId,
-                    @name
-                )
-                returning "id";
-                """;
+            values (
+                @Id,
+                @TournamentId,
+                @Name
+            )
+            returning "id";
+            """;
+            //bulk insert
 
-            var categoryId = await connection.QuerySingleAsync(SqlCommandCatrgories, category.ToDbo());
-        }
+        var categoryId = await connection.QueryAsync(SqlCommandCatrgories, tournament.Categories.Select(x => x.ToDbo()));
 
         await transaction.CommitAsync(cancellationToken);
 
@@ -89,17 +87,17 @@ public class TournamentRepository : ITournamentRepository
         const string sqlCommand =
             """
             update "tournaments" set
-            "version" = @version,
-            "changed_at" = @changed_at,
-            "user_id" = @user_id,
-            "name" = @name,
-            "description" = @description,
-            "date" = @date,
-            "state" = @state,
-            "registration_started_at" = @registration_started_at,
-            "registration_finished_at" = @registration_finished_at,
-            "started_at" = @started_at,
-            "finished_at" = @finished_at
+                "version" = @version,
+                "changed_at" = @changed_at,
+                "user_id" = @user_id,
+                "name" = @name,
+                "description" = @description,
+                "date" = @date,
+                "state" = @state,
+                "registration_started_at" = @registration_started_at,
+                "registration_finished_at" = @registration_finished_at,
+                "started_at" = @started_at,
+                "finished_at" = @finished_at
             where "id" = @id;
             """;
 
@@ -114,28 +112,29 @@ public class TournamentRepository : ITournamentRepository
         const string sqlCommand =
             """
             select 
-            "id",
-            "version",
-            "created_at",
-            "changed_at",
-            "user_id",
-            "name",
-            "description",
-            "date",
-            "state",
-            "registration_started_at",
-            "registration_finished_at",
-            "started_at",
-            "finished_at"
+                "id",
+                "version",
+                "created_at",
+                "changed_at",
+                "user_id",
+                "name",
+                "description",
+                "date",
+                "state",
+                "registration_started_at",
+                "registration_finished_at",
+                "started_at",
+                "finished_at"
             from "tournaments"
             where "id" = @id;
             """;
 
-        var tournamentDbo =
-            await connection.QuerySingleOrDefaultAsync<TournamentDbo>(sqlCommand, new { id = tournamentId.Value });
+        var tournamentDbo = await connection.QuerySingleOrDefaultAsync<TournamentDbo>(sqlCommand, new { id = tournamentId.Value });
 
         await transaction.CommitAsync(cancellationToken);
 
-        return tournamentDbo?.ToDomain();
+        throw new NotImplementedException();
+
+        //return tournamentDbo?.ToDomain();
     }
 }

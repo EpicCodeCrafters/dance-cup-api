@@ -8,17 +8,17 @@ public class Add_Couples : SqlMigration
 {
     protected override string? UpSqlCommand =>
         """
-        CREATE SEQUENCE couples_ids_seq;
-        
         create table "couples"(
-        "id" bigserial primary key,
-        "tournament_id" bigint not null,
-        "first_participant_full_name" text not null,
-        "second_participant_full_name" text null,
-        "dance_organization_name" text null,
-        "first_trainer_full_name" text null,
-        "second_trainer_full_name" text null
+            "id" bigserial primary key,
+            "tournament_id" bigint not null,
+            "first_participant_full_name" text not null,
+            "second_participant_full_name" text null,
+            "dance_organization_name" text null,
+            "first_trainer_full_name" text null,
+            "second_trainer_full_name" text null
         );
+        
+        create sequence "couples_ids_seq";
         """;
 
     protected override string? DownSqlCommand =>

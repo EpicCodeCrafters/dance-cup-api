@@ -1,3 +1,7 @@
+using System.Runtime.CompilerServices;
+using ECC.DanceCup.Api.Domain.Core;
+using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
+using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Dbo;
@@ -36,20 +40,39 @@ internal static class TournamentMapping
             Name = category.Name.Value
         };
     }
-    public static Tournament ToDomain(this TournamentDbo dbo)
+    public static Tournament ToDomain(this TournamentDbo dbo, IEnumerable<CategoryDbo> _categories, IEnumerable<CoupleDbo> _couples)
     {
         return new Tournament(
-        UserId.From(dbo.UserId).AsRequired(),
-        TournamentName.From(dbo.Name).AsRequired(),
-        TournamentDescription.From(dbo.Description).AsRequired(),
-        TournamentDate.From(dbo.Date).AsRequired(),
-        Enum.Parse<TournamentState>(dbo.State),
-        dbo.RegistrationStartedAt,
-        dbo.RegistrationFinishedAt,
-        dbo.StartedAt,
-        dbo.FinishedAt,
-        // _categories.AsRequired(),
-        // _couples.AsRequired()
+            id: TournamentId.From(dbo.Id).AsRequired(),
+            version: AggregateVersion.From(dbo.Version).AsRequired(), 
+            createdAt: dbo.CreatedAt,
+            changedAt: dbo.ChangedAt,
+            userId: UserId.From(dbo.UserId).AsRequired(),
+            name: TournamentName.From(dbo.Name).AsRequired(),
+            description: TournamentDescription.From(dbo.Description).AsRequired(),
+            date: TournamentDate.From(dbo.Date).AsRequired(),
+            state: Enum.TryParse<TournamentState>(dbo.State, out var state) ? state : throw new ArgumentException("Недопустимое состояние турнира"),
+            registrationStartedAt: dbo.RegistrationStartedAt,
+            registrationFinishedAt: dbo.RegistrationFinishedAt,
+            startedAt: dbo.StartedAt,
+            finishedAt: dbo.FinishedAt,
+            categories: _categories.Select(c => new Category(
+                id: CategoryId.From(c.Id).AsRequired(),
+                tournamentId: TournamentId.From(c.TournamentId).AsRequired(),
+                name: CategoryName.From(c.Name).AsRequired(),
+                dancesIds: new List<DanceId>(), 
+                refereesIds: new List<RefereeId>(),
+                couplesIds: new List<CoupleId>() 
+            )).ToList().AsRequired(),
+            couples: _couples.Select(c => new Couple(
+                id: CoupleId.From(c.Id).AsRequired(),
+                tournamentId: TournamentId.From(c.TournamentId).AsRequired(),
+                firstParticipantFullName: CoupleParticipantFullName.From(c.FirstParticipantFullName).AsRequired(),
+                secondParticipantFullName: c.SecondParticipantFullName != null ? CoupleParticipantFullName.From(c.SecondParticipantFullName) : null,
+                danceOrganizationName: c.DanceOrganizationName != null ? CoupleDanceOrganizationName.From(c.DanceOrganizationName) : null,
+                firstTrainerFullName: c.FirstTrainerFullName != null ? CoupleTrainerFullName.From(c.FirstTrainerFullName) : null,
+                secondTrainerFullName: c.SecondTrainerFullName != null ? CoupleTrainerFullName.From(c.SecondTrainerFullName) : null
+            )).ToList().AsRequired()
         );
     }
 }

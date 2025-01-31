@@ -96,18 +96,18 @@ public class TournamentRepository : ITournamentRepository
         const string sqlCommand =
             """
             update "tournaments" set
-                "version" = @version,
-                "changed_at" = @changed_at,
-                "user_id" = @user_id,
-                "name" = @name,
-                "description" = @description,
-                "date" = @date,
-                "state" = @state,
-                "registration_started_at" = @registration_started_at,
-                "registration_finished_at" = @registration_finished_at,
-                "started_at" = @started_at,
-                "finished_at" = @finished_at
-            where "id" = @id;
+                "version" = @Version,
+                "changed_at" = @Changed_at,
+                "user_id" = @User_id,
+                "name" = @Name,
+                "description" = @Description,
+                "date" = @Date,
+                "state" = @State,
+                "registration_started_at" = @Registration_started_at,
+                "registration_finished_at" = @Registration_finished_at,
+                "started_at" = @Started_at,
+                "finished_at" = @Finished_at
+            where "id" = @Id;
             """;
 
         await connection.ExecuteAsync(sqlCommand, tournament.ToDbo());
@@ -135,7 +135,7 @@ public class TournamentRepository : ITournamentRepository
                 "started_at",
                 "finished_at"
             from "tournaments"
-            where "id" = @id;
+            where "id" = @Id;
             """;
 
         var tournamentDbo = await connection.QuerySingleOrDefaultAsync<TournamentDbo>(sqlCommand, new { id = tournamentId.Value });

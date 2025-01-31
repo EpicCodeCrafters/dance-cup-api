@@ -4,7 +4,7 @@ namespace ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
 
 public interface ITournamentRepository
 {
-    Task<TournamentId> InsertAsync(Tournament tournament, List<Category> catigories, CancellationToken cancellationToken);
+    Task<TournamentId> InsertAsync(Tournament tournament, CancellationToken cancellationToken);
 
     Task UpdateAsync(Tournament tournament, CancellationToken cancellationToken);
     

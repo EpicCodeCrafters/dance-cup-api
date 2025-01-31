@@ -5,6 +5,8 @@ using ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Dbo;
 using ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Mappings;
 using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 using ECC.DanceCup.Api.Utils.Extensions;
+using Npgsql;
+using NpgsqlTypes;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.DomainModel;
 
@@ -39,41 +41,48 @@ public class TournamentRepository : ITournamentRepository
                 "started_at",
                 "finished_at")
             values (
-                @id,
-                @version,
-                @created_at,
-                @changed_at,
-                @user_id,
-                @name,
-                @description,
-                @date,
-                @state,
-                @registration_started_at,
-                @registration_finished_at,
-                @started_at,
-                @finished_at
+                @Id,
+                @Version,
+                @Created_at,
+                @Changed_at,
+                @User_id,
+                @Name,
+                @Description,
+                @Date,
+                @State,
+                @Registration_started_at,
+                @Registration_finished_at,
+                @Started_at,
+                @Finished_at
             )
-            returning "id";
+            returning "Id";
             """;
 
         var tournamentId = await connection.QuerySingleAsync<long>(sqlCommandTournament, tournament.ToDbo());
         
-        const string SqlCommandCatrgories =
+        const string sqlCommandCategories =
             """
-            insert into "categories" (
-                "id",
-                "tournament_id",
-                "name")
-            values (
-                @Id,
-                @TournamentId,
-                @Name
-            )
-            returning "id";
+            insert into "categories" ("id", "tournament_id", "name")
+            select * from unnest(@Id, @TournamentId, @Name);
             """;
-            //bulk insert
 
-        var categoryId = await connection.QueryAsync(SqlCommandCatrgories, tournament.Categories.Select(x => x.ToDbo()));
+        var idsParameter = new NpgsqlParameter<long[]>("Id", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        var tournamentIdsParameter = new NpgsqlParameter<long[]>("TournamentId", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        var namesParameter = new NpgsqlParameter<string[]>("Name", NpgsqlDbType.Text | NpgsqlDbType.Array);
+
+        var categoriesDbos = tournament.Categories.Select(x => x.ToDbo()).ToArray();
+        
+        idsParameter.TypedValue = categoriesDbos.Select(x => x.Id).ToArray();
+        tournamentIdsParameter.TypedValue = categoriesDbos.Select(x => x.TournamentId).ToArray();
+        namesParameter.TypedValue = categoriesDbos.Select(x => x.Name).ToArray();
+        
+        var command = connection.CreateCommand();
+        command.CommandText = sqlCommandCategories;
+        command.Parameters.Add(idsParameter);
+        command.Parameters.Add(tournamentIdsParameter);
+        command.Parameters.Add(namesParameter);
+
+        await command.ExecuteNonQueryAsync(cancellationToken);
 
         await transaction.CommitAsync(cancellationToken);
 

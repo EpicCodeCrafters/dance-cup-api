@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using ECC.DanceCup.Api.Domain.Core;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
@@ -30,16 +29,7 @@ internal static class TournamentMapping
             FinishedAt = tournament.FinishedAt
         };
     }
-
-    public static CategoryDbo ToDbo(this Category category)
-    {
-        return new CategoryDbo
-        {
-            Id = category.Id.Value,
-            TournamentId = category.TournamentId.Value,
-            Name = category.Name.Value
-        };
-    }
+    
     public static Tournament ToDomain(this TournamentDbo dbo, IEnumerable<CategoryDbo> _categories, IEnumerable<CoupleDbo> _couples)
     {
         return new Tournament(
@@ -56,23 +46,8 @@ internal static class TournamentMapping
             registrationFinishedAt: dbo.RegistrationFinishedAt,
             startedAt: dbo.StartedAt,
             finishedAt: dbo.FinishedAt,
-            categories: _categories.Select(c => new Category(
-                id: CategoryId.From(c.Id).AsRequired(),
-                tournamentId: TournamentId.From(c.TournamentId).AsRequired(),
-                name: CategoryName.From(c.Name).AsRequired(),
-                dancesIds: new List<DanceId>(), 
-                refereesIds: new List<RefereeId>(),
-                couplesIds: new List<CoupleId>() 
-            )).ToList().AsRequired(),
-            couples: _couples.Select(c => new Couple(
-                id: CoupleId.From(c.Id).AsRequired(),
-                tournamentId: TournamentId.From(c.TournamentId).AsRequired(),
-                firstParticipantFullName: CoupleParticipantFullName.From(c.FirstParticipantFullName).AsRequired(),
-                secondParticipantFullName: c.SecondParticipantFullName != null ? CoupleParticipantFullName.From(c.SecondParticipantFullName) : null,
-                danceOrganizationName: c.DanceOrganizationName != null ? CoupleDanceOrganizationName.From(c.DanceOrganizationName) : null,
-                firstTrainerFullName: c.FirstTrainerFullName != null ? CoupleTrainerFullName.From(c.FirstTrainerFullName) : null,
-                secondTrainerFullName: c.SecondTrainerFullName != null ? CoupleTrainerFullName.From(c.SecondTrainerFullName) : null
-            )).ToList().AsRequired()
+            categories: _categories.ToCategoryList(),
+            couples: _couples.ToCoupleList()
         );
     }
 }

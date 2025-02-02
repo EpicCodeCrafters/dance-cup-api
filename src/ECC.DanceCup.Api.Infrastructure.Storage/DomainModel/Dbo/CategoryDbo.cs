@@ -4,7 +4,7 @@ internal class CategoryDbo
 {
     public long Id { get; set; }
     
-    public required long TournamentId { get; set; }
+    public long TournamentId { get; set; }
     
-    public required string Name{ get; set; }
+    public string Name { get; set; } = string.Empty;
 }

@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   dance-cup-api-db:
     container_name: dance-cup-api-db

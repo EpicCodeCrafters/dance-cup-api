@@ -9,7 +9,7 @@ public class Add_Category_Referee : SqlMigration
     protected override string? UpSqlCommand =>
         """
         create table "categories_referees" (
-            "id" bigint primary key,
+            "id" bigserial primary key,
             "category_id" bigint not null,
             "referee_id" bigint not null
         );

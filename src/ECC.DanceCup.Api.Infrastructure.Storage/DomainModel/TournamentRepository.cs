@@ -24,7 +24,7 @@ public class TournamentRepository : ITournamentRepository
         await using var connection = await _connectionFactory.CreateAsync();
         await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
 
-        const string sqlCommandTournament =
+        const string sqlCommandSetTournament =
             """
             insert into "tournaments" (
                 "version",
@@ -56,9 +56,9 @@ public class TournamentRepository : ITournamentRepository
             returning "id";
             """;
 
-        var tournamentId = await connection.QuerySingleAsync<long>(sqlCommandTournament, tournament.ToDbo());
+        var tournamentId = await connection.QuerySingleAsync<long>(sqlCommandSetTournament, tournament.ToDbo());
 
-        const string sqlCommandCategories =
+        const string sqlCommandSetCategories =
             """
             insert into "categories" ("tournament_id", "name")
             select * from unnest(@TournamentId, @Name)
@@ -75,7 +75,7 @@ public class TournamentRepository : ITournamentRepository
         namesParameter.TypedValue = categoriesDbos.Select(x => x.Name).ToArray();
 
         var command = connection.CreateCommand();
-        command.CommandText = sqlCommandCategories;
+        command.CommandText = sqlCommandSetCategories;
         command.Parameters.Add(tournamentsIdsParameter);
         command.Parameters.Add(namesParameter);
 
@@ -89,7 +89,7 @@ public class TournamentRepository : ITournamentRepository
         
         reader.Dispose();
         
-        const string sqlCommandCouples =
+        const string sqlCommandSetCouples =
             """
             insert into "couples" ("tournament_id", "first_participant_full_name", "second_participant_full_name", "dance_organization_name", "first_trainer_full_name", "second_trainer_full_name")
             select * from unnest(@TournamentId, @FirstParticipantFullName, @SecondParticipantFullName, @DanceOrganizationName, @FirstTrainerFullName, @SecondTrainerFullName)
@@ -118,7 +118,7 @@ public class TournamentRepository : ITournamentRepository
         secondTrainersFullNamesParameter.TypedValue = couplesDbos.Select(x => x.SecondTrainerFullName).ToArray();
 
         command = connection.CreateCommand();
-        command.CommandText = sqlCommandCouples;
+        command.CommandText = sqlCommandSetCouples;
         command.Parameters.Add(tournamentsIdsParameter);
         command.Parameters.Add(firstParticipantsFullNamesParameter);
         command.Parameters.Add(secondParticipantsFullNamesParameter);
@@ -128,7 +128,7 @@ public class TournamentRepository : ITournamentRepository
 
         await command.ExecuteNonQueryAsync(cancellationToken);
 
-        const string sqlCommandCategoriesCouples =
+        const string sqlCommandSetCategoriesCouples =
             """
             insert into "categories_couples" ("category_id", "couple_id")
             select * from unnest(@CategoryId, @CoupleId);
@@ -146,13 +146,13 @@ public class TournamentRepository : ITournamentRepository
         coupleIdsParameter.TypedValue = categoriesCouples.Select(x => x.coupleId.Value).ToArray();
         
         command = connection.CreateCommand();
-        command.CommandText = sqlCommandCategoriesCouples;
+        command.CommandText = sqlCommandSetCategoriesCouples;
         command.Parameters.Add(categoryIdsParameter);
         command.Parameters.Add(coupleIdsParameter);
         
         await command.ExecuteNonQueryAsync(cancellationToken);
 
-        const string sqlCommandCategoryReferee =
+        const string sqlCommandSetCategoryReferee =
             """
             insert into "categories_referees" ("category_id", "referee_id")
             select * from unnest(@CategoryId, @RefereeId);
@@ -170,13 +170,13 @@ public class TournamentRepository : ITournamentRepository
         refereeIdsParameter.TypedValue = categoriesReferee.Select(x => x.refereeId.Value).ToArray();
         
         command = connection.CreateCommand();
-        command.CommandText = sqlCommandCategoryReferee;
+        command.CommandText = sqlCommandSetCategoryReferee;
         command.Parameters.Add(categoryIdsParameter);
         command.Parameters.Add(refereeIdsParameter);
         
         await command.ExecuteNonQueryAsync(cancellationToken);
 
-        const string sqlCommandCategoryDance =
+        const string sqlCommandSetCategoryDance =
             """
             insert into "categories_dances" ("category_id", "dance_id")
             select * from unnest(@CategoryId, @DanceId);
@@ -194,7 +194,7 @@ public class TournamentRepository : ITournamentRepository
         danceIdsParametr.TypedValue = categoriesDance.Select(x => x.danceId.Value).ToArray();
         
         command = connection.CreateCommand();
-        command.CommandText = sqlCommandCategoryDance;
+        command.CommandText = sqlCommandSetCategoryDance;
         command.Parameters.Add(categoryIdsParameter);
         command.Parameters.Add(danceIdsParametr);
         
@@ -234,7 +234,7 @@ public class TournamentRepository : ITournamentRepository
         await using var connection = await _connectionFactory.CreateAsync();
         await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
 
-        const string sqlCommand =
+        const string sqlCommandGetTournament =
             """
             select 
                 "id",
@@ -254,13 +254,37 @@ public class TournamentRepository : ITournamentRepository
             where "id" = @Id;
             """;
 
-        var tournamentDbo =
-            await connection.QuerySingleOrDefaultAsync<TournamentDbo>(sqlCommand, new { id = tournamentId.Value });
+        var tournamentDbo = await connection.QuerySingleOrDefaultAsync<TournamentDbo>(sqlCommandGetTournament, new { id = tournamentId.Value });
 
+        const string sqlCommandGetCategories =
+            """
+            select 
+                "id",
+                "tournament_id",
+                "name"
+            from "categories"
+            where "tournament_id" = @TournamentId;
+            """;
+        
+        var categories = await connection.QueryAsync<CategoryDbo>(sqlCommandGetCategories, new { TournamentId = tournamentId.Value });
+
+        const string sqlCommandGetCouples =
+            """
+            select
+                "tournament_id",
+                "first_participant_full_name","
+                second_participant_full_name",
+                "dance_organization_name",
+                "first_trainer_full_name",
+                "second_trainer_full_name"
+            from "couples"
+            where "tournament_id" = @TournamentId;
+            """;
+        
+        var couples = await connection.QueryAsync<CoupleDbo>(sqlCommandGetCouples, new { TournamentId = tournamentId.Value });
+        
         await transaction.CommitAsync(cancellationToken);
 
-        throw new NotImplementedException();
-
-        //return tournamentDbo?.ToDomain();
+        return tournamentDbo?.ToDomain(categories, couples);
     }
 }

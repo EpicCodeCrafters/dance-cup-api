@@ -20,7 +20,7 @@ internal static class CoupleMapping
         };
     }
     
-    public static List<Couple> ToCoupleList(this IEnumerable<CoupleDbo> couples)
+    public static List<Couple> ToDomain(this IEnumerable<CoupleDbo> couples)
     {
         return couples.Select(c => 
             new Couple(

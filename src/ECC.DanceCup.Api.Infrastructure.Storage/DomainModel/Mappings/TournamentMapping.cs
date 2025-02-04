@@ -46,8 +46,8 @@ internal static class TournamentMapping
             registrationFinishedAt: dbo.RegistrationFinishedAt,
             startedAt: dbo.StartedAt,
             finishedAt: dbo.FinishedAt,
-            categories: _categories.ToCategoryList(),
-            couples: _couples.ToCoupleList()
+            categories: _categories.ToDomain(),
+            couples: _couples.ToDomain()
         );
     }
 }

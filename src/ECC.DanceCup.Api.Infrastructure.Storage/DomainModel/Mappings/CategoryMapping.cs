@@ -17,8 +17,8 @@ internal static class CategoryMapping
             Name = category.Name.Value
         };
     }
-
-    public static List<Category> ToCategoryList(this IEnumerable<CategoryDbo> categories)
+    
+    public static List<Category> ToDomain(this IEnumerable<CategoryDbo> categories)
     {
         return categories.Select(c =>
             new Category(

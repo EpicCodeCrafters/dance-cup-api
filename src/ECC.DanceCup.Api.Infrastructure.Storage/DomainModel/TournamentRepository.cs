@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
+using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
+using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Dbo;
 using ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Mappings;
@@ -209,7 +211,7 @@ public class TournamentRepository : ITournamentRepository
     {
         await using var connection = await _connectionFactory.CreateAsync();
 
-        const string sqlCommand =
+        const string sqlCommandUpdateTournament =
             """
             update "tournaments" set
                 "version" = @Version,
@@ -226,7 +228,21 @@ public class TournamentRepository : ITournamentRepository
             where "id" = @Id;
             """;
 
-        await connection.ExecuteAsync(sqlCommand, tournament.ToDbo());
+        await connection.ExecuteAsync(sqlCommandUpdateTournament, tournament.ToDbo());
+
+        const string sqlCommandUpdateTournamentCategories =
+            """
+            UPDATE categories AS c
+            SET 
+                name = v.name
+            FROM (
+                SELECT * FROM unnest(
+                    @CategoryIds,         -- id
+                    @Names                -- name
+                ) AS v(id, name)
+            ) AS v
+            WHERE c.id = v.id;
+            """;
     }
 
     public async Task<Tournament?> FindByIdAsync(TournamentId tournamentId, CancellationToken cancellationToken)
@@ -282,9 +298,54 @@ public class TournamentRepository : ITournamentRepository
             """;
         
         var couples = await connection.QueryAsync<CoupleDbo>(sqlCommandGetCouples, new { TournamentId = tournamentId.Value });
+
+        const string sqlCommandGetCoupleIdsForCategories =
+            """
+            select
+                "category_id",
+                "couple_id"
+            from "categories_couples"
+            where "category_id" in @CategoryIds;
+            """;
+    
+        var coupleIdsForCategories = await connection.QueryAsync<(long CategoryId, long CoupleId)>(sqlCommandGetCoupleIdsForCategories, new { CategoryIds = categories.Select(c => c.Id) });
+
+        var coupleIdsGroupedByCategory = coupleIdsForCategories
+            .GroupBy(x => x.CategoryId)
+            .ToDictionary(g => g.Key, g => g.Select(x => CoupleId.From(x.CoupleId).AsRequired()).ToList());
+
+        const string sqlCommandGetReferencesIdsForCategories =
+            """
+            select 
+                "reference_id",
+                "category_id"
+            from "categories_referees"
+            where "category_id" in @CategoryIds;
+            """;
+        
+        var refereeIdsForCategories = await connection.QueryAsync<(long CategoryId, long RefereeId)>(sqlCommandGetReferencesIdsForCategories, new { CategoryIds = categories.Select(c => c.Id) });
+
+        var refereeIdsGroupedByCategory = refereeIdsForCategories
+            .GroupBy(x => x.CategoryId)
+            .ToDictionary(g => g.Key, g => g.Select(x => RefereeId.From(x.RefereeId).AsRequired()).ToList());
+
+        const string sqlCommandGetDancesIdsForCategories =
+            """
+            select
+                "dance_id",
+                "category_id"
+            from "categories_dances"
+            where "category_id" in @CategoryIds;
+            """;
+        
+        var danceIdsForCategories = await connection.QueryAsync<(long CategoryId, long DanceId)>(sqlCommandGetDancesIdsForCategories, new { CategoryIds = categories.Select(c => c.Id) });
+        
+        var danceIdsGroupedByCategory = danceIdsForCategories
+            .GroupBy(x => x.CategoryId)
+            .ToDictionary(g => g.Key, g => g.Select(x => DanceId.From(x.DanceId).AsRequired()).ToList());
         
         await transaction.CommitAsync(cancellationToken);
 
-        return tournamentDbo?.ToDomain(categories, couples);
+        return tournamentDbo?.ToDomain(categories, couples, danceIdsGroupedByCategory, refereeIdsGroupedByCategory, coupleIdsGroupedByCategory);
     }
 }

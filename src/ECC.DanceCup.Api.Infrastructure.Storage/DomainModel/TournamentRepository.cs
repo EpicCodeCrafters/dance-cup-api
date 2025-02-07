@@ -98,16 +98,11 @@ public class TournamentRepository : ITournamentRepository
             """;
         
         tournamentsIdsParameter = new NpgsqlParameter<long[]>("TournamentId", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
-        var firstParticipantsFullNamesParameter =
-            new NpgsqlParameter<string[]>("FirstParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
-        var secondParticipantsFullNamesParameter =
-            new NpgsqlParameter<string?[]>("SecondParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
-        var danceOrganizationsNamesParameter =
-            new NpgsqlParameter<string?[]>("DanceOrganizationName", NpgsqlDbType.Text | NpgsqlDbType.Array);
-        var firstTrainersFullNamesParameter =
-            new NpgsqlParameter<string?[]>("FirstTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
-        var secondTrainersFullNamesParameter =
-            new NpgsqlParameter<string?[]>("SecondTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var firstParticipantsFullNamesParameter = new NpgsqlParameter<string[]>("FirstParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var secondParticipantsFullNamesParameter = new NpgsqlParameter<string?[]>("SecondParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var danceOrganizationsNamesParameter = new NpgsqlParameter<string?[]>("DanceOrganizationName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var firstTrainersFullNamesParameter = new NpgsqlParameter<string?[]>("FirstTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var secondTrainersFullNamesParameter = new NpgsqlParameter<string?[]>("SecondTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
 
         var couplesDbos = tournament.Couples.Select(x => x.ToDbo()).ToArray();
         
@@ -210,27 +205,28 @@ public class TournamentRepository : ITournamentRepository
     public async Task UpdateAsync(Tournament tournament, CancellationToken cancellationToken)
     {
         await using var connection = await _connectionFactory.CreateAsync();
+        await using var transaction = await connection.BeginTransactionAsync(cancellationToken);
 
         const string sqlCommandUpdateTournament =
             """
             update "tournaments" set
                 "version" = @Version,
-                "changed_at" = @Changed_at,
-                "user_id" = @User_id,
+                "changed_at" = @ChangedAt,
+                "user_id" = @UserId,
                 "name" = @Name,
                 "description" = @Description,
                 "date" = @Date,
                 "state" = @State,
-                "registration_started_at" = @Registration_started_at,
-                "registration_finished_at" = @Registration_finished_at,
-                "started_at" = @Started_at,
-                "finished_at" = @Finished_at
+                "registration_started_at" = @RegistrationStartedAt,
+                "registration_finished_at" = @RegistrationFinishedAt,
+                "started_at" = @StartedAt,
+                "finished_at" = @FinishedAt
             where "id" = @Id;
             """;
 
         await connection.ExecuteAsync(sqlCommandUpdateTournament, tournament.ToDbo());
 
-        const string sqlCommandUpdateTournamentCategories =
+        const string sqlCommandUpdateCategories =
             """
             UPDATE categories AS c
             SET 
@@ -243,6 +239,195 @@ public class TournamentRepository : ITournamentRepository
             ) AS v
             WHERE c.id = v.id;
             """;
+        
+        var categoryIdsParameter = new NpgsqlParameter<long[]>("CategoryIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        var namesParameter = new NpgsqlParameter<string[]>("Names", NpgsqlDbType.Text | NpgsqlDbType.Array);
+
+        var categoriesDbos = tournament.Categories.Select(x => x.ToDbo()).ToArray();
+        
+        categoryIdsParameter.TypedValue = categoriesDbos.Select(x => x.Id).ToArray();
+        namesParameter.TypedValue = categoriesDbos.Select(x => x.Name).ToArray();
+
+        var command = connection.CreateCommand();
+        command.CommandText = sqlCommandUpdateCategories;
+        command.Parameters.Add(categoryIdsParameter);
+        command.Parameters.Add(namesParameter);
+
+        await command.ExecuteNonQueryAsync(cancellationToken);
+
+        const string sqlCommandUpdateCouples =
+            """
+            INSERT INTO couples (
+                id,
+                tournament_id,
+                first_participant_full_name,
+                second_participant_full_name,
+                dance_organization_name,
+                first_trainer_full_name,
+                second_trainer_full_name
+            )
+            SELECT * FROM unnest(
+                @CoupleIds,
+                @TournamentIds,                 
+                @FirstParticipantFullName,   
+                @SecondParticipantFullName,  
+                @DanceOrganizationName,      
+                @FirstTrainerFullName,       
+                @SecondTrainerFullName       
+            ) AS v(id, tournament_id, first_participant_full_name, second_participant_full_name, dance_organization_name, first_trainer_full_name, second_trainer_full_name)
+            ON CONFLICT (id) DO UPDATE SET
+                tournament_id = EXCLUDED.tournament_id,
+                first_participant_full_name = EXCLUDED.first_participant_full_name,
+                second_participant_full_name = EXCLUDED.second_participant_full_name,
+                dance_organization_name = EXCLUDED.dance_organization_name,
+                first_trainer_full_name = EXCLUDED.first_trainer_full_name,
+                second_trainer_full_name = EXCLUDED.second_trainer_full_name;
+            """;
+        
+        var coupleIdsParameter = new NpgsqlParameter<long[]>("CoupleIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        var tournamentIdsParameter = new NpgsqlParameter<long[]>("TournamentIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        var firstParticipantsFullNamesParameter = new NpgsqlParameter<string[]>("FirstParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var secondParticipantsFullNamesParameter = new NpgsqlParameter<string?[]>("SecondParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var danceOrganizationsNamesParameter = new NpgsqlParameter<string?[]>("DanceOrganizationName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var firstTrainersFullNamesParameter = new NpgsqlParameter<string?[]>("FirstTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var secondTrainersFullNamesParameter = new NpgsqlParameter<string?[]>("SecondTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+
+        var couplesDbos = tournament.Couples.Select(x => x.ToDbo()).ToArray();
+        
+        coupleIdsParameter.TypedValue = couplesDbos.Select(x => x.Id).ToArray();
+        tournamentIdsParameter.TypedValue = couplesDbos.Select(x => x.TournamentId).ToArray();
+        firstParticipantsFullNamesParameter.TypedValue = couplesDbos.Select(x => x.FirstParticipantFullName).ToArray();
+        secondParticipantsFullNamesParameter.TypedValue = couplesDbos.Select(x => x.SecondParticipantFullName).ToArray();
+        danceOrganizationsNamesParameter.TypedValue = couplesDbos.Select(x => x.DanceOrganizationName).ToArray();
+        firstTrainersFullNamesParameter.TypedValue = couplesDbos.Select(x => x.FirstTrainerFullName).ToArray();
+        secondTrainersFullNamesParameter.TypedValue = couplesDbos.Select(x => x.SecondTrainerFullName).ToArray();
+
+        command = connection.CreateCommand();
+        command.CommandText = sqlCommandUpdateCouples;
+        command.Parameters.Add(coupleIdsParameter);
+        command.Parameters.Add(tournamentIdsParameter);
+        command.Parameters.Add(firstParticipantsFullNamesParameter);
+        command.Parameters.Add(secondParticipantsFullNamesParameter);
+        command.Parameters.Add(danceOrganizationsNamesParameter);
+        command.Parameters.Add(firstTrainersFullNamesParameter);
+        command.Parameters.Add(secondTrainersFullNamesParameter);
+
+        await command.ExecuteNonQueryAsync(cancellationToken);
+        
+        const string sqlCommandDeleteCategoriesCouples =
+            """
+            DELETE FROM "categories_couples"
+            WHERE "category_id" = ANY(@CategoryIds);
+            """;
+
+        var categoryIdsToDeleteParameter = new NpgsqlParameter<long[]>("CategoryIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        
+        categoryIdsToDeleteParameter.TypedValue = tournament.Categories.Select(x => x.Id.Value).ToArray();
+
+        var deleteCommand = connection.CreateCommand();
+        deleteCommand.CommandText = sqlCommandDeleteCategoriesCouples;
+        deleteCommand.Parameters.Add(categoryIdsToDeleteParameter);
+
+        await deleteCommand.ExecuteNonQueryAsync(cancellationToken);
+        
+        const string sqlCommandSetCategoriesCouples =
+            """
+            INSERT INTO "categories_couples" ("category_id", "couple_id")
+            SELECT * FROM unnest(@CategoryIds, @CoupleIds);
+            """;
+        
+        categoryIdsParameter = new NpgsqlParameter<long[]>("CategoryIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        coupleIdsParameter = new NpgsqlParameter<long[]>("CoupleIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        
+        var categoriesCouples = tournament.Categories
+            .SelectMany(category => category.CouplesIds.Select(coupleId => new { Id = category.Id, coupleId }))
+            .ToArray();
+
+        categoryIdsParameter.TypedValue = categoriesCouples.Select(x => x.Id.Value).ToArray();
+        coupleIdsParameter.TypedValue = categoriesCouples.Select(x => x.coupleId.Value).ToArray();
+
+        var insertCommand = connection.CreateCommand();
+        insertCommand.CommandText = sqlCommandSetCategoriesCouples;
+        insertCommand.Parameters.Add(categoryIdsParameter);
+        insertCommand.Parameters.Add(coupleIdsParameter);
+
+        await insertCommand.ExecuteNonQueryAsync(cancellationToken);
+
+        const string sqlCommandDeleteCategoryReferee =
+            """
+            DELETE FROM "categories_referees"
+            WHERE "category_id" = ANY(@CategoryIds);
+            """;
+        
+        categoryIdsToDeleteParameter = new NpgsqlParameter<long[]>("CategoryIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        
+        categoryIdsToDeleteParameter.TypedValue = tournament.Categories.Select(x => x.Id.Value).ToArray();
+        
+        deleteCommand = connection.CreateCommand();
+        deleteCommand.CommandText = sqlCommandDeleteCategoryReferee;
+        deleteCommand.Parameters.Add(categoryIdsToDeleteParameter);
+        
+        const string sqlCommandSetCategoryReferee =
+            """
+            INSERT INTO "categories_referees" ("category_id", "referee_id")
+            SELECT * FROM unnest(@CategoryIds, @RefereeIds);
+            """;
+        
+        categoryIdsParameter = new NpgsqlParameter<long[]>("CategoryIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        var refereeIdsParameter = new NpgsqlParameter<long[]>("RefereeIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        
+        var categoriesReferees = tournament.Categories
+            .SelectMany(category => category.RefereesIds.Select(refereeId => new { Id = category.Id, refereeId }))
+            .ToArray();
+
+        categoryIdsParameter.TypedValue = categoriesReferees.Select(x => x.Id.Value).ToArray(); 
+        refereeIdsParameter.TypedValue = categoriesReferees.Select(x => x.refereeId.Value).ToArray();
+
+        insertCommand = connection.CreateCommand();
+        insertCommand.CommandText = sqlCommandSetCategoryReferee;
+        insertCommand.Parameters.Add(categoryIdsParameter);
+        insertCommand.Parameters.Add(refereeIdsParameter);
+
+        await insertCommand.ExecuteNonQueryAsync(cancellationToken);
+        
+        const string sqlCommandDeleteCategoryDance =
+            """
+            DELETE FROM "categories_dances"
+            WHERE "category_id" = ANY(@CategoryIds);
+            """;
+        
+        categoryIdsToDeleteParameter = new NpgsqlParameter<long[]>("CategoryIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        
+        categoryIdsToDeleteParameter.TypedValue = tournament.Categories.Select(x => x.Id.Value).ToArray();
+        
+        deleteCommand = connection.CreateCommand();
+        deleteCommand.CommandText = sqlCommandDeleteCategoryDance;
+        deleteCommand.Parameters.Add(categoryIdsToDeleteParameter);
+        
+        const string sqlCommandSetCategoryDance =
+            """
+            INSERT INTO "categories_dances" ("category_id", "dance_id")
+            SELECT * FROM unnest(@CategoryIds, @DanceIds);
+            """;
+        
+        categoryIdsParameter = new NpgsqlParameter<long[]>("CategoryIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        var danceIdsParameter = new NpgsqlParameter<long[]>("DanceIds", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        
+        var categoriesDances = tournament.Categories
+            .SelectMany(category => category.DancesIds.Select(danceId => new { Id = category.Id, danceId }))
+            .ToArray();
+
+        categoryIdsParameter.TypedValue = categoriesDances.Select(x => x.Id.Value).ToArray(); 
+        danceIdsParameter.TypedValue = categoriesDances.Select(x => x.danceId.Value).ToArray();
+
+        insertCommand = connection.CreateCommand();
+        insertCommand.CommandText = sqlCommandSetCategoryDance;
+        insertCommand.Parameters.Add(categoryIdsParameter);
+        insertCommand.Parameters.Add(danceIdsParameter);
+
+        await insertCommand.ExecuteNonQueryAsync(cancellationToken);
+        
+        await transaction.CommitAsync(cancellationToken);
     }
 
     public async Task<Tournament?> FindByIdAsync(TournamentId tournamentId, CancellationToken cancellationToken)
@@ -271,7 +456,9 @@ public class TournamentRepository : ITournamentRepository
             """;
 
         var tournamentDbo = await connection.QuerySingleOrDefaultAsync<TournamentDbo>(sqlCommandGetTournament, new { id = tournamentId.Value });
-
+        if (tournamentDbo == null)
+            return null;
+        
         const string sqlCommandGetCategories =
             """
             select 
@@ -288,8 +475,8 @@ public class TournamentRepository : ITournamentRepository
             """
             select
                 "tournament_id",
-                "first_participant_full_name","
-                second_participant_full_name",
+                "first_participant_full_name",
+                "second_participant_full_name",
                 "dance_organization_name",
                 "first_trainer_full_name",
                 "second_trainer_full_name"
@@ -305,10 +492,10 @@ public class TournamentRepository : ITournamentRepository
                 "category_id",
                 "couple_id"
             from "categories_couples"
-            where "category_id" in @CategoryIds;
+            where "category_id" = ANY(@CategoryIds);
             """;
     
-        var coupleIdsForCategories = await connection.QueryAsync<(long CategoryId, long CoupleId)>(sqlCommandGetCoupleIdsForCategories, new { CategoryIds = categories.Select(c => c.Id) });
+        var coupleIdsForCategories = await connection.QueryAsync<(long CategoryId, long CoupleId)>(sqlCommandGetCoupleIdsForCategories, new { CategoryIds = categories.Select(c => c.Id).ToArray() });
 
         var coupleIdsGroupedByCategory = coupleIdsForCategories
             .GroupBy(x => x.CategoryId)
@@ -317,13 +504,13 @@ public class TournamentRepository : ITournamentRepository
         const string sqlCommandGetReferencesIdsForCategories =
             """
             select 
-                "reference_id",
+                "referee_id",
                 "category_id"
             from "categories_referees"
-            where "category_id" in @CategoryIds;
+            where "category_id" = ANY(@CategoryIds);
             """;
         
-        var refereeIdsForCategories = await connection.QueryAsync<(long CategoryId, long RefereeId)>(sqlCommandGetReferencesIdsForCategories, new { CategoryIds = categories.Select(c => c.Id) });
+        var refereeIdsForCategories = await connection.QueryAsync<(long CategoryId, long RefereeId)>(sqlCommandGetReferencesIdsForCategories, new { CategoryIds = categories.Select(c => c.Id).ToArray() });
 
         var refereeIdsGroupedByCategory = refereeIdsForCategories
             .GroupBy(x => x.CategoryId)
@@ -335,10 +522,10 @@ public class TournamentRepository : ITournamentRepository
                 "dance_id",
                 "category_id"
             from "categories_dances"
-            where "category_id" in @CategoryIds;
+            where "category_id" = ANY(@CategoryIds);
             """;
         
-        var danceIdsForCategories = await connection.QueryAsync<(long CategoryId, long DanceId)>(sqlCommandGetDancesIdsForCategories, new { CategoryIds = categories.Select(c => c.Id) });
+        var danceIdsForCategories = await connection.QueryAsync<(long CategoryId, long DanceId)>(sqlCommandGetDancesIdsForCategories, new { CategoryIds = categories.Select(c => c.Id).ToArray() });
         
         var danceIdsGroupedByCategory = danceIdsForCategories
             .GroupBy(x => x.CategoryId)

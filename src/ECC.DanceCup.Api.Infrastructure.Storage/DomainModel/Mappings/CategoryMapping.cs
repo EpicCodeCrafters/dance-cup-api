@@ -25,7 +25,7 @@ internal static class CategoryMapping
                 id: CategoryId.From(c.Id).AsRequired(),
                 tournamentId: TournamentId.From(c.TournamentId).AsRequired(),
                 name: CategoryName.From(c.Name).AsRequired(),
-                dancesIds: danceIdsGroupedByCategory.TryGetValue(c.Id, out List<DanceId> danceIds) ? danceIds : new List<DanceId>(),
+                dancesIds: danceIdsGroupedByCategory.TryGetValue(c.Id, out List<DanceId>? danceIds) ? danceIds : new List<DanceId>(),
                 refereesIds: refereeIdsGroupedByCategory.TryGetValue(c.Id, out var refereeIds) ? refereeIds : new List<RefereeId>(),
                 couplesIds: coupleIdsGroupedByCategory.TryGetValue(c.Id, out var coupleIds) ? coupleIds : new List<CoupleId>()
             )).ToList().AsRequired();

@@ -21,7 +21,7 @@ public class CoupleIdProvider : ICoupleIdProvider
         
         const string sqlCommand = 
             """
-            select nextval("couples_ids_seq");
+            select nextval('"couples_ids_seq"');
             """;
         
         var coupleId = await connection.QuerySingleAsync<long>(sqlCommand, cancellationToken);

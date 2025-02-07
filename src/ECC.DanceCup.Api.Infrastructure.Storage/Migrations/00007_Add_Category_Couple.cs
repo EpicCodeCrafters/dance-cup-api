@@ -9,7 +9,7 @@ public class Add_Category_Couple : SqlMigration
     protected override string? UpSqlCommand =>
         """
         create table "categories_couples" (
-            "id" bigint primary key,
+            "id" bigserial primary key,
             "category_id" bigint not null,
             "couple_id" bigint not null
         );

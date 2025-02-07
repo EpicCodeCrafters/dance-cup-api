@@ -7,7 +7,7 @@ namespace ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration;
 
 public static partial class ReopenTournamentRegistrationUseCase
 {
-    public class CommandHandler
+    public class CommandHandler : IRequestHandler<Command, Result>
     {
         private readonly ITournamentRepository _tournamentRepository;
 

@@ -13,8 +13,8 @@ internal class TournamentDbo
     public long UserId { get; set; }
     
     public required string Name { get; set; }
-    
-    public string Description { get; set; }
+
+    public string Description { get; set; } = string.Empty;
     
     public DateTime Date { get; set; }
     

@@ -25,11 +25,11 @@ public class CreateRefereeTests
         // Arrange
 
         refereeFactoryMock
-            .Setup(tournamentFactory => tournamentFactory.Create(fullName))
+            .Setup(refereeFactory => refereeFactory.Create(fullName))
             .Returns(referee);
 
         refereeRepositoryMock
-            .Setup(tournamentRepository => tournamentRepository.AddAsync(referee, It.IsAny<CancellationToken>()))
+            .Setup(refereeRepository => refereeRepository.AddAsync(referee, It.IsAny<CancellationToken>()))
             .ReturnsAsync(refereeId);
 
         var command = new CreateRefereeUseCase.Command(fullName);

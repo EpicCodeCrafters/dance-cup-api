@@ -1,0 +1,25 @@
+﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
+using FluentResults;
+using MediatR;
+
+namespace ECC.DanceCup.Api.Application.UseCases.GetTournamentRegistrationResult;
+
+public static partial class GetTournamentRegistrationResultUseCase
+{
+    public class QueryHandler : IRequestHandler<Query, Result<QueryResponse>>
+    {
+        public readonly ITournamentRegistrationResultViewRepository _repository;
+
+        public QueryHandler(ITournamentRegistrationResultViewRepository repository)
+        {
+            _repository = repository;
+        }
+        
+        public async Task<Result<QueryResponse>> Handle(Query query, CancellationToken cancellationToken)
+        {
+            var couples = await _repository.FindAllAsync(query.TournamentId ,cancellationToken);
+            
+            return new QueryResponse(couples);
+        }
+    }
+}

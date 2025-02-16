@@ -10,7 +10,8 @@ import "google/protobuf/wrappers.proto";
 service DanceCupApi {
     rpc GetDances (GetDancesRequest) returns (GetDancesResponse);
     rpc GetReferees (GetRefereesRequest) returns (GetRefereesResponse);
-
+    rpc GetTournament (GetTournamentRegistrationResultRequest) returns (GetTournamentRegistrationResultResponse);
+    
     rpc CreateReferee (CreateRefereeRequest) returns (CreateRefereeResponse);
     
     rpc CreateTournament (CreateTournamentRequest) returns (CreateTournamentResponse);
@@ -102,3 +103,20 @@ message RegisterCoupleForTournamentRequest {
 }
 
 message RegisterCoupleForTournamentResponse { }
+
+message GetTournamentRegistrationResultRequest {
+    int64 tournament_id = 1;
+}
+
+message TournamentRegistrationResultItem {
+    string category_name = 1;
+    string first_participant_full_name = 2;
+    google.protobuf.StringValue second_participant_full_name = 3;
+    google.protobuf.StringValue dance_organization_name = 4;
+    google.protobuf.StringValue first_trainer_full_name = 5;
+    google.protobuf.StringValue second_trainer_full_name = 6;
+}
+
+message GetTournamentRegistrationResultResponse {
+    repeated TournamentRegistrationResultItem items = 1;
+}

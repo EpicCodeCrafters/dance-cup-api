@@ -64,9 +64,9 @@ internal static class Mappings
         };
     }
 
-    private static TournamentRegistrationResultItem ToGrpc(this TournamentRegistrationResultView couple)
+    private static GetTournamentRegistrationResultResponse.Types.TournamentRegistrationResultItem ToGrpc(this TournamentRegistrationResultView couple)
     {
-        return new TournamentRegistrationResultItem
+        return new GetTournamentRegistrationResultResponse.Types.TournamentRegistrationResultItem
         {
             CategoryName = couple.CategoryName.Value,
             FirstParticipantFullName = couple.FirstParticipantFullName,

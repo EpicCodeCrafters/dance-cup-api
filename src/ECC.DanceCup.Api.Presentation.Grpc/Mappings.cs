@@ -68,7 +68,7 @@ internal static class Mappings
     {
         return new GetTournamentRegistrationResultResponse.Types.TournamentRegistrationResultItem
         {
-            CategoryName = couple.CategoryName.Value,
+            CategoryName = couple.CategoryName,
             FirstParticipantFullName = couple.FirstParticipantFullName,
             SecondParticipantFullName = couple.SecondParticipantFullName,
             DanceOrganizationName = couple.DanceOrganizationName,

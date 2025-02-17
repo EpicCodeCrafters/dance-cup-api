@@ -4,7 +4,7 @@ namespace ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 
 public class TournamentRegistrationResultView
 {
-    public required CategoryName CategoryName { get; init; }
+    public required string CategoryName { get; init; }
     
     public required string FirstParticipantFullName { get; init; }
     

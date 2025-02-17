@@ -8,9 +8,9 @@ public static partial class GetTournamentRegistrationResultUseCase
 {
     public class QueryHandler : IRequestHandler<Query, Result<QueryResponse>>
     {
-        public readonly ITournamentRegistrationResultViewRepository _repository;
+        public readonly ITournamentViewRepository _repository;
 
-        public QueryHandler(ITournamentRegistrationResultViewRepository repository)
+        public QueryHandler(ITournamentViewRepository repository)
         {
             _repository = repository;
         }

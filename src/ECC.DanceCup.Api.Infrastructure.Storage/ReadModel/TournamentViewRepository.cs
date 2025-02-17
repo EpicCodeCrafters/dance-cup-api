@@ -6,11 +6,11 @@ using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
 
-public class TournamentRegistrationResultViewRepository: ITournamentRegistrationResultViewRepository
+public class TournamentViewRepository: ITournamentViewRepository
 {
     private readonly IPostgresConnectionFactory _connectionFactory;
 
-    public TournamentRegistrationResultViewRepository(IPostgresConnectionFactory connectionFactory)
+    public TournamentViewRepository(IPostgresConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
     }

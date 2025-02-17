@@ -18,7 +18,7 @@ public static class Registrar
     {
         services.AddScoped<IRefereeRepository, RefereeRepository>();
 
-        services.AddScoped<ITournamentRepository, TournamentRepository>();
+        services.AddScoped<ITournamentRepository, DomainModel.TournamentRepository>();
 
         services.AddScoped<ICoupleIdProvider, CoupleIdProvider>();
 
@@ -26,7 +26,7 @@ public static class Registrar
 
         services.AddScoped<IRefereeViewRepository, RefereeViewRepository>();
 
-        services.AddScoped<ITournamentRegistrationResultViewRepository, TournamentRegistrationResultViewRepository>();
+        services.AddScoped<ITournamentViewRepository, TournamentViewRepository>();
         
         services.AddTransient<IPostgresConnectionFactory, PostgresConnectionFactory>();
 

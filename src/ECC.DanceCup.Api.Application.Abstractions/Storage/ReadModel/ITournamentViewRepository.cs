@@ -3,7 +3,7 @@ using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 
 namespace ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 
-public interface ITournamentRegistrationResultViewRepository
+public interface ITournamentViewRepository
 {
     Task<IReadOnlyCollection<TournamentRegistrationResultView>> FindAllAsync(TournamentId tournamentId ,CancellationToken cancellationToken);
 }

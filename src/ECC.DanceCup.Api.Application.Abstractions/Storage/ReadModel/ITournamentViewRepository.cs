@@ -5,5 +5,5 @@ namespace ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 
 public interface ITournamentViewRepository
 {
-    Task<IReadOnlyCollection<TournamentRegistrationResultView>> FindAllAsync(TournamentId tournamentId ,CancellationToken cancellationToken);
+    Task<IReadOnlyCollection<TournamentRegistrationResultView>> GetRegistrationResultAsync(TournamentId tournamentId, CancellationToken cancellationToken);
 }

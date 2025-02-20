@@ -10,5 +10,5 @@ public static partial class GetTournamentRegistrationResultUseCase
 {
     public record Query(TournamentId TournamentId) : IRequest<Result<QueryResponse>>;
     
-    public record QueryResponse(IReadOnlyCollection<TournamentRegistrationResultView> Couples);
+    public record QueryResponse(IReadOnlyCollection<TournamentRegistrationResultView> ResultOfRegistration);
 }

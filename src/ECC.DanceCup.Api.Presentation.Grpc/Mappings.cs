@@ -130,7 +130,7 @@ internal static class Mappings
     {
         return new GetTournamentRegistrationResultResponse
         {
-            Items = {  response.Couples.Select(ToGrpc) }
+            Items = {  response.ResultOfRegistration.Select(ToGrpc) }
         };
     }
     public static StartTournamentRegistrationUseCase.Command ToInternal(this StartTournamentRegistrationRequest request)

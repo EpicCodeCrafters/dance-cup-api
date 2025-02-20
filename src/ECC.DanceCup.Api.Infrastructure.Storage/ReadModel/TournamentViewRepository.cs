@@ -15,7 +15,7 @@ public class TournamentViewRepository: ITournamentViewRepository
         _connectionFactory = connectionFactory;
     }
 
-    public async Task<IReadOnlyCollection<TournamentRegistrationResultView>> FindAllAsync(TournamentId tournamentId,CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<TournamentRegistrationResultView>> GetRegistrationResultAsync(TournamentId tournamentId, CancellationToken cancellationToken)
     {
         await using var connection = await _connectionFactory.CreateAsync();
 
@@ -41,8 +41,8 @@ public class TournamentViewRepository: ITournamentViewRepository
                 cp.id;
             """;
         
-        var couples = await connection.QueryAsync<TournamentRegistrationResultView>(sqlCommand, new { TournamentId = tournamentId.Value });
+        var resultOfRegistration = await connection.QueryAsync<TournamentRegistrationResultView>(sqlCommand, new { TournamentId = tournamentId.Value });
 
-        return couples.ToArray();
+        return resultOfRegistration.ToArray();
     }
 }

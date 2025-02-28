@@ -3,7 +3,6 @@ using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using ECC.DanceCup.Api.Application.UseCases.GetReferees;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
-using ECC.DanceCup.Api.Domain.Services;
 using ECC.DanceCup.Api.Tests.Common.Attributes;
 using ECC.DanceCup.Api.Tests.Common.Extensions;
 using FluentAssertions;
@@ -23,7 +22,7 @@ public class GetRefereesTests
         [Frozen] Mock<IRefereeViewRepository> refereeViewRepositoryMock,
         GetRefereesUseCase.QueryHandler handler)
     {
-        // Arrage
+        // Arrange
 
         refereeViewRepositoryMock
             .Setup(refereeViewRepository => refereeViewRepository.FindAllAsync(refereeFullName, pageNumber, pageSize, It.IsAny<CancellationToken>()))

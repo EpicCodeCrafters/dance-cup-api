@@ -17,9 +17,9 @@ public static partial class GetTournamentRegistrationResultUseCase
         
         public async Task<Result<QueryResponse>> Handle(Query query, CancellationToken cancellationToken)
         {
-            var couples = await _repository.GetRegistrationResultAsync(query.TournamentId, cancellationToken);
+            var resultOfRegistration = await _repository.GetRegistrationResultAsync(query.TournamentId, cancellationToken);
             
-            return new QueryResponse(couples);
+            return new QueryResponse(resultOfRegistration);
         }
     }
 }

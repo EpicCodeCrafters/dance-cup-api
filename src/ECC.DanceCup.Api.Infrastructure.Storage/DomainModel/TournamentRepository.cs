@@ -67,8 +67,7 @@ public class TournamentRepository : ITournamentRepository
             returning "id";
             """;
         
-        var tournamentsIdsParameter =
-            new NpgsqlParameter<long[]>("TournamentId", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
+        var tournamentsIdsParameter = new NpgsqlParameter<long[]>("TournamentId", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
         var namesParameter = new NpgsqlParameter<string[]>("Name", NpgsqlDbType.Text | NpgsqlDbType.Array);
 
         var categoriesDbos = tournament.Categories.Select(x => x.ToDbo()).ToArray();
@@ -108,8 +107,7 @@ public class TournamentRepository : ITournamentRepository
         
         tournamentsIdsParameter.TypedValue = couplesDbos.Select(x => tournamentId).ToArray();
         firstParticipantsFullNamesParameter.TypedValue = couplesDbos.Select(x => x.FirstParticipantFullName).ToArray();
-        secondParticipantsFullNamesParameter.TypedValue =
-            couplesDbos.Select(x => x.SecondParticipantFullName).ToArray();
+        secondParticipantsFullNamesParameter.TypedValue = couplesDbos.Select(x => x.SecondParticipantFullName).ToArray();
         danceOrganizationsNamesParameter.TypedValue = couplesDbos.Select(x => x.DanceOrganizationName).ToArray();
         firstTrainersFullNamesParameter.TypedValue = couplesDbos.Select(x => x.FirstTrainerFullName).ToArray();
         secondTrainersFullNamesParameter.TypedValue = couplesDbos.Select(x => x.SecondTrainerFullName).ToArray();

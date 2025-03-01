@@ -472,6 +472,7 @@ public class TournamentRepository : ITournamentRepository
         const string sqlCommandGetCouples =
             """
             select
+                "id",
                 "tournament_id",
                 "first_participant_full_name",
                 "second_participant_full_name",

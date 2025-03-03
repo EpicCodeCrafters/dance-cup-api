@@ -30,8 +30,15 @@ public class DanceCupEventsConsumer : BackgroundService
         _options = options;
         _logger = logger;
     }
+    
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        Task.Run(() => ExecuteInternalAsync(stoppingToken), stoppingToken);
+        
+        return Task.CompletedTask;
+    }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    private async Task ExecuteInternalAsync(CancellationToken stoppingToken)
     {
         var consumerConfig = new ConsumerConfig
         {

@@ -12,7 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{5BB485
 		Dockerfile = Dockerfile
 		README.md = README.md
 		.editorconfig = .editorconfig
-		.github\workflows\github-ci.yml = .github\workflows\github-ci.yml
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
@@ -49,6 +48,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Utils", "src\ECC.DanceCup.Api.Utils\ECC.DanceCup.Api.Utils.csproj", "{A3858085-5418-424A-9C7C-8D886BE4F1AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Presentation.Kafka", "src\ECC.DanceCup.Api.Presentation.Kafka\ECC.DanceCup.Api.Presentation.Kafka.csproj", "{912FFCC3-A814-4E50-BDE9-10AE54141FF4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cicd", "cicd", "{E899A2B3-605A-42C7-B758-FCFD9C634920}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\github-ci.yml = .github\workflows\github-ci.yml
+		.github\workflows\github-cd.yml = .github\workflows\github-cd.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

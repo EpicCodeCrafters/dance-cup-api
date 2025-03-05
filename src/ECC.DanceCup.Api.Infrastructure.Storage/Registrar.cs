@@ -17,17 +17,15 @@ public static class Registrar
     public static IServiceCollection AddStorage(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IRefereeRepository, RefereeRepository>();
-
-        services.AddScoped<ITournamentRepository, DomainModel.TournamentRepository>();
-
-        services.AddScoped<ICoupleIdProvider, CoupleIdProvider>();
+        services.AddScoped<ITournamentRepository, TournamentRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IDanceViewRepository, DanceViewRepository>();
-
         services.AddScoped<IRefereeViewRepository, RefereeViewRepository>();
-
         services.AddScoped<ITournamentViewRepository, TournamentViewRepository>();
         
+        services.AddScoped<ICoupleIdProvider, CoupleIdProvider>();
+
         services.AddTransient<IPostgresConnectionFactory, PostgresConnectionFactory>();
 
         services.Configure<StorageOptions>(configuration.GetSection("StorageOptions"));

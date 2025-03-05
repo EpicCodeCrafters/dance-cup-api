@@ -9,6 +9,7 @@ public static class Registrar
     {
         services.AddTransient<IRefereeFactory, RefereeFactory>();
         services.AddTransient<ITournamentFactory, TournamentFactory>();
+        services.AddTransient<IUserFactory, UserFactory>();
         
         return services;
     }

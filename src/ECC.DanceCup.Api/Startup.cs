@@ -3,6 +3,7 @@ using ECC.DanceCup.Api.Domain;
 using ECC.DanceCup.Api.Infrastructure.Storage;
 using ECC.DanceCup.Api.Infrastructure.TgApi;
 using ECC.DanceCup.Api.Presentation.Grpc;
+using ECC.DanceCup.Api.Presentation.Kafka;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace ECC.DanceCup.Api;
@@ -27,6 +28,8 @@ public class Startup
 
         services.AddGrpcServices();
         services.AddGrpcHealthChecks().AddCheck(string.Empty, () => HealthCheckResult.Healthy());
+        
+        services.AddKafkaHandlers(_configuration);
     }
 
     public void Configure(IApplicationBuilder app)

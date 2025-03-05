@@ -12,7 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{5BB485
 		Dockerfile = Dockerfile
 		README.md = README.md
 		.editorconfig = .editorconfig
-		.github\workflows\github-ci.yml = .github\workflows\github-ci.yml
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
@@ -48,6 +47,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Applicatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Utils", "src\ECC.DanceCup.Api.Utils\ECC.DanceCup.Api.Utils.csproj", "{A3858085-5418-424A-9C7C-8D886BE4F1AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECC.DanceCup.Api.Presentation.Kafka", "src\ECC.DanceCup.Api.Presentation.Kafka\ECC.DanceCup.Api.Presentation.Kafka.csproj", "{912FFCC3-A814-4E50-BDE9-10AE54141FF4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cicd", "cicd", "{E899A2B3-605A-42C7-B758-FCFD9C634920}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\github-ci.yml = .github\workflows\github-ci.yml
+		.github\workflows\github-cd.yml = .github\workflows\github-cd.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +77,7 @@ Global
 		{3B01534C-42DC-40CA-8F36-575319A6DB59} = {8E59FCCF-F2AC-42E1-8BEC-DA7D1F247B93}
 		{940BC092-F894-417D-95B6-B28CF628D42B} = {817D70FE-CAE4-4EBF-90C6-10FE9B378C6B}
 		{A3858085-5418-424A-9C7C-8D886BE4F1AB} = {1C4FFBF8-1BF7-40A6-8F9F-6C9C5ECE2ABE}
+		{912FFCC3-A814-4E50-BDE9-10AE54141FF4} = {8E59FCCF-F2AC-42E1-8BEC-DA7D1F247B93}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F2697BC1-6FD6-4FB6-B42B-EDC7B4A6B4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -120,5 +128,9 @@ Global
 		{A3858085-5418-424A-9C7C-8D886BE4F1AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3858085-5418-424A-9C7C-8D886BE4F1AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3858085-5418-424A-9C7C-8D886BE4F1AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{912FFCC3-A814-4E50-BDE9-10AE54141FF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{912FFCC3-A814-4E50-BDE9-10AE54141FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{912FFCC3-A814-4E50-BDE9-10AE54141FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{912FFCC3-A814-4E50-BDE9-10AE54141FF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

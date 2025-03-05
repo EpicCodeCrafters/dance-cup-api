@@ -11,6 +11,11 @@ public readonly record struct UserId : IValueObject<UserId, long>
     {
         Value = value;
     }
+    
+    /// <summary>
+    /// Пустой идентификатор пользователя
+    /// </summary>
+    public static UserId Empty => new(default);
 
     /// <inheritdoc />
     public long Value { get; }

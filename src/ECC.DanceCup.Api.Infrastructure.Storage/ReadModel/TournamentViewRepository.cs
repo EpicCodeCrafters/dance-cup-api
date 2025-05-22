@@ -2,6 +2,7 @@
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
@@ -13,6 +14,37 @@ public class TournamentViewRepository: ITournamentViewRepository
     public TournamentViewRepository(IPostgresConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
+    }
+
+    public async Task<IReadOnlyCollection<TournamentView>> FindAllAsync(UserId userId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+    {
+        await using var connection = await _connectionFactory.CreateAsync();
+
+        const string sqlCommand =
+            """
+            select "id"
+                 , "user_id"
+                 , "name"
+                 , "description"
+                 , "date"
+                 , "state"
+              from "tournaments"
+             where "user_id" = @UserId
+             order by "id" desc
+             limit @Limit
+            offset @Offset;;
+            """;
+        
+        var result = await connection.QueryAsync<TournamentView>(
+            sqlCommand, 
+            new
+            {
+                UserId = userId.Value,
+                Limit = pageSize,
+                Offset = (pageNumber - 1) * pageSize
+            });
+
+        return result.ToArray();
     }
 
     public async Task<IReadOnlyCollection<TournamentRegistrationResultView>> GetRegistrationResultAsync(TournamentId tournamentId, CancellationToken cancellationToken)

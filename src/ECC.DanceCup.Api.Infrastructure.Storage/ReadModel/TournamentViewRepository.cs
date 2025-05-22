@@ -32,7 +32,7 @@ public class TournamentViewRepository: ITournamentViewRepository
              where "user_id" = @UserId
              order by "id" desc
              limit @Limit
-            offset @Offset;;
+            offset @Offset;
             """;
         
         var result = await connection.QueryAsync<TournamentView>(

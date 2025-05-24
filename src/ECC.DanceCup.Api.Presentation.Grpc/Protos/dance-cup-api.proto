@@ -15,6 +15,7 @@ service DanceCupApi {
     rpc CreateReferee (CreateRefereeRequest) returns (CreateRefereeResponse);
     
     rpc CreateTournament (CreateTournamentRequest) returns (CreateTournamentResponse);
+    rpc GetTournaments (GetTournamentsRequest) returns (GetTournamentsResponse);
     rpc StartTournamentRegistration (StartTournamentRegistrationRequest) returns (StartTournamentRegistrationResponse);
     rpc FinishTournamentRegistration (FinishTournamentRegistrationRequest) returns (FinishTournamentRegistrationResponse);
     rpc ReopenTournamentRegistration (ReopenTournamentRegistrationRequest) returns (ReopenTournamentRegistrationResponse);
@@ -72,6 +73,25 @@ message CreateCategoryModel {
     string name = 1;
     repeated int64 dances_ids = 2;
     repeated int64 referees_ids = 3;
+}
+
+message GetTournamentsRequest {
+    int64 user_id = 1;
+    int32 page_number = 2;
+    int32 page_size = 3;
+}
+
+message GetTournamentsResponse {
+    repeated GetTournamentsItem Tournaments = 1;
+    
+    message GetTournamentsItem {
+        int64 id = 1;
+        int64 user_id = 2;
+        string name = 3;
+        string description = 4;
+        google.protobuf.Timestamp date = 5;
+        string state = 6;
+    }
 }
 
 message StartTournamentRegistrationRequest {

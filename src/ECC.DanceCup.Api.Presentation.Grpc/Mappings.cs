@@ -8,11 +8,13 @@ using ECC.DanceCup.Api.Application.UseCases.RegisterCoupleForTournament;
 using ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.GetReferees;
 using ECC.DanceCup.Api.Application.UseCases.GetTournamentRegistrationResult;
+using ECC.DanceCup.Api.Application.UseCases.GetTournaments;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using ECC.DanceCup.Api.Domain.Model.UserAggregate;
 using ECC.DanceCup.Api.Utils.Extensions;
+using Google.Protobuf.WellKnownTypes;
 
 namespace ECC.DanceCup.Api.Presentation.Grpc;
 
@@ -53,7 +55,6 @@ internal static class Mappings
             Name = dance.Name
         };
     }
-
 
     private static Referee ToGrpc(this RefereeView referee)
     {
@@ -120,12 +121,43 @@ internal static class Mappings
         };
     }
 
+    public static GetTournamentsUseCase.Query ToInternal(this GetTournamentsRequest request)
+    {
+        return new GetTournamentsUseCase.Query(
+            UserId: UserId.From(request.UserId).AsRequired(),
+            PageSize: request.PageSize,
+            PageNumber: request.PageNumber
+        );
+    }
+
+    public static GetTournamentsResponse ToGrpc(this GetTournamentsUseCase.QueryResponse response)
+    {
+        return new GetTournamentsResponse
+        {
+            Tournaments = { response.Tournaments.Select(ToGrpc) }
+        };
+    }
+
+    private static GetTournamentsResponse.Types.GetTournamentsItem ToGrpc(this TournamentView tournamentView)
+    {
+        return new GetTournamentsResponse.Types.GetTournamentsItem
+        {
+            Id = tournamentView.Id,
+            UserId = tournamentView.UserId,
+            Name = tournamentView.Name,
+            Description = tournamentView.Description,
+            Date = DateTime.SpecifyKind(tournamentView.Date, DateTimeKind.Utc).ToTimestamp(),
+            State = tournamentView.State
+        };
+    }
+
     public static GetTournamentRegistrationResultUseCase.Query ToInternal(this GetTournamentRegistrationResultRequest request)
     {
         return new GetTournamentRegistrationResultUseCase.Query(
             TournamentId: TournamentId.From(request.TournamentId).AsRequired()
         );
     }
+
     public static GetTournamentRegistrationResultResponse ToGrpc(this GetTournamentRegistrationResultUseCase.QueryResponse response)
     {
         return new GetTournamentRegistrationResultResponse
@@ -133,6 +165,7 @@ internal static class Mappings
             Items = {  response.ResultOfRegistration.Select(ToGrpc) }
         };
     }
+
     public static StartTournamentRegistrationUseCase.Command ToInternal(this StartTournamentRegistrationRequest request)
     {
         return new StartTournamentRegistrationUseCase.Command(

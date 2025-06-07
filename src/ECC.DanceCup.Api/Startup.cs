@@ -1,5 +1,6 @@
 ﻿using ECC.DanceCup.Api.Application;
 using ECC.DanceCup.Api.Domain;
+using ECC.DanceCup.Api.Infrastructure.Caching;
 using ECC.DanceCup.Api.Infrastructure.Storage;
 using ECC.DanceCup.Api.Infrastructure.TgApi;
 using ECC.DanceCup.Api.Presentation.Grpc;
@@ -24,6 +25,7 @@ public class Startup
         services.AddApplicationServices();
 
         services.AddStorage(_configuration);
+        services.AddCaching(_configuration);
         services.AddTgApi();
 
         services.AddGrpcServices();

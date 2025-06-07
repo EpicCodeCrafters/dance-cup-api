@@ -1,4 +1,4 @@
-﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
+﻿using ECC.DanceCup.Api.Application.Abstractions.Models.Views;
 using ECC.DanceCup.Api.Application.UseCases.CreateReferee;
 using ECC.DanceCup.Api.Application.UseCases.CreateTournament;
 using ECC.DanceCup.Api.Application.UseCases.GetDances;

@@ -1,6 +1,6 @@
 ﻿using AutoFixture.Xunit2;
+using ECC.DanceCup.Api.Application.Abstractions.Models.Views;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
-using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
 using ECC.DanceCup.Api.Application.UseCases.GetReferees;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Tests.Common.Attributes;

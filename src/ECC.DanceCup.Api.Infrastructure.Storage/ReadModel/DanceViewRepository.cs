@@ -1,9 +1,7 @@
 ﻿using Dapper;
+using ECC.DanceCup.Api.Application.Abstractions.Models.Views;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
-using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
-using ECC.DanceCup.Api.Infrastructure.Storage.Options;
 using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
-using Microsoft.Extensions.Options;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
 

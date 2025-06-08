@@ -1,4 +1,5 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Caching;
+using ECC.DanceCup.Api.Infrastructure.Caching.Options;
 using ECC.DanceCup.Api.Infrastructure.Caching.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,8 @@ public static class Registrar
         });
         
         services.AddScoped<IDanceViewCache, DanceViewCache>();
+        
+        services.Configure<CachingOptions>(configuration.GetSection("CachingOptions"));
 
         return services;
     }

@@ -1,8 +1,10 @@
 ﻿using System.Text.Json;
 using ECC.DanceCup.Api.Application.Abstractions.Caching;
 using ECC.DanceCup.Api.Application.Abstractions.Models.Views;
+using ECC.DanceCup.Api.Infrastructure.Caching.Options;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace ECC.DanceCup.Api.Infrastructure.Caching.Services;
 
@@ -11,13 +13,16 @@ public class DanceViewCache : IDanceViewCache
     private const string CacheKey = "dances";
     
     private readonly IDistributedCache _distributedCache;
+    private readonly IOptions<CachingOptions> _options;
     private readonly ILogger<DanceViewCache> _logger;
 
     public DanceViewCache(
         IDistributedCache distributedCache, 
+        IOptions<CachingOptions> options,
         ILogger<DanceViewCache> logger)
     {
         _distributedCache = distributedCache;
+        _options = options;
         _logger = logger;
     }
 
@@ -49,7 +54,12 @@ public class DanceViewCache : IDanceViewCache
         try
         {
             var dancesSerialized = JsonSerializer.Serialize(danceViews);
-            await _distributedCache.SetStringAsync(CacheKey, dancesSerialized, cancellationToken);
+            
+            var cacheOptions = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_options.Value.ExpirationMinutes)
+            };
+            await _distributedCache.SetStringAsync(CacheKey, dancesSerialized, cacheOptions, cancellationToken);
             
             _logger.LogDebug("Кэшированный список танцев сохранён");
         }

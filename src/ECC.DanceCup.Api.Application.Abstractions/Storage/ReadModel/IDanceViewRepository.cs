@@ -1,4 +1,4 @@
-﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
+﻿using ECC.DanceCup.Api.Application.Abstractions.Models.Views;
 
 namespace ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 

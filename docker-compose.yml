@@ -28,6 +28,13 @@ services:
       - kafka
     entrypoint: [ "sh", "-c", "sleep 10 && kafka-topics --create --if-not-exists --bootstrap-server kafka:9092 --replication-factor 1 --partitions 1 --topic dance_cup_events && echo 'Топик создан'" ]
 
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    ports:
+      - 16379:6379
+
   dance-cup-api-db:
     container_name: dance-cup-api-db
     image: postgres

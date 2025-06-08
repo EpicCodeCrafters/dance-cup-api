@@ -1,5 +1,4 @@
-﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
-using ECC.DanceCup.Api.Application.UseCases.GetDances;
+﻿using ECC.DanceCup.Api.Application.Abstractions.Models.Views;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using FluentResults;
 using MediatR;

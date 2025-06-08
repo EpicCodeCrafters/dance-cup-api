@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BenchmarkDotNet" />
+      <PackageReference Include="Moq" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\ECC.DanceCup.Api.Infrastructure.Caching\ECC.DanceCup.Api.Infrastructure.Caching.csproj" />
+      <ProjectReference Include="..\..\src\ECC.DanceCup.Api.Infrastructure.Storage\ECC.DanceCup.Api.Infrastructure.Storage.csproj" />
+    </ItemGroup>
+
+</Project>

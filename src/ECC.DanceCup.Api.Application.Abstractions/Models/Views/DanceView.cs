@@ -1,4 +1,4 @@
-﻿namespace ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel.Views;
+﻿namespace ECC.DanceCup.Api.Application.Abstractions.Models.Views;
 
 public class DanceView
 {

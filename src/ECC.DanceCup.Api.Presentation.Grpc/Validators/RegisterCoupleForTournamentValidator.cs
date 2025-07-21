@@ -7,7 +7,7 @@ public class RegisterCoupleForTournamentValidator : AbstractValidator<RegisterCo
 {
     public RegisterCoupleForTournamentValidator()
     {
-        RuleFor(request => request.TournamentId).IsValidTournamentId();
+        /*RuleFor(request => request.TournamentId).IsValidTournamentId();
 
         RuleFor(request => request.FirstParticipantFullName).IsValidCoupleParticipantFullName();
         
@@ -31,6 +31,6 @@ public class RegisterCoupleForTournamentValidator : AbstractValidator<RegisterCo
             .NotEmpty()
             .WithMessage("Необходимо передать список идентификаторов категорий");
 
-        RuleForEach(request => request.CategoriesIds).IsValidCategoryId();
+        RuleForEach(request => request.CategoriesIds).IsValidCategoryId(); */
     }
 }

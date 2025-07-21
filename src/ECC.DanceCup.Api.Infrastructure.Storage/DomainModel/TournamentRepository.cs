@@ -180,9 +180,9 @@ public class TournamentRepository : ITournamentRepository
         categoryIdsParameter = new NpgsqlParameter<long[]>("CategoryId", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
         var danceIdsParametr = new NpgsqlParameter<long[]>("DanceId", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
 
-        index = 0;
         var categoriesDance = tournament.Categories
-            .SelectMany(category => category.DancesIds.Select(danceId => new { Id = categoryId[index++], danceId }))
+            .Select((category, i) => new { category, categoryId = categoryId[i] })
+            .SelectMany(x => x.category.DancesIds.Select(danceId => new { Id = x.categoryId, danceId }))
             .ToArray();
 
         categoryIdsParameter.TypedValue = categoriesDance.Select(x => x.Id).ToArray();

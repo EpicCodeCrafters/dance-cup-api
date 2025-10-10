@@ -1,12 +1,12 @@
 ﻿using BenchmarkDotNet.Attributes;
 using ECC.DanceCup.Api.Application.Abstractions.Models.Views;
+using ECC.DanceCup.Api.Infrastructure.Caching.Options;
 using ECC.DanceCup.Api.Infrastructure.Caching.Services;
 using ECC.DanceCup.Api.Infrastructure.Storage.Options;
 using ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
 using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -55,7 +55,19 @@ public class RedisBenchmark
         var optionsAccessor = Options.Create(redisOptions);
         IDistributedCache distributedCache = new RedisCache(optionsAccessor);
 
-        var danceViewCache = new DanceViewCache(distributedCache, new Mock<ILogger<DanceViewCache>>(MockBehavior.Loose).Object);
+        var optionsMock = new Mock<IOptions<CachingOptions>>();
+        optionsMock
+            .SetupGet(options => options.Value)
+            .Returns(new CachingOptions
+            {
+                ExpirationMinutes = 100
+            });
+        
+        var danceViewCache = new DanceViewCache(
+            distributedCache, 
+            optionsMock.Object,
+            new Mock<ILogger<DanceViewCache>>(MockBehavior.Loose).Object
+        );
         
         var dances = await danceViewCache.FindAllAsync(CancellationToken.None);
         if (dances is null)

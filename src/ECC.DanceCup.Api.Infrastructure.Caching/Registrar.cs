@@ -3,6 +3,7 @@ using ECC.DanceCup.Api.Infrastructure.Caching.Options;
 using ECC.DanceCup.Api.Infrastructure.Caching.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace ECC.DanceCup.Api.Infrastructure.Caching;
 
@@ -15,6 +16,10 @@ public static class Registrar
         services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = configuration["CachingOptions:ConnectionString"];
+            options.ConfigurationOptions = new ConfigurationOptions
+            {
+                ConnectTimeout = 50
+            };
         });
         
         services.AddScoped<IDanceViewCache, DanceViewCache>();

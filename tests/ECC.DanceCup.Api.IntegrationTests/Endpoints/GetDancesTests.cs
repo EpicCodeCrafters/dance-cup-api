@@ -19,18 +19,28 @@ public class GetDancesTests : IClassFixture<DanceCupApiFactory>
     {
         // Arrange
 
+        const int otherRequestsCount = 100;
+
         var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
         var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
         
         // Act
 
-        var watch1 = Stopwatch.StartNew();
-        var response1 = await danceCupApiClient.GetDancesAsync(new GetDancesRequest());
-        var time1 = watch1.ElapsedMilliseconds;
-        
-        var watch2 = Stopwatch.StartNew();
-        var response2 = await danceCupApiClient.GetDancesAsync(new GetDancesRequest());
-        var time2 = watch2.ElapsedMilliseconds;
+        var firstWatch = Stopwatch.StartNew();
+        var firstResponse = await danceCupApiClient.GetDancesAsync(new GetDancesRequest());
+        var firstTime = firstWatch.ElapsedMilliseconds;
+
+        var otherResponses = new List<GetDancesResponse>();
+        var otherTimes = new List<long>();
+        foreach (var _ in Enumerable.Range(0, otherRequestsCount))
+        {
+            var watch = Stopwatch.StartNew();
+            var response = await danceCupApiClient.GetDancesAsync(new GetDancesRequest());
+            var time = watch.ElapsedMilliseconds;
+                
+            otherResponses.Add(response);
+            otherTimes.Add(time);
+        }
 
         // Assert
 
@@ -48,9 +58,13 @@ public class GetDancesTests : IClassFixture<DanceCupApiFactory>
             new Dance { Id = 10, Name = "Джайв", ShortName = "J" }
         };
 
-        response1.Dances.Should().BeEquivalentTo(expectedDances);
-        response2.Dances.Should().BeEquivalentTo(expectedDances);
+        firstResponse.Dances.Should().BeEquivalentTo(expectedDances);
+        otherResponses.Should().AllSatisfy(
+            otherResponse => otherResponse.Dances.Should().BeEquivalentTo(expectedDances)
+        );
 
-        time2.Should().BeLessThan(time1);
+        otherTimes.Should().AllSatisfy(
+            otherTime => otherTime.Should().BeLessThan(firstTime)
+        );
     }
 }

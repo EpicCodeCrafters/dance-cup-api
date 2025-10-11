@@ -19,7 +19,7 @@ public class UserCreatedEventHandlerTests : IClassFixture<DanceCupApiFactory>
         factory.CreateClient();
         
         _postgresConnectionString = factory.PostgresConnectionString;
-        _kafkaBootstrapServers = factory.KafkaBoostrapServers;
+        _kafkaBootstrapServers = factory.KafkaBootstrapServers;
     }
     
     [Theory, AutoMoqData]

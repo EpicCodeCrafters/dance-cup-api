@@ -33,7 +33,7 @@ public class DanceCupApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         .Build();
     
     public string PostgresConnectionString => _postgres.GetConnectionString();
-    public string KafkaBoostrapServers => NormalizeBootstrapServers(_kafka.GetBootstrapAddress());
+    public string KafkaBootstrapServers => NormalizeBootstrapServers(_kafka.GetBootstrapAddress());
     
     public string RedisConnectionString => _redis.GetConnectionString();
     
@@ -42,7 +42,7 @@ public class DanceCupApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
     private Dictionary<string, string?> Settings => new()
     {
         ["StorageOptions:ConnectionString"] = PostgresConnectionString,
-        ["KafkaOptions:BootstrapServers"] = KafkaBoostrapServers,
+        ["KafkaOptions:BootstrapServers"] = KafkaBootstrapServers,
         ["CachingOptions:ConnectionString"] = RedisConnectionString
     };
 
@@ -94,7 +94,7 @@ public class DanceCupApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         
         // Init Kafka topics
         
-        var adminConfig = new AdminClientConfig { BootstrapServers = KafkaBoostrapServers };
+        var adminConfig = new AdminClientConfig { BootstrapServers = KafkaBootstrapServers };
         using var adminClient = new AdminClientBuilder(adminConfig).Build();
 
         await adminClient.CreateTopicsAsync([

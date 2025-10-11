@@ -20,7 +20,7 @@ public class RegisterCoupleForTournamentTests : IClassFixture<DanceCupApiFactory
     }
 
     [Fact]
-    public async Task RegisterCoupleForTournament_ShouldCreateCoupleInTournamentWIthCategoryLink()
+    public async Task RegisterCoupleForTournament_ShouldCreateCoupleInTournamentWithCategoryLink()
     {
         // Arrange
 

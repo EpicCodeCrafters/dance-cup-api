@@ -1,8 +1,11 @@
-﻿using ECC.DanceCup.Api.Extensions;
+﻿using Confluent.Kafka;
+using Confluent.Kafka.Admin;
+using ECC.DanceCup.Api.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Testcontainers.Kafka;
 using Testcontainers.PostgreSql;
@@ -29,6 +32,20 @@ public class DanceCupApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
         .WithImage("redis:7-alpine")
         .WithCleanUp(true)
         .Build();
+    
+    public string PostgresConnectionString => _postgres.GetConnectionString();
+    public string KafkaBoostrapServers => NormalizeBootstrapServers(_kafka.GetBootstrapAddress());
+    
+    public string RedisConnectionString => _redis.GetConnectionString();
+    
+    private string Environment => "Testing";
+    
+    private Dictionary<string, string?> Settings => new()
+    {
+        ["StorageOptions:ConnectionString"] = PostgresConnectionString,
+        ["KafkaOptions:BootstrapServers"] = KafkaBoostrapServers,
+        ["CachingOptions:ConnectionString"] = RedisConnectionString
+    };
 
     protected override IHostBuilder CreateHostBuilder()
     {
@@ -43,23 +60,18 @@ public class DanceCupApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder
-            .UseEnvironment("Development")
-            .ConfigureAppConfiguration((context, config) =>
+            .UseEnvironment(Environment)
+            .ConfigureAppConfiguration((_, config) =>
             {
-                var settings = new Dictionary<string, string?>
-                {
-                    ["StorageOptions:ConnectionString"] = _postgres.GetConnectionString(),
-                    ["KafkaOptions:BootstrapServers"] = _kafka.GetBootstrapAddress(),
-                    ["CachingOptions:ConnectionString"] = _redis.GetConnectionString()
-                };
-                config.AddInMemoryCollection(settings);
+                config.AddInMemoryCollection(Settings);
             });
 
         builder.ConfigureServices(services =>
         {
-            // Например, заменить реальные зависимости на тестовые / мок-версии
-            // services.Remove(...);
-            // services.AddSingleton<…>(…);
+            var topic = services
+                .BuildServiceProvider()
+                .GetRequiredService<IConfiguration>()
+                .GetValue<string>("KafkaOptions:Topics:DanceCupEvents:Name");
         });
     }
 
@@ -70,24 +82,34 @@ public class DanceCupApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
             _kafka.StartAsync(),
             _redis.StartAsync()
         );
+        
+        // Migrate database
 
         var migrateHost = WebHost
             .CreateDefaultBuilder()
             .UseStartup<Startup>()
-            .UseEnvironment("Development")
-            .ConfigureAppConfiguration((context, config) =>
+            .UseEnvironment(Environment)
+            .ConfigureAppConfiguration((_, config) =>
             {
-                var settings = new Dictionary<string, string?>
-                {
-                    ["StorageOptions:ConnectionString"] = _postgres.GetConnectionString(),
-                    ["KafkaOptions:BootstrapServers"] = _kafka.GetBootstrapAddress(),
-                    ["CachingOptions:ConnectionString"] = _redis.GetConnectionString()
-                };
-                config.AddInMemoryCollection(settings);
+                config.AddInMemoryCollection(Settings);
             })
             .Build();
 
         await migrateHost.MigrateAsync();
+        
+        // Init Kafka topics
+        
+        var adminConfig = new AdminClientConfig { BootstrapServers = KafkaBoostrapServers };
+        using var adminClient = new AdminClientBuilder(adminConfig).Build();
+
+        await adminClient.CreateTopicsAsync([
+            new TopicSpecification
+            {
+                Name = "dance_cup_events",
+                NumPartitions = 1,
+                ReplicationFactor = 1
+            }
+        ]);
     }
 
     async Task IAsyncLifetime.DisposeAsync()
@@ -97,5 +119,22 @@ public class DanceCupApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
             _kafka.DisposeAsync().AsTask(),
             _redis.DisposeAsync().AsTask()
         );
+    }
+    
+    private static string NormalizeBootstrapServers(string address)
+    {
+        const string plaintextPrefix = "PLAINTEXT://";
+
+        if (address.StartsWith(plaintextPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            address = address[plaintextPrefix.Length..];
+        }
+
+        if (address[^1] == '/')
+        {
+            address = address[..^1];
+        }
+
+        return address;
     }
 }

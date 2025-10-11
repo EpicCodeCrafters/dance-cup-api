@@ -33,13 +33,13 @@ public class DanceCupEventsConsumer : BackgroundService
     
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        Task.Run(() => ExecuteInternalAsync(stoppingToken), stoppingToken);
-        
-        return Task.CompletedTask;
+        return ExecuteInternalAsync(stoppingToken);
     }
 
     private async Task ExecuteInternalAsync(CancellationToken stoppingToken)
     {
+        await Task.Yield();
+        
         var consumerConfig = new ConsumerConfig
         {
             BootstrapServers = _options.Value.BootstrapServers,
@@ -49,7 +49,7 @@ public class DanceCupEventsConsumer : BackgroundService
 
         using var consumer = new ConsumerBuilder<Ignore, string>(consumerConfig).Build();
         consumer.Subscribe(_options.Value.Topics.DanceCupEvents.Name);
-        
+
         while (!stoppingToken.IsCancellationRequested)
         {
             try

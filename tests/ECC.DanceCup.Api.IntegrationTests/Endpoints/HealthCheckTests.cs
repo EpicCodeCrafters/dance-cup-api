@@ -4,11 +4,11 @@ using Grpc.Net.Client;
 
 namespace ECC.DanceCup.Api.IntegrationTests.Endpoints;
 
-public class HealthCheckTest : IClassFixture<DanceCupApiFactory>
+public class HealthCheckTests : IClassFixture<DanceCupApiFactory>
 {
     private readonly HttpClient _client;
 
-    public HealthCheckTest(DanceCupApiFactory factory)
+    public HealthCheckTests(DanceCupApiFactory factory)
     {
         _client = factory.CreateClient();
     }

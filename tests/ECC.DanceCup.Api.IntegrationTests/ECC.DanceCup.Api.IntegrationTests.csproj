@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\ECC.DanceCup.Api\ECC.DanceCup.Api.csproj" />
+      <ProjectReference Include="..\ECC.DanceCup.Api.Tests.Common\ECC.DanceCup.Api.Tests.Common.csproj" />
     </ItemGroup>
 
 </Project>

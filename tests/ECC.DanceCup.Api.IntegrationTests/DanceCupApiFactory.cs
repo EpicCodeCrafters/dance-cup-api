@@ -5,7 +5,6 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Testcontainers.Kafka;
 using Testcontainers.PostgreSql;
@@ -68,10 +67,6 @@ public class DanceCupApiFactory : WebApplicationFactory<Startup>, IAsyncLifetime
 
         builder.ConfigureServices(services =>
         {
-            var topic = services
-                .BuildServiceProvider()
-                .GetRequiredService<IConfiguration>()
-                .GetValue<string>("KafkaOptions:Topics:DanceCupEvents:Name");
         });
     }
 

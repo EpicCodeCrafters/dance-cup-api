@@ -1,4 +1,5 @@
-﻿using ECC.DanceCup.Api.Presentation.Grpc;
+﻿using System.Diagnostics;
+using ECC.DanceCup.Api.Presentation.Grpc;
 using FluentAssertions;
 using Grpc.Net.Client;
 
@@ -23,7 +24,13 @@ public class GetDancesTests : IClassFixture<DanceCupApiFactory>
         
         // Act
 
-        var response = await danceCupApiClient.GetDancesAsync(new GetDancesRequest());
+        var watch1 = Stopwatch.StartNew();
+        var response1 = await danceCupApiClient.GetDancesAsync(new GetDancesRequest());
+        var time1 = watch1.ElapsedMilliseconds;
+        
+        var watch2 = Stopwatch.StartNew();
+        var response2 = await danceCupApiClient.GetDancesAsync(new GetDancesRequest());
+        var time2 = watch2.ElapsedMilliseconds;
 
         // Assert
 
@@ -41,6 +48,9 @@ public class GetDancesTests : IClassFixture<DanceCupApiFactory>
             new Dance { Id = 10, Name = "Джайв", ShortName = "J" }
         };
 
-        response.Dances.Should().BeEquivalentTo(expectedDances);
+        response1.Dances.Should().BeEquivalentTo(expectedDances);
+        response2.Dances.Should().BeEquivalentTo(expectedDances);
+
+        time2.Should().BeLessThan(time1);
     }
 }

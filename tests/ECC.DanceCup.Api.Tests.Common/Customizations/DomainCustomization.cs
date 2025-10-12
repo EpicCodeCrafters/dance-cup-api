@@ -68,6 +68,10 @@ public class DomainCustomization : ICustomization
             composer.FromFactory(() => CoupleDanceOrganizationName.From(fixture.Create<string>()).AsRequired())
         );
         
+        fixture.Customize<CoupleDivision>(composer =>
+            composer.FromFactory(() => CoupleDivision.From(fixture.Create<string>()).AsRequired())
+        );
+        
         fixture.Customize<CoupleTrainerFullName>(composer =>
             composer.FromFactory(() => CoupleTrainerFullName.From(fixture.Create<string>()).AsRequired())
         );

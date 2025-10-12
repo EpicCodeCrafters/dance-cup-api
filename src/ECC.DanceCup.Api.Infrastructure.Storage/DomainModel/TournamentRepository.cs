@@ -92,14 +92,15 @@ public class TournamentRepository : ITournamentRepository
         
         const string sqlCommandSetCouples =
             """
-            insert into "couples" ("tournament_id", "first_participant_full_name", "second_participant_full_name", "dance_organization_name", "first_trainer_full_name", "second_trainer_full_name")
-            select * from unnest(@TournamentId, @FirstParticipantFullName, @SecondParticipantFullName, @DanceOrganizationName, @FirstTrainerFullName, @SecondTrainerFullName)
+            insert into "couples" ("tournament_id", "first_participant_full_name", "second_participant_full_name", "dance_organization_name", "division", "first_trainer_full_name", "second_trainer_full_name")
+            select * from unnest(@TournamentId, @FirstParticipantFullName, @SecondParticipantFullName, @DanceOrganizationName, @Division, @FirstTrainerFullName, @SecondTrainerFullName)
             """;
         
         tournamentsIdsParameter = new NpgsqlParameter<long[]>("TournamentId", NpgsqlDbType.Bigint | NpgsqlDbType.Array);
         var firstParticipantsFullNamesParameter = new NpgsqlParameter<string[]>("FirstParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
         var secondParticipantsFullNamesParameter = new NpgsqlParameter<string?[]>("SecondParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
         var danceOrganizationsNamesParameter = new NpgsqlParameter<string?[]>("DanceOrganizationName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var divisionsParameter = new NpgsqlParameter<string?[]>("Division", NpgsqlDbType.Text | NpgsqlDbType.Array);
         var firstTrainersFullNamesParameter = new NpgsqlParameter<string?[]>("FirstTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
         var secondTrainersFullNamesParameter = new NpgsqlParameter<string?[]>("SecondTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
 
@@ -109,6 +110,7 @@ public class TournamentRepository : ITournamentRepository
         firstParticipantsFullNamesParameter.TypedValue = couplesDbos.Select(x => x.FirstParticipantFullName).ToArray();
         secondParticipantsFullNamesParameter.TypedValue = couplesDbos.Select(x => x.SecondParticipantFullName).ToArray();
         danceOrganizationsNamesParameter.TypedValue = couplesDbos.Select(x => x.DanceOrganizationName).ToArray();
+        divisionsParameter.TypedValue = couplesDbos.Select(x => x.Division).ToArray();
         firstTrainersFullNamesParameter.TypedValue = couplesDbos.Select(x => x.FirstTrainerFullName).ToArray();
         secondTrainersFullNamesParameter.TypedValue = couplesDbos.Select(x => x.SecondTrainerFullName).ToArray();
 
@@ -118,6 +120,7 @@ public class TournamentRepository : ITournamentRepository
         command.Parameters.Add(firstParticipantsFullNamesParameter);
         command.Parameters.Add(secondParticipantsFullNamesParameter);
         command.Parameters.Add(danceOrganizationsNamesParameter);
+        command.Parameters.Add(divisionsParameter);
         command.Parameters.Add(firstTrainersFullNamesParameter);
         command.Parameters.Add(secondTrainersFullNamesParameter);
 
@@ -261,6 +264,7 @@ public class TournamentRepository : ITournamentRepository
                 first_participant_full_name,
                 second_participant_full_name,
                 dance_organization_name,
+                division,
                 first_trainer_full_name,
                 second_trainer_full_name
             )
@@ -269,15 +273,17 @@ public class TournamentRepository : ITournamentRepository
                 @TournamentIds,                 
                 @FirstParticipantFullName,   
                 @SecondParticipantFullName,  
-                @DanceOrganizationName,      
+                @DanceOrganizationName,
+                @Division,
                 @FirstTrainerFullName,       
                 @SecondTrainerFullName       
-            ) AS v(id, tournament_id, first_participant_full_name, second_participant_full_name, dance_organization_name, first_trainer_full_name, second_trainer_full_name)
+            ) AS v(id, tournament_id, first_participant_full_name, second_participant_full_name, dance_organization_name, division, first_trainer_full_name, second_trainer_full_name)
             ON CONFLICT (id) DO UPDATE SET
                 tournament_id = EXCLUDED.tournament_id,
                 first_participant_full_name = EXCLUDED.first_participant_full_name,
                 second_participant_full_name = EXCLUDED.second_participant_full_name,
                 dance_organization_name = EXCLUDED.dance_organization_name,
+                division = EXCLUDED.division,
                 first_trainer_full_name = EXCLUDED.first_trainer_full_name,
                 second_trainer_full_name = EXCLUDED.second_trainer_full_name;
             """;
@@ -287,6 +293,7 @@ public class TournamentRepository : ITournamentRepository
         var firstParticipantsFullNamesParameter = new NpgsqlParameter<string[]>("FirstParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
         var secondParticipantsFullNamesParameter = new NpgsqlParameter<string?[]>("SecondParticipantFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
         var danceOrganizationsNamesParameter = new NpgsqlParameter<string?[]>("DanceOrganizationName", NpgsqlDbType.Text | NpgsqlDbType.Array);
+        var divisionsParameter = new NpgsqlParameter<string?[]>("Division", NpgsqlDbType.Text | NpgsqlDbType.Array);
         var firstTrainersFullNamesParameter = new NpgsqlParameter<string?[]>("FirstTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
         var secondTrainersFullNamesParameter = new NpgsqlParameter<string?[]>("SecondTrainerFullName", NpgsqlDbType.Text | NpgsqlDbType.Array);
 
@@ -297,6 +304,7 @@ public class TournamentRepository : ITournamentRepository
         firstParticipantsFullNamesParameter.TypedValue = couplesDbos.Select(x => x.FirstParticipantFullName).ToArray();
         secondParticipantsFullNamesParameter.TypedValue = couplesDbos.Select(x => x.SecondParticipantFullName).ToArray();
         danceOrganizationsNamesParameter.TypedValue = couplesDbos.Select(x => x.DanceOrganizationName).ToArray();
+        divisionsParameter.TypedValue = couplesDbos.Select(x => x.Division).ToArray();
         firstTrainersFullNamesParameter.TypedValue = couplesDbos.Select(x => x.FirstTrainerFullName).ToArray();
         secondTrainersFullNamesParameter.TypedValue = couplesDbos.Select(x => x.SecondTrainerFullName).ToArray();
 
@@ -307,6 +315,7 @@ public class TournamentRepository : ITournamentRepository
         command.Parameters.Add(firstParticipantsFullNamesParameter);
         command.Parameters.Add(secondParticipantsFullNamesParameter);
         command.Parameters.Add(danceOrganizationsNamesParameter);
+        command.Parameters.Add(divisionsParameter);
         command.Parameters.Add(firstTrainersFullNamesParameter);
         command.Parameters.Add(secondTrainersFullNamesParameter);
 

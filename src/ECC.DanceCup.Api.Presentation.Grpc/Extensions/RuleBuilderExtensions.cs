@@ -127,6 +127,13 @@ internal static class RuleBuilderExtensions
             .WithMessage("Необходимо передать корректное название организации, в которой пара занимается танцами");
     }
     
+    public static IRuleBuilderOptions<TProperty, string> IsValidCoupleDivision<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
+    {
+        return ruleBuilder
+            .Must(value => CoupleDivision.From(value) is not null)
+            .WithMessage("Необходимо передать корректное название отделения организации");
+    }
+    
     public static IRuleBuilderOptions<TProperty, string> IsValidCoupleTrainerFullName<TProperty>(this IRuleBuilder<TProperty, string> ruleBuilder)
     {
         return ruleBuilder

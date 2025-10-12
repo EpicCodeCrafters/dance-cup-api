@@ -10,6 +10,8 @@ public class TournamentRegistrationResultView
     
     public required string? DanceOrganizationName { get; init; }
     
+    public required string? Division { get; init; }
+    
     public required string? FirstTrainerFullName { get; init; }
     
     public required string? SecondTrainerFullName { get; init; }

@@ -11,6 +11,7 @@ public static partial class RegisterCoupleForTournamentUseCase
         CoupleParticipantFullName FirstParticipantFullName,
         CoupleParticipantFullName? SecondParticipantFullName, 
         CoupleDanceOrganizationName? DanceOrganizationName, 
+        CoupleDivision? Division,
         CoupleTrainerFullName? FirstTrainerFullName, 
         CoupleTrainerFullName? SecondTrainerFullName,
         IReadOnlyCollection<CategoryId> CategoriesIds

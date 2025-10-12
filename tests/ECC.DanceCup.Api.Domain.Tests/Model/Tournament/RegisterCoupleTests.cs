@@ -35,6 +35,7 @@ public class RegisterCoupleTests
             firstParticipantFullName,
             secondParticipantFullName,
             danceOrganizationName,
+            null,
             firstTrainerFullName,
             secondTrainerFullName,
             categoriesIds
@@ -77,6 +78,7 @@ public class RegisterCoupleTests
             firstParticipantFullName,
             secondParticipantFullName,
             danceOrganizationName,
+            null,
             firstTrainerFullName,
             secondTrainerFullName,
             categoriesIds

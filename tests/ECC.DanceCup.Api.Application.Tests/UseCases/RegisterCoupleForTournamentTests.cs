@@ -55,7 +55,8 @@ public class RegisterCoupleForTournamentTests
             tournamentId, 
             firstParticipantFullName, 
             secondParticipantFullName,
-            danceOrganizationName, 
+            danceOrganizationName,
+            null,
             firstTrainerFullName, 
             secondTrainerFullName, 
             categoriesIds
@@ -119,7 +120,8 @@ public class RegisterCoupleForTournamentTests
             tournamentId, 
             firstParticipantFullName, 
             secondParticipantFullName,
-            danceOrganizationName, 
+            danceOrganizationName,
+            null,
             firstTrainerFullName, 
             secondTrainerFullName, 
             categoriesIds

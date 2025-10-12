@@ -15,6 +15,7 @@ internal static class CoupleMapping
             FirstParticipantFullName = couple.FirstParticipantFullName.Value,
             SecondParticipantFullName = couple.SecondParticipantFullName?.Value,
             DanceOrganizationName = couple.DanceOrganizationName?.Value,
+            Division = couple.Division?.Value,
             FirstTrainerFullName = couple.FirstTrainerFullName?.Value,
             SecondTrainerFullName = couple.SecondTrainerFullName?.Value
         };
@@ -29,6 +30,7 @@ internal static class CoupleMapping
                 firstParticipantFullName: CoupleParticipantFullName.From(c.FirstParticipantFullName).AsRequired(),
                 secondParticipantFullName: c.SecondParticipantFullName != null ? CoupleParticipantFullName.From(c.SecondParticipantFullName) : null,
                 danceOrganizationName: c.DanceOrganizationName != null ? CoupleDanceOrganizationName.From(c.DanceOrganizationName) : null,
+                division: c.Division != null ? CoupleDivision.From(c.Division) : null,
                 firstTrainerFullName: c.FirstTrainerFullName != null ? CoupleTrainerFullName.From(c.FirstTrainerFullName) : null,
                 secondTrainerFullName: c.SecondTrainerFullName != null ? CoupleTrainerFullName.From(c.SecondTrainerFullName) : null
             )).ToList().AsRequired();

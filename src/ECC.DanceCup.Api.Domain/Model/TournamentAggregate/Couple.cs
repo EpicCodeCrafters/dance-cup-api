@@ -13,6 +13,7 @@ public class Couple :  Entity<CoupleId>
         CoupleParticipantFullName firstParticipantFullName,
         CoupleParticipantFullName? secondParticipantFullName, 
         CoupleDanceOrganizationName? danceOrganizationName, 
+        CoupleDivision? division,
         CoupleTrainerFullName? firstTrainerFullName, 
         CoupleTrainerFullName? secondTrainerFullName
     ) : base(id)
@@ -21,6 +22,7 @@ public class Couple :  Entity<CoupleId>
         FirstParticipantFullName = firstParticipantFullName;
         SecondParticipantFullName = secondParticipantFullName;
         DanceOrganizationName = danceOrganizationName;
+        Division = division;
         FirstTrainerFullName = firstTrainerFullName;
         SecondTrainerFullName = secondTrainerFullName;
     }
@@ -44,6 +46,11 @@ public class Couple :  Entity<CoupleId>
     /// Название организации, в которой пара занимается танцами
     /// </summary>
     public CoupleDanceOrganizationName? DanceOrganizationName { get; }
+    
+    /// <summary>
+    /// Отделение организации, в которой пара занимается танцами
+    /// </summary>
+    public CoupleDivision? Division { get; }
     
     /// <summary>
     /// Полное имя первого тренера пары

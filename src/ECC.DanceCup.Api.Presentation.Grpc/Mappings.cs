@@ -73,6 +73,7 @@ internal static class Mappings
             FirstParticipantFullName = couple.FirstParticipantFullName,
             SecondParticipantFullName = couple.SecondParticipantFullName,
             DanceOrganizationName = couple.DanceOrganizationName,
+            Division = couple.Division,
             FirstTrainerFullName = couple.FirstTrainerFullName,
             SecondTrainerFullName = couple.SecondTrainerFullName
         };
@@ -194,6 +195,7 @@ internal static class Mappings
             FirstParticipantFullName: CoupleParticipantFullName.From(request.FirstParticipantFullName).AsRequired(),
             SecondParticipantFullName: request.SecondParticipantFullName is null ? null : CoupleParticipantFullName.From(request.SecondParticipantFullName).AsRequired(),
             DanceOrganizationName: request.DanceOrganizationName is null ? null : CoupleDanceOrganizationName.From(request.DanceOrganizationName).AsRequired(),
+            Division: request.Division is null ? null : CoupleDivision.From(request.Division).AsRequired(),
             FirstTrainerFullName: request.FirstTrainerFullName is null ? null : CoupleTrainerFullName.From(request.FirstTrainerFullName).AsRequired(),
             SecondTrainerFullName: request.SecondTrainerFullName is null ? null : CoupleTrainerFullName.From(request.SecondTrainerFullName).AsRequired(),
             CategoriesIds: request.CategoriesIds.Select(categoryId => CategoryId.From(categoryId).AsRequired()).ToArray()

@@ -33,6 +33,7 @@ public static partial class RegisterCoupleForTournamentUseCase
                 firstParticipantFullName: command.FirstParticipantFullName,
                 secondParticipantFullName: command.SecondParticipantFullName,
                 danceOrganizationName: command.DanceOrganizationName,
+                division: command.Division,
                 firstTrainerFullName: command.FirstTrainerFullName,
                 secondTrainerFullName: command.SecondTrainerFullName,
                 categoriesIds: command.CategoriesIds

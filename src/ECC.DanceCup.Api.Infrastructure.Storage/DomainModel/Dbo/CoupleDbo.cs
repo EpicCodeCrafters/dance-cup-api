@@ -12,6 +12,8 @@ internal class CoupleDbo
     
     public string? DanceOrganizationName { get; set; }
     
+    public string? Division { get; set; }
+    
     public string? FirstTrainerFullName { get; set; }
     
     public string? SecondTrainerFullName { get; set; }

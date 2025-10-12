@@ -170,6 +170,7 @@ public class Tournament : AggregateRoot<TournamentId>
     /// <param name="firstParticipantFullName">Полное имя первого участика пары</param>
     /// <param name="secondParticipantFullName">Полное имя второго участика пар</param>
     /// <param name="danceOrganizationName">Название танцевальной организации пыры</param>
+    /// <param name="division">Отделение организации пары</param>
     /// <param name="firstTrainerFullName">Полное имя первого тренера пары</param>
     /// <param name="secondTrainerFullName">Полное имя второго тренера пары</param>
     /// <param name="categoriesIds">Список идентификаторов категорий, в которые регистрируется пара</param>
@@ -179,6 +180,7 @@ public class Tournament : AggregateRoot<TournamentId>
         CoupleParticipantFullName firstParticipantFullName,
         CoupleParticipantFullName? secondParticipantFullName, 
         CoupleDanceOrganizationName? danceOrganizationName, 
+        CoupleDivision? division,
         CoupleTrainerFullName? firstTrainerFullName, 
         CoupleTrainerFullName? secondTrainerFullName,
         IReadOnlyCollection<CategoryId> categoriesIds)
@@ -225,6 +227,7 @@ public class Tournament : AggregateRoot<TournamentId>
             firstParticipantFullName: firstParticipantFullName,
             secondParticipantFullName: secondParticipantFullName,
             danceOrganizationName: danceOrganizationName,
+            division: division,
             firstTrainerFullName: firstTrainerFullName,
             secondTrainerFullName: secondTrainerFullName
         );

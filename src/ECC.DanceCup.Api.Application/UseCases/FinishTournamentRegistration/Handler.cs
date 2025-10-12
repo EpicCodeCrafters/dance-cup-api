@@ -1,4 +1,5 @@
 ﻿using ECC.DanceCup.Api.Application.Abstractions.Storage.DomainModel;
+using ECC.DanceCup.Api.Application.Abstractions.TgApi;
 using ECC.DanceCup.Api.Application.Errors;
 using FluentResults;
 using MediatR;
@@ -10,10 +11,12 @@ public static partial class FinishTournamentRegistrationUseCase
     public class CommandHandler : IRequestHandler<Command, Result>
     {
         private readonly ITournamentRepository _tournamentRepository;
+        private readonly ITgApi _tgApi;
 
-        public CommandHandler(ITournamentRepository tournamentRepository)
+        public CommandHandler(ITournamentRepository tournamentRepository, ITgApi tgApi)
         {
             _tournamentRepository = tournamentRepository;
+            _tgApi = tgApi;
         }
 
         public async Task<Result> Handle(Command command, CancellationToken cancellationToken)
@@ -31,6 +34,13 @@ public static partial class FinishTournamentRegistrationUseCase
             }
 
             await _tournamentRepository.UpdateAsync(tournament, cancellationToken);
+
+            await _tgApi.SendMessageAsync(
+                $"✅ Регистрация на турнир \"{tournament.Name}\" завершена!\n\n" +
+                $"👥 Зарегистрировано пар: {tournament.CouplesCount}\n" +
+                $"📋 Категорий: {tournament.CategoriesCount}",
+                cancellationToken
+            );
 
             return Result.Ok();
         }

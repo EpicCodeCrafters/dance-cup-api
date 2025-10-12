@@ -26,7 +26,7 @@ public class Startup
 
         services.AddStorage(_configuration);
         services.AddCaching(_configuration);
-        services.AddTgApi();
+        services.AddTgApi(_configuration);
 
         services.AddGrpcServices();
         services.AddGrpcHealthChecks().AddCheck(string.Empty, () => HealthCheckResult.Healthy());

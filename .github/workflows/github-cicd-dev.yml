@@ -16,14 +16,43 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: |
+          dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage --logger "console;verbosity=normal" > test_results.log 2>&1
+          cat test_results.log
+      - name: Calculate coverage and test stats
+        id: coverage
+        run: |
+          # Install reportgenerator tool
+          dotnet tool install -g dotnet-reportgenerator-globaltool || true
+          
+          # Generate coverage report
+          reportgenerator -reports:"./coverage/**/coverage.cobertura.xml" -targetdir:"./coveragereport" -reporttypes:"TextSummary"
+          
+          # Extract coverage percentage
+          COVERAGE=$(grep -oP 'Line coverage: \K[0-9.]+' ./coveragereport/Summary.txt || echo "0")
+          echo "coverage=$COVERAGE" >> $GITHUB_OUTPUT
+          
+          # Extract test counts
+          TOTAL_TESTS=$(grep -oP 'Total tests: \K[0-9]+' test_results.log | awk '{s+=$1} END {print s}' || echo "0")
+          PASSED_TESTS=$(grep -oP 'Passed: \K[0-9]+' test_results.log | awk '{s+=$1} END {print s}' || echo "0")
+          FAILED_TESTS=$(grep -oP 'Failed: \K[0-9]+' test_results.log | awk '{s+=$1} END {print s}' || echo "0")
+          
+          echo "total=$TOTAL_TESTS" >> $GITHUB_OUTPUT
+          echo "passed=$PASSED_TESTS" >> $GITHUB_OUTPUT
+          echo "failed=$FAILED_TESTS" >> $GITHUB_OUTPUT
+          
+          echo "Coverage: $COVERAGE%"
+          echo "Tests: $PASSED_TESTS passed, $FAILED_TESTS failed, $TOTAL_TESTS total"
       - name: Notify success
         if: success()
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.ECC_TG_CHAT_ID }}
+          COVERAGE: ${{ steps.coverage.outputs.coverage }}
+          TOTAL: ${{ steps.coverage.outputs.total }}
+          PASSED: ${{ steps.coverage.outputs.passed }}
         run: |
-          MESSAGE="✅ Сборка и тестирование dance\\-cup\\-api\\-dev прошли успешно"
+          MESSAGE="✅ Сборка и тестирование dance\\-cup\\-api\\-dev прошли успешно%0A%0A🧪 Тесты: ${PASSED}/${TOTAL} пройдено%0A📊 Покрытие кода: ${COVERAGE}%25"
           curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
             -d chat_id=$TELEGRAM_CHAT_ID \
             -d text="$MESSAGE" \

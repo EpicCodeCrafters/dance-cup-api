@@ -1,0 +1,184 @@
+Summary
+  Generated on: 10/13/2025 - 23:22:47
+  Coverage date: 10/13/2025 - 23:21:19 - 10/13/2025 - 23:22:27
+  Parser: MultiReport (3x Cobertura)
+  Assemblies: 11
+  Classes: 142
+  Files: 127
+  Line coverage: 62.2%
+  Covered lines: 3037
+  Uncovered lines: 1845
+  Coverable lines: 4882
+  Total lines: 11022
+  Branch coverage: 46.4% (598 of 1288)
+  Covered branches: 598
+  Total branches: 1288
+  Method coverage: 65.3% (629 of 963)
+  Full method coverage: 53.3% (514 of 963)
+  Covered methods: 629
+  Fully covered methods: 514
+  Total methods: 963
+
+ECC.DanceCup.Api                                                                                                 67.5%
+  ECC.DanceCup.Api.Extensions.WebHostExtensions                                                                   100%
+  ECC.DanceCup.Api.Startup                                                                                        100%
+  Program                                                                                                           0%
+
+ECC.DanceCup.Api.Application                                                                                      100%
+  ECC.DanceCup.Api.Application.Errors.NotFoundError                                                               100%
+  ECC.DanceCup.Api.Application.Errors.TournamentNotFoundError                                                     100%
+  ECC.DanceCup.Api.Application.Registrar                                                                          100%
+  ECC.DanceCup.Api.Application.UseCases.CreateReferee.CreateRefereeUseCase                                        100%
+  ECC.DanceCup.Api.Application.UseCases.CreateTournament.CreateTournamentUseCase                                  100%
+  ECC.DanceCup.Api.Application.UseCases.CreateUser.CreateUserUseCase                                              100%
+  ECC.DanceCup.Api.Application.UseCases.FinishTournamentRegistration.FinishTournamentRegistrationUseCase          100%
+  ECC.DanceCup.Api.Application.UseCases.GetDances.GetDancesUseCase                                                100%
+  ECC.DanceCup.Api.Application.UseCases.GetReferees.GetRefereesUseCase                                            100%
+  ECC.DanceCup.Api.Application.UseCases.GetTournamentRegistrationResult.GetTournamentRegistrationResultUseCase    100%
+  ECC.DanceCup.Api.Application.UseCases.GetTournaments.GetTournamentsUseCase                                      100%
+  ECC.DanceCup.Api.Application.UseCases.RegisterCoupleForTournament.RegisterCoupleForTournamentUseCase            100%
+  ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration.ReopenTournamentRegistrationUseCase          100%
+  ECC.DanceCup.Api.Application.UseCases.StartTournamentRegistration.StartTournamentRegistrationUseCase            100%
+
+ECC.DanceCup.Api.Application.Abstractions                                                                         100%
+  ECC.DanceCup.Api.Application.Abstractions.Models.Views.DanceView                                                100%
+  ECC.DanceCup.Api.Application.Abstractions.Models.Views.RefereeView                                              100%
+  ECC.DanceCup.Api.Application.Abstractions.Models.Views.TournamentRegistrationResultView                         100%
+  ECC.DanceCup.Api.Application.Abstractions.Models.Views.TournamentView                                           100%
+
+ECC.DanceCup.Api.Domain                                                                                            97%
+  ECC.DanceCup.Api.Domain.Errors.CategoriesNotFountError                                                          100%
+  ECC.DanceCup.Api.Domain.Errors.CoupleAlreadyRegisteredForTournamentError                                        100%
+  ECC.DanceCup.Api.Domain.Errors.CoupleAlreadyRegisteredInCategoryError                                           100%
+  ECC.DanceCup.Api.Domain.Errors.CoupleCategoriesShouldNotBeEmptyError                                            100%
+  ECC.DanceCup.Api.Domain.Errors.TournamentShouldBeInStatusError                                                  100%
+  ECC.DanceCup.Api.Domain.Model.DanceAggregate.DanceId                                                            100%
+  ECC.DanceCup.Api.Domain.Model.RefereeAggregate.Referee                                                          100%
+  ECC.DanceCup.Api.Domain.Model.RefereeAggregate.RefereeFullName                                                  100%
+  ECC.DanceCup.Api.Domain.Model.RefereeAggregate.RefereeId                                                        100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.Category                                                      100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.CategoryId                                                    100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.CategoryName                                                  100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.Couple                                                        100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.CoupleDanceOrganizationName                                   100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.CoupleId                                                      100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.CoupleParticipantFullName                                     100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.CoupleTrainerFullName                                         100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.Tournament                                                   97.8%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.TournamentDate                                                100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.TournamentDescription                                         100%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.TournamentId                                                 81.8%
+  ECC.DanceCup.Api.Domain.Model.TournamentAggregate.TournamentName                                                100%
+  ECC.DanceCup.Api.Domain.Model.UserAggregate.User                                                                100%
+  ECC.DanceCup.Api.Domain.Model.UserAggregate.UserExternalId                                                      100%
+  ECC.DanceCup.Api.Domain.Model.UserAggregate.UserId                                                              100%
+  ECC.DanceCup.Api.Domain.Model.UserAggregate.Username                                                            100%
+  ECC.DanceCup.Api.Domain.Registrar                                                                               100%
+  ECC.DanceCup.Api.Domain.Services.CreateCategoryModel                                                            100%
+  ECC.DanceCup.Api.Domain.Services.RefereeFactory                                                                 100%
+  ECC.DanceCup.Api.Domain.Services.TournamentFactory                                                             85.4%
+  ECC.DanceCup.Api.Domain.Services.UserFactory                                                                    100%
+
+ECC.DanceCup.Api.Domain.Core                                                                                     75.5%
+  ECC.DanceCup.Api.Domain.Core.AggregateRoot<T>                                                                   100%
+  ECC.DanceCup.Api.Domain.Core.AggregateVersion                                                                  85.7%
+  ECC.DanceCup.Api.Domain.Core.DomainError                                                                        100%
+  ECC.DanceCup.Api.Domain.Core.Entity<T>                                                                         35.7%
+
+ECC.DanceCup.Api.Infrastructure.Caching                                                                          84.6%
+  ECC.DanceCup.Api.Infrastructure.Caching.Options.CachingOptions                                                  100%
+  ECC.DanceCup.Api.Infrastructure.Caching.Registrar                                                               100%
+  ECC.DanceCup.Api.Infrastructure.Caching.Services.DanceViewCache                                                78.9%
+
+ECC.DanceCup.Api.Infrastructure.Storage                                                                          90.5%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Dbo.CategoryDbo                                             100%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Dbo.CoupleDbo                                               100%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Dbo.RefereeDbo                                              100%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Dbo.TournamentDbo                                           100%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Dbo.UserDbo                                                 100%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Mappings.CategoryMapping                                    100%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Mappings.CoupleMapping                                      100%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Mappings.RefereeMapping                                    52.6%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Mappings.TournamentMapping                                  100%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.Mappings.UserMapping                                       52.3%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.RefereeRepository                                           100%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.TournamentRepository                                       98.5%
+  ECC.DanceCup.Api.Infrastructure.Storage.DomainModel.UserRepository                                              100%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Add_Categories                                                70%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Add_Category_Couple                                           70%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Add_Category_Dances                                           70%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Add_Category_Referee                                          70%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Add_Couples                                                 81.2%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Add_Dances                                                    70%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Add_Referees                                                  75%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Add_Tournaments                                               85%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Add_Users                                                   76.9%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.Fill_Dances                                                  100%
+  ECC.DanceCup.Api.Infrastructure.Storage.Migrations.SqlMigration                                                42.8%
+  ECC.DanceCup.Api.Infrastructure.Storage.Options.StorageOptions                                                  100%
+  ECC.DanceCup.Api.Infrastructure.Storage.Providers.CoupleIdProvider                                              100%
+  ECC.DanceCup.Api.Infrastructure.Storage.ReadModel.DanceViewRepository                                           100%
+  ECC.DanceCup.Api.Infrastructure.Storage.ReadModel.RefereeViewRepository                                         100%
+  ECC.DanceCup.Api.Infrastructure.Storage.ReadModel.TournamentViewRepository                                      100%
+  ECC.DanceCup.Api.Infrastructure.Storage.Registrar                                                               100%
+  ECC.DanceCup.Api.Infrastructure.Storage.Tools.PostgresConnectionFactory                                         100%
+
+ECC.DanceCup.Api.Infrastructure.TgApi                                                                             100%
+  ECC.DanceCup.Api.Infrastructure.TgApi.Registrar                                                                 100%
+
+ECC.DanceCup.Api.Presentation.Grpc                                                                               49.2%
+  ECC.DanceCup.Api.Presentation.Grpc.CreateCategoryModel                                                         45.9%
+  ECC.DanceCup.Api.Presentation.Grpc.CreateRefereeRequest                                                        38.8%
+  ECC.DanceCup.Api.Presentation.Grpc.CreateRefereeResponse                                                         38%
+  ECC.DanceCup.Api.Presentation.Grpc.CreateTournamentRequest                                                     53.3%
+  ECC.DanceCup.Api.Presentation.Grpc.CreateTournamentResponse                                                      38%
+  ECC.DanceCup.Api.Presentation.Grpc.Dance                                                                       57.9%
+  ECC.DanceCup.Api.Presentation.Grpc.DanceCupApi                                                                 61.1%
+  ECC.DanceCup.Api.Presentation.Grpc.DanceCupApiGrpcService                                                       100%
+  ECC.DanceCup.Api.Presentation.Grpc.DanceCupApiReflection                                                          0%
+  ECC.DanceCup.Api.Presentation.Grpc.Extensions.ResultExtensions                                                 81.8%
+  ECC.DanceCup.Api.Presentation.Grpc.Extensions.RuleBuilderExtensions                                              75%
+  ECC.DanceCup.Api.Presentation.Grpc.Extensions.RuleBuilderOptionsExtensions                                        0%
+  ECC.DanceCup.Api.Presentation.Grpc.FinishTournamentRegistrationRequest                                           38%
+  ECC.DanceCup.Api.Presentation.Grpc.FinishTournamentRegistrationResponse                                        23.4%
+  ECC.DanceCup.Api.Presentation.Grpc.GetDancesRequest                                                            23.4%
+  ECC.DanceCup.Api.Presentation.Grpc.GetDancesResponse                                                             35%
+  ECC.DanceCup.Api.Presentation.Grpc.GetRefereesRequest                                                          48.8%
+  ECC.DanceCup.Api.Presentation.Grpc.GetRefereesResponse                                                           35%
+  ECC.DanceCup.Api.Presentation.Grpc.GetTournamentRegistrationResultRequest                                        38%
+  ECC.DanceCup.Api.Presentation.Grpc.GetTournamentRegistrationResultResponse                                     50.5%
+  ECC.DanceCup.Api.Presentation.Grpc.GetTournamentsRequest                                                       48.3%
+  ECC.DanceCup.Api.Presentation.Grpc.GetTournamentsResponse                                                        50%
+  ECC.DanceCup.Api.Presentation.Grpc.Interceptors.ValidationInterceptor                                           100%
+  ECC.DanceCup.Api.Presentation.Grpc.Mappings                                                                     100%
+  ECC.DanceCup.Api.Presentation.Grpc.Referee                                                                     44.7%
+  ECC.DanceCup.Api.Presentation.Grpc.RegisterCoupleForTournamentRequest                                          56.8%
+  ECC.DanceCup.Api.Presentation.Grpc.RegisterCoupleForTournamentResponse                                         23.4%
+  ECC.DanceCup.Api.Presentation.Grpc.Registrar                                                                    100%
+  ECC.DanceCup.Api.Presentation.Grpc.ReopenTournamentRegistrationRequest                                           38%
+  ECC.DanceCup.Api.Presentation.Grpc.ReopenTournamentRegistrationResponse                                        23.4%
+  ECC.DanceCup.Api.Presentation.Grpc.StartTournamentRegistrationRequest                                            38%
+  ECC.DanceCup.Api.Presentation.Grpc.StartTournamentRegistrationResponse                                         23.4%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.CreateCategoryModelValidator                                      100%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.CreateRefereeValidator                                            100%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.CreateTournamentValidator                                         100%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.FinishTournamentRegistrationValidator                             100%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.GetRefereesValidator                                              100%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.GetTournamentRegistrationResultValidator                          100%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.GetTournamentsValidator                                           100%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.RegisterCoupleForTournamentValidator                              100%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.ReopenTournamentRegistrationValidator                             100%
+  ECC.DanceCup.Api.Presentation.Grpc.Validators.StartTournamentRegistrationValidator                              100%
+
+ECC.DanceCup.Api.Presentation.Kafka                                                                                76%
+  ECC.DanceCup.Api.Presentation.Kafka.Consumers.DanceCupEventsConsumer                                           70.5%
+  ECC.DanceCup.Api.Presentation.Kafka.Events.DanceCupEvent                                                        100%
+  ECC.DanceCup.Api.Presentation.Kafka.Events.Payloads.UserCreatedPayload                                          100%
+  ECC.DanceCup.Api.Presentation.Kafka.Options.KafkaOptions                                                        100%
+  ECC.DanceCup.Api.Presentation.Kafka.Options.Topic                                                               100%
+  ECC.DanceCup.Api.Presentation.Kafka.Options.Topics                                                              100%
+  ECC.DanceCup.Api.Presentation.Kafka.Registrar                                                                   100%
+
+ECC.DanceCup.Api.Utils                                                                                           73.3%
+  ECC.DanceCup.Api.Utils.Extensions.ObjectExtensions                                                             66.6%
+  ECC.DanceCup.Api.Utils.Extensions.ResultExtensions                                                              100%

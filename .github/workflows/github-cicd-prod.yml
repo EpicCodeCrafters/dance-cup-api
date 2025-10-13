@@ -55,7 +55,9 @@ jobs:
           TOTAL: ${{ steps.coverage.outputs.total }}
           PASSED: ${{ steps.coverage.outputs.passed }}
         run: |
-          MESSAGE="✅✅✅ Сборка и тестирование dance\\-cup\\-api прошли успешно%0A%0A🧪 Тесты: ${PASSED}/${TOTAL} пройдено%0A📊 Покрытие кода: ${COVERAGE}%25"
+          # Escape dots in coverage value for MarkdownV2
+          COVERAGE_ESCAPED="${COVERAGE//./\\.}"
+          MESSAGE="✅✅✅ Сборка и тестирование dance\\-cup\\-api прошли успешно%0A%0A🧪 Тесты: ${PASSED}/${TOTAL} пройдено%0A📊 Покрытие кода: ${COVERAGE_ESCAPED}%25"
           curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/sendMessage \
             -d chat_id=$TELEGRAM_CHAT_ID \
             -d text="$MESSAGE" \

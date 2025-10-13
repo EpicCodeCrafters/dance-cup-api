@@ -71,6 +71,69 @@ public class ReopenTournamentRegistrationTests : IClassFixture<DanceCupApiFactor
         tournament.ChangedAt.Should().BeAfter(testStartedAt).And.BeBefore(DateTime.UtcNow);
     }
 
+    [Fact]
+    public async Task ReopenTournamentRegistration_WhenTournamentNotFound_ShouldReturnError()
+    {
+        // Arrange
+
+        var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
+        var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
+
+        var request = new ReopenTournamentRegistrationRequest
+        {
+            TournamentId = 999999
+        };
+
+        // Act & Assert
+
+        var exception = await Assert.ThrowsAsync<Grpc.Core.RpcException>(
+            async () => await danceCupApiClient.ReopenTournamentRegistrationAsync(request)
+        );
+
+        exception.StatusCode.Should().Be(Grpc.Core.StatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task ReopenTournamentRegistration_WhenNotFinished_ShouldReturnError()
+    {
+        // Arrange
+
+        await using var connection = new NpgsqlConnection(_postgresConnectionString);
+        await connection.OpenAsync();
+
+        await connection.ExecuteAsync(
+            """
+            insert into "users" ("version", "created_at", "changed_at", "external_id", "username") values
+            (1, now(), now(), 701, 'testuser701');
+            
+            insert into "tournaments" ("version", "created_at", "changed_at", "user_id", "name", "description", "date", "state", "registration_started_at", "registration_finished_at", "started_at", "finished_at") values
+            (1, now(), now(), (select "id" from "users" where "external_id" = 701), 'Not Finished', 'Test', now() + interval '30 days', 'RegistrationInProgress', now() - interval '10 days', null, null, null);
+            """
+        );
+
+        var tournamentId = await connection.QuerySingleAsync<long>(
+            """
+            select "id" from "tournaments" where "name" = 'Not Finished';
+            """
+        );
+
+        var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
+        var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
+
+        var request = new ReopenTournamentRegistrationRequest
+        {
+            TournamentId = tournamentId
+        };
+
+        // Act & Assert
+
+        var exception = await Assert.ThrowsAsync<Grpc.Core.RpcException>(
+            async () => await danceCupApiClient.ReopenTournamentRegistrationAsync(request)
+        );
+
+        exception.StatusCode.Should().Be(Grpc.Core.StatusCode.InvalidArgument);
+    }
+
     private class TournamentTestModel
     {
         public long Id { get; set; }

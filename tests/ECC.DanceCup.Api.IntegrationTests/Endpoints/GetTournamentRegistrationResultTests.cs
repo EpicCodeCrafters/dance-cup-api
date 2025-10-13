@@ -127,4 +127,79 @@ public class GetTournamentRegistrationResultTests : IClassFixture<DanceCupApiFac
 
         response.Items.Should().BeEmpty();
     }
+
+    [Fact]
+    public async Task GetTournamentRegistrationResult_WhenTournamentNotFound_ShouldReturnEmpty()
+    {
+        // Arrange
+
+        var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
+        var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
+
+        var request = new GetTournamentRegistrationResultRequest
+        {
+            TournamentId = 999999
+        };
+
+        // Act
+
+        var response = await danceCupApiClient.GetTournamentRegistrationResultAsync(request);
+
+        // Assert
+
+        response.Items.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetTournamentRegistrationResult_WithSingleCategory_ShouldReturnCorrectResults()
+    {
+        // Arrange
+
+        await using var connection = new NpgsqlConnection(_postgresConnectionString);
+        await connection.OpenAsync();
+
+        await connection.ExecuteAsync(
+            """
+            insert into "users" ("version", "created_at", "changed_at", "external_id", "username") values
+            (1, now(), now(), 801, 'single_cat_user');
+            
+            insert into "tournaments" ("version", "created_at", "changed_at", "user_id", "name", "description", "date", "state", "registration_started_at", "registration_finished_at", "started_at", "finished_at") values
+            (1, now(), now(), (select "id" from "users" where "external_id" = 801), 'Single Cat Tournament', 'Test Description', now() + interval '30 days', 'RegistrationInProgress', now(), null, null, null);
+            
+            insert into "categories" ("tournament_id", "name") values
+            ((select "id" from "tournaments" where "name" = 'Single Cat Tournament'), 'Solo Category');
+            
+            insert into "couples" ("tournament_id", "first_participant_full_name", "second_participant_full_name", "dance_organization_name", "first_trainer_full_name", "second_trainer_full_name") values
+            ((select "id" from "tournaments" where "name" = 'Single Cat Tournament'), 'Single One', 'Single Two', 'Org Solo', 'Trainer Solo', null);
+            
+            insert into "categories_couples" ("category_id", "couple_id") values
+            ((select "id" from "categories" where "name" = 'Solo Category' limit 1), (select "id" from "couples" where "first_participant_full_name" = 'Single One'));
+            """
+        );
+
+        var tournamentId = await connection.QuerySingleAsync<long>(
+            """
+            select "id" from "tournaments" where "name" = 'Single Cat Tournament';
+            """
+        );
+
+        var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
+        var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
+
+        var request = new GetTournamentRegistrationResultRequest
+        {
+            TournamentId = tournamentId
+        };
+
+        // Act
+
+        var response = await danceCupApiClient.GetTournamentRegistrationResultAsync(request);
+
+        // Assert
+
+        response.Items.Should().ContainSingle();
+        response.Items.First().CategoryName.Should().Be("Solo Category");
+        response.Items.First().FirstParticipantFullName.Should().Be("Single One");
+        response.Items.First().DanceOrganizationName.Should().Be("Org Solo");
+    }
 }

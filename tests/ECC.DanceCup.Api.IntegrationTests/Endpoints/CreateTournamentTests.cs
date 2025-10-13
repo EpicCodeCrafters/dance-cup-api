@@ -138,6 +138,193 @@ public class CreateTournamentTests : IClassFixture<DanceCupApiFactory>
         categoryAReferees.Should().ContainSingle();
     }
 
+    [Fact]
+    public async Task CreateTournament_WithoutCategories_ShouldReturnValidationError()
+    {
+        // Arrange
+
+        await using var connection = new NpgsqlConnection(_postgresConnectionString);
+        await connection.OpenAsync();
+
+        await connection.ExecuteAsync(
+            """
+            insert into "users" ("version", "created_at", "changed_at", "external_id", "username") values
+            (1, now(), now(), 456, 'testuser2');
+            """
+        );
+
+        var userId = await connection.QuerySingleAsync<long>(
+            """
+            select "id" from "users" where "external_id" = 456;
+            """
+        );
+
+        var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
+        var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
+
+        var tournamentDate = DateTime.UtcNow.AddDays(30);
+        var request = new CreateTournamentRequest
+        {
+            UserId = userId,
+            Name = "Test Tournament No Categories",
+            Description = "Test Description",
+            Date = Timestamp.FromDateTime(tournamentDate),
+            CreateCategoryModels = { }
+        };
+
+        // Act & Assert
+
+        var exception = await Assert.ThrowsAsync<Grpc.Core.RpcException>(
+            async () => await danceCupApiClient.CreateTournamentAsync(request)
+        );
+
+        exception.StatusCode.Should().Be(Grpc.Core.StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task CreateTournament_WithEmptyName_ShouldReturnValidationError()
+    {
+        // Arrange
+
+        await using var connection = new NpgsqlConnection(_postgresConnectionString);
+        await connection.OpenAsync();
+
+        await connection.ExecuteAsync(
+            """
+            insert into "users" ("version", "created_at", "changed_at", "external_id", "username") values
+            (1, now(), now(), 789, 'testuser3');
+            insert into "referees" ("version", "created_at", "changed_at", "full_name") values
+            (1, now(), now(), 'Referee Empty Name Test');
+            """
+        );
+
+        var userId = await connection.QuerySingleAsync<long>(
+            """
+            select "id" from "users" where "external_id" = 789;
+            """
+        );
+
+        var refereeId = await connection.QuerySingleAsync<long>(
+            """
+            select "id" from "referees" where "full_name" = 'Referee Empty Name Test';
+            """
+        );
+
+        var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
+        var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
+
+        var tournamentDate = DateTime.UtcNow.AddDays(30);
+        var request = new CreateTournamentRequest
+        {
+            UserId = userId,
+            Name = "",
+            Description = "Test Description",
+            Date = Timestamp.FromDateTime(tournamentDate),
+            CreateCategoryModels =
+            {
+                new CreateCategoryModel
+                {
+                    Name = "Category",
+                    DancesIds = { 1 },
+                    RefereesIds = { refereeId }
+                }
+            }
+        };
+
+        // Act & Assert
+
+        var exception = await Assert.ThrowsAsync<Grpc.Core.RpcException>(
+            async () => await danceCupApiClient.CreateTournamentAsync(request)
+        );
+
+        exception.StatusCode.Should().Be(Grpc.Core.StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task CreateTournament_WithMultipleCategories_ShouldCreateAllCategories()
+    {
+        // Arrange
+
+        var testStartedAt = DateTime.UtcNow;
+
+        await using var connection = new NpgsqlConnection(_postgresConnectionString);
+        await connection.OpenAsync();
+
+        await connection.ExecuteAsync(
+            """
+            insert into "users" ("version", "created_at", "changed_at", "external_id", "username") values
+            (1, now(), now(), 999, 'multicatuser');
+            insert into "referees" ("version", "created_at", "changed_at", "full_name") values
+            (1, now(), now(), 'Multi Cat Referee 1'),
+            (1, now(), now(), 'Multi Cat Referee 2'),
+            (1, now(), now(), 'Multi Cat Referee 3');
+            """
+        );
+
+        var userId = await connection.QuerySingleAsync<long>(
+            """
+            select "id" from "users" where "external_id" = 999;
+            """
+        );
+
+        var refereeIds = (await connection.QueryAsync<long>(
+            """
+            select "id" from "referees" where "full_name" like 'Multi Cat Referee%' order by "id";
+            """
+        )).ToList();
+
+        var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
+        var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
+
+        var tournamentDate = DateTime.UtcNow.AddDays(30);
+        var request = new CreateTournamentRequest
+        {
+            UserId = userId,
+            Name = "Multi Category Tournament",
+            Description = "Tournament with multiple categories",
+            Date = Timestamp.FromDateTime(tournamentDate),
+            CreateCategoryModels =
+            {
+                new CreateCategoryModel
+                {
+                    Name = "Category 1",
+                    DancesIds = { 1 },
+                    RefereesIds = { refereeIds[0] }
+                },
+                new CreateCategoryModel
+                {
+                    Name = "Category 2",
+                    DancesIds = { 2 },
+                    RefereesIds = { refereeIds[1] }
+                },
+                new CreateCategoryModel
+                {
+                    Name = "Category 3",
+                    DancesIds = { 3 },
+                    RefereesIds = { refereeIds[2] }
+                }
+            }
+        };
+
+        // Act
+
+        var response = await danceCupApiClient.CreateTournamentAsync(request);
+
+        // Assert
+
+        response.TournamentId.Should().BePositive();
+
+        var categories = await connection.QueryAsync<CategoryTestModel>(
+            """
+            select * from "categories" where "tournament_id" = @TournamentId order by "name";
+            """,
+            new { TournamentId = response.TournamentId }
+        );
+
+        categories.Should().HaveCount(3);
+        categories.Select(c => c.Name).Should().BeEquivalentTo(new[] { "Category 1", "Category 2", "Category 3" });
+    }
+
     private class TournamentTestModel
     {
         public long Id { get; set; }

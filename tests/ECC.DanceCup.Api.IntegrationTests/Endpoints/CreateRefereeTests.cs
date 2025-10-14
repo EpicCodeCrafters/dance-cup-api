@@ -62,6 +62,71 @@ public class CreateRefereeTests : IClassFixture<DanceCupApiFactory>
         referee.FullName.Should().Be(refereeFullName);
     }
 
+    [Fact]
+    public async Task CreateReferee_WithEmptyFullName_ShouldReturnValidationError()
+    {
+        // Arrange
+
+        var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
+        var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
+
+        var request = new CreateRefereeRequest
+        {
+            FullName = ""
+        };
+
+        // Act & Assert
+
+        var exception = await Assert.ThrowsAsync<Grpc.Core.RpcException>(
+            async () => await danceCupApiClient.CreateRefereeAsync(request)
+        );
+
+        exception.StatusCode.Should().Be(Grpc.Core.StatusCode.InvalidArgument);
+    }
+
+    [Fact]
+    public async Task CreateReferee_WithDuplicateFullName_ShouldCreateDifferentReferee()
+    {
+        // Arrange
+
+        await using var connection = new NpgsqlConnection(_postgresConnectionString);
+        await connection.OpenAsync();
+
+        // Create first referee
+        await connection.ExecuteAsync(
+            """
+            insert into "referees" ("version", "created_at", "changed_at", "full_name") values
+            (1, now(), now(), 'John Duplicate Doe');
+            """
+        );
+
+        var channel = GrpcChannel.ForAddress(_client.BaseAddress!, new GrpcChannelOptions { HttpClient = _client });
+        var danceCupApiClient = new DanceCupApi.DanceCupApiClient(channel);
+
+        var request = new CreateRefereeRequest
+        {
+            FullName = "John Duplicate Doe"
+        };
+
+        // Act
+
+        var response = await danceCupApiClient.CreateRefereeAsync(request);
+
+        // Assert
+
+        response.RefereeId.Should().BePositive();
+
+        var referees = await connection.QueryAsync<RefereeTestModel>(
+            """
+            select * from "referees" where "full_name" = @FullName order by "id";
+            """,
+            new { FullName = "John Duplicate Doe" }
+        );
+
+        referees.Should().HaveCount(2);
+        referees.Select(r => r.Id).Should().OnlyHaveUniqueItems();
+    }
+
     private class RefereeTestModel
     {
         public long Id { get; set; }

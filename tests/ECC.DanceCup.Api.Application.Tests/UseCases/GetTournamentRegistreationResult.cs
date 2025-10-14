@@ -44,4 +44,36 @@ public class GetTournamentRegistreationResult
         
         tournamentViewRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [Theory, AutoMoqData]
+    public async Task Handle_WithEmptyResults_ShouldReturnEmptyCollection(
+        TournamentId tournamentId,
+        [Frozen] Mock<ITournamentViewRepository> tournamentViewRepositoryMock,
+        GetTournamentRegistrationResultUseCase.QueryHandler handler)
+    {
+        // Arrange
+
+        var emptyResults = Array.Empty<TournamentRegistrationResultView>();
+        
+        tournamentViewRepositoryMock
+            .Setup(repository => repository.GetRegistrationResultAsync(tournamentId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(emptyResults);
+
+        var query = new GetTournamentRegistrationResultUseCase.Query(tournamentId);
+
+        // Act
+
+        var result = await handler.Handle(query, CancellationToken.None);
+
+        // Assert
+
+        result.ShouldBeSuccess();
+        result.Value.ResultOfRegistration.Should().BeEmpty();
+
+        tournamentViewRepositoryMock.Verify(
+            repository => repository.GetRegistrationResultAsync(tournamentId, It.IsAny<CancellationToken>()),
+            Times.Once
+        );
+        tournamentViewRepositoryMock.VerifyNoOtherCalls();
+    }
 }

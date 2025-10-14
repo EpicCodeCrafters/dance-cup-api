@@ -20,6 +20,14 @@ public class DomainCustomization : ICustomization
             composer.FromFactory(() => UserId.From(fixture.Create<long>()).AsRequired())
         );
 
+        fixture.Customize<UserExternalId>(composer =>
+            composer.FromFactory(() => UserExternalId.From(fixture.Create<long>()).AsRequired())
+        );
+
+        fixture.Customize<Username>(composer =>
+            composer.FromFactory(() => Username.From(fixture.Create<string>()).AsRequired())
+        );
+
         fixture.Customize<DanceId>(composer =>
             composer.FromFactory(() => DanceId.From(fixture.Create<long>()).AsRequired())
         );

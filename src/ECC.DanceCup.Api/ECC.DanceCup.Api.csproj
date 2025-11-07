@@ -6,6 +6,9 @@
     <Content Update="appsettings.Production.json">
       <DependentUpon>appsettings.json</DependentUpon>
     </Content>
+    <Content Update="appsettings.Testing.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ECC.DanceCup.Api.Application\ECC.DanceCup.Api.Application.csproj" />

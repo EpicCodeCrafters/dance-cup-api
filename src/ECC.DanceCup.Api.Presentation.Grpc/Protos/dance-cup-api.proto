@@ -11,6 +11,7 @@ service DanceCupApi {
     rpc GetDances (GetDancesRequest) returns (GetDancesResponse);
     rpc GetReferees (GetRefereesRequest) returns (GetRefereesResponse);
     rpc GetTournamentRegistrationResult (GetTournamentRegistrationResultRequest) returns (GetTournamentRegistrationResultResponse);
+    rpc GetTournamentCategories (GetTournamentCategoriesRequest) returns (GetTournamentCategoriesResponse);
     
     rpc CreateReferee (CreateRefereeRequest) returns (CreateRefereeResponse);
     
@@ -141,3 +142,16 @@ message RegisterCoupleForTournamentRequest {
 }
 
 message RegisterCoupleForTournamentResponse { }
+
+message GetTournamentCategoriesRequest {
+    int64 tournament_id = 1;
+}
+
+message GetTournamentCategoriesResponse {
+    repeated Category categories = 1;
+
+    message Category {
+        int64 id = 1;
+        string name = 2;
+    }
+}

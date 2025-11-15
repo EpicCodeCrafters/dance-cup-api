@@ -365,6 +365,8 @@ public class TournamentRepository : ITournamentRepository
         deleteCommand.CommandText = sqlCommandDeleteCategoryReferee;
         deleteCommand.Parameters.Add(categoryIdsToDeleteParameter);
         
+        await deleteCommand.ExecuteNonQueryAsync(cancellationToken);
+        
         const string sqlCommandSetCategoryReferee =
             """
             INSERT INTO "categories_referees" ("category_id", "referee_id")
@@ -401,6 +403,8 @@ public class TournamentRepository : ITournamentRepository
         deleteCommand = connection.CreateCommand();
         deleteCommand.CommandText = sqlCommandDeleteCategoryDance;
         deleteCommand.Parameters.Add(categoryIdsToDeleteParameter);
+        
+        await deleteCommand.ExecuteNonQueryAsync(cancellationToken);
         
         const string sqlCommandSetCategoryDance =
             """

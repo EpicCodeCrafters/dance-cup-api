@@ -77,4 +77,26 @@ public class TournamentViewRepository: ITournamentViewRepository
 
         return resultOfRegistration.ToArray();
     }
+
+    public async Task<IReadOnlyCollection<CategoryView>> GetCategoriesAsync(TournamentId tournamentId, CancellationToken cancellationToken)
+    {
+        await using var connection = await _connectionFactory.CreateAsync();
+
+        const string sqlCommand =
+            """
+            select 
+                "id",
+                "name"
+            from 
+                "categories"
+            where 
+                "tournament_id" = @TournamentId
+            order by 
+                "id";
+            """;
+        
+        var categories = await connection.QueryAsync<CategoryView>(sqlCommand, new { TournamentId = tournamentId.Value });
+
+        return categories.ToArray();
+    }
 }

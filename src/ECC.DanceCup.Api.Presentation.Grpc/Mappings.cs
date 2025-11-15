@@ -9,6 +9,7 @@ using ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.GetReferees;
 using ECC.DanceCup.Api.Application.UseCases.GetTournamentRegistrationResult;
 using ECC.DanceCup.Api.Application.UseCases.GetTournaments;
+using ECC.DanceCup.Api.Application.UseCases.GetTournamentCategories;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
@@ -198,6 +199,30 @@ internal static class Mappings
             SecondTrainerFullName: request.SecondTrainerFullName is null ? null : CoupleTrainerFullName.From(request.SecondTrainerFullName).AsRequired(),
             CategoriesIds: request.CategoriesIds.Select(categoryId => CategoryId.From(categoryId).AsRequired()).ToArray()
         );
+    }
+
+    public static GetTournamentCategoriesUseCase.Query ToInternal(this GetTournamentCategoriesRequest request)
+    {
+        return new GetTournamentCategoriesUseCase.Query(
+            TournamentId: TournamentId.From(request.TournamentId).AsRequired()
+        );
+    }
+
+    public static GetTournamentCategoriesResponse ToGrpc(this GetTournamentCategoriesUseCase.QueryResponse response)
+    {
+        return new GetTournamentCategoriesResponse
+        {
+            Categories = { response.Categories.Select(ToGrpc) }
+        };
+    }
+
+    private static GetTournamentCategoriesResponse.Types.Category ToGrpc(this CategoryView categoryView)
+    {
+        return new GetTournamentCategoriesResponse.Types.Category
+        {
+            Id = categoryView.Id,
+            Name = categoryView.Name
+        };
     }
     
     

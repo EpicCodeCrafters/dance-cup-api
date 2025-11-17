@@ -112,4 +112,14 @@ public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
 
         return new RegisterCoupleForTournamentResponse();
     }
+
+    public override async Task<GetRoundsByCategoryResponse> GetRoundsByCategory(GetRoundsByCategoryRequest request, ServerCallContext context)
+    {
+        var query = request.ToInternal();
+        var result = await _sender.Send(query, context.CancellationToken);
+
+        result.HandleErrors();
+
+        return result.Value.ToGrpc();
+    }
 }

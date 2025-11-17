@@ -20,6 +20,8 @@ service DanceCupApi {
     rpc FinishTournamentRegistration (FinishTournamentRegistrationRequest) returns (FinishTournamentRegistrationResponse);
     rpc ReopenTournamentRegistration (ReopenTournamentRegistrationRequest) returns (ReopenTournamentRegistrationResponse);
     rpc RegisterCoupleForTournament (RegisterCoupleForTournamentRequest) returns (RegisterCoupleForTournamentResponse);
+    
+    rpc GetRoundsByCategory (GetRoundsByCategoryRequest) returns (GetRoundsByCategoryResponse);
 }
 
 message GetDancesRequest { }
@@ -141,3 +143,18 @@ message RegisterCoupleForTournamentRequest {
 }
 
 message RegisterCoupleForTournamentResponse { }
+
+message GetRoundsByCategoryRequest {
+    int64 tournament_id = 1;
+    int64 category_id = 2;
+}
+
+message GetRoundsByCategoryResponse {
+    repeated RoundItem rounds = 1;
+
+    message RoundItem {
+        int64 id = 1;
+        int32 order_number = 2;
+        repeated int64 couple_ids = 3;
+    }
+}

@@ -9,6 +9,7 @@ using ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.GetReferees;
 using ECC.DanceCup.Api.Application.UseCases.GetTournamentRegistrationResult;
 using ECC.DanceCup.Api.Application.UseCases.GetTournaments;
+using ECC.DanceCup.Api.Application.UseCases.GetRoundsByCategory;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
@@ -198,6 +199,32 @@ internal static class Mappings
             SecondTrainerFullName: request.SecondTrainerFullName is null ? null : CoupleTrainerFullName.From(request.SecondTrainerFullName).AsRequired(),
             CategoriesIds: request.CategoriesIds.Select(categoryId => CategoryId.From(categoryId).AsRequired()).ToArray()
         );
+    }
+
+    public static GetRoundsByCategoryUseCase.Query ToInternal(this GetRoundsByCategoryRequest request)
+    {
+        return new GetRoundsByCategoryUseCase.Query(
+            TournamentId: TournamentId.From(request.TournamentId).AsRequired(),
+            CategoryId: CategoryId.From(request.CategoryId).AsRequired()
+        );
+    }
+
+    public static GetRoundsByCategoryResponse ToGrpc(this GetRoundsByCategoryUseCase.QueryResponse response)
+    {
+        return new GetRoundsByCategoryResponse
+        {
+            Rounds = { response.Rounds.Select(ToGrpc) }
+        };
+    }
+
+    private static GetRoundsByCategoryResponse.Types.RoundItem ToGrpc(this GetRoundsByCategoryUseCase.RoundDto round)
+    {
+        return new GetRoundsByCategoryResponse.Types.RoundItem
+        {
+            Id = round.Id,
+            OrderNumber = round.OrderNumber,
+            CoupleIds = { round.CoupleIds }
+        };
     }
     
     

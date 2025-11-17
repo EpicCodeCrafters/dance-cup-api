@@ -529,9 +529,41 @@ public class TournamentRepository : ITournamentRepository
         var danceIdsGroupedByCategory = danceIdsForCategories
             .GroupBy(x => x.CategoryId)
             .ToDictionary(g => g.Key, g => g.Select(x => DanceId.From(x.DanceId).AsRequired()).ToList());
+
+        const string sqlCommandGetRounds =
+            """
+            select
+                "id",
+                "category_id",
+                "order_number"
+            from "rounds"
+            where "category_id" = ANY(@CategoryIds);
+            """;
+        
+        var rounds = await connection.QueryAsync<RoundDbo>(sqlCommandGetRounds, new { CategoryIds = categories.Select(c => c.Id).ToArray() });
+
+        const string sqlCommandGetCoupleIdsForRounds =
+            """
+            select
+                "round_id",
+                "couple_id"
+            from "rounds_couples"
+            where "round_id" = ANY(@RoundIds);
+            """;
+        
+        var coupleIdsForRounds = await connection.QueryAsync<(long RoundId, long CoupleId)>(sqlCommandGetCoupleIdsForRounds, new { RoundIds = rounds.Select(r => r.Id).ToArray() });
+
+        var coupleIdsGroupedByRound = coupleIdsForRounds
+            .GroupBy(x => x.RoundId)
+            .ToDictionary(g => g.Key, g => g.Select(x => x.CoupleId).ToList());
+
+        var roundsGroupedByCategory = rounds
+            .ToDomain(coupleIdsGroupedByRound)
+            .GroupBy(r => r.CategoryId.Value)
+            .ToDictionary(g => g.Key, g => g.ToList());
         
         await transaction.CommitAsync(cancellationToken);
 
-        return tournamentDbo?.ToDomain(categories, couples, danceIdsGroupedByCategory, refereeIdsGroupedByCategory, coupleIdsGroupedByCategory);
+        return tournamentDbo?.ToDomain(categories, couples, danceIdsGroupedByCategory, refereeIdsGroupedByCategory, coupleIdsGroupedByCategory, roundsGroupedByCategory);
     }
 }

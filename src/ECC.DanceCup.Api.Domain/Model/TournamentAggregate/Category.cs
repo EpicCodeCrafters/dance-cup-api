@@ -14,6 +14,7 @@ public class Category : Entity<CategoryId>
     private readonly List<DanceId> _dancesIds;
     private readonly List<RefereeId> _refereesIds;
     private readonly List<CoupleId> _couplesIds;
+    private readonly List<Round> _rounds;
 
     public Category(
         CategoryId id,
@@ -21,7 +22,8 @@ public class Category : Entity<CategoryId>
         CategoryName name,
         List<DanceId> dancesIds,
         List<RefereeId> refereesIds,
-        List<CoupleId> couplesIds
+        List<CoupleId> couplesIds,
+        List<Round> rounds
     ) : base(id)
     {
         TournamentId = tournamentId;
@@ -29,6 +31,7 @@ public class Category : Entity<CategoryId>
         _dancesIds = dancesIds;
         _refereesIds = refereesIds;
         _couplesIds = couplesIds;
+        _rounds = rounds;
     }
 
     /// <summary>
@@ -70,6 +73,16 @@ public class Category : Entity<CategoryId>
     /// Количеситво пар, участвующих в категории
     /// </summary>
     public int CouplesCount => _couplesIds.Count;
+
+    /// <summary>
+    /// Список раундов категории
+    /// </summary>
+    public IReadOnlyCollection<Round> Rounds => _rounds;
+
+    /// <summary>
+    /// Количество раундов категории
+    /// </summary>
+    public int RoundsCount => _rounds.Count;
 
     internal Result RegisterCouple(CoupleId coupleId)
     {

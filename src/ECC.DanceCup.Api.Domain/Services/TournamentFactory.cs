@@ -27,7 +27,8 @@ public class TournamentFactory : ITournamentFactory
                     name: createCategoryModel.Name,
                     dancesIds: createCategoryModel.DancesIds.ToList(),
                     refereesIds: createCategoryModel.RefereesIds.ToList(),
-                    couplesIds: []
+                    couplesIds: [],
+                    rounds: []
                 )
             ).ToList();
 

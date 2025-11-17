@@ -18,7 +18,7 @@ internal static class CategoryMapping
         };
     }
     
-    public static List<Category> ToDomain(this IEnumerable<CategoryDbo> categories, Dictionary<long, List<DanceId>> danceIdsGroupedByCategory, Dictionary<long, List<RefereeId>> refereeIdsGroupedByCategory, Dictionary<long, List<CoupleId>> coupleIdsGroupedByCategory)
+    public static List<Category> ToDomain(this IEnumerable<CategoryDbo> categories, Dictionary<long, List<DanceId>> danceIdsGroupedByCategory, Dictionary<long, List<RefereeId>> refereeIdsGroupedByCategory, Dictionary<long, List<CoupleId>> coupleIdsGroupedByCategory, Dictionary<long, List<Round>> roundsGroupedByCategory)
     {
         return categories.Select(c =>
             new Category(
@@ -27,7 +27,8 @@ internal static class CategoryMapping
                 name: CategoryName.From(c.Name).AsRequired(),
                 dancesIds: danceIdsGroupedByCategory.TryGetValue(c.Id, out List<DanceId>? danceIds) ? danceIds : new List<DanceId>(),
                 refereesIds: refereeIdsGroupedByCategory.TryGetValue(c.Id, out var refereeIds) ? refereeIds : new List<RefereeId>(),
-                couplesIds: coupleIdsGroupedByCategory.TryGetValue(c.Id, out var coupleIds) ? coupleIds : new List<CoupleId>()
+                couplesIds: coupleIdsGroupedByCategory.TryGetValue(c.Id, out var coupleIds) ? coupleIds : new List<CoupleId>(),
+                rounds: roundsGroupedByCategory.TryGetValue(c.Id, out var rounds) ? rounds : new List<Round>()
             )).ToList().AsRequired();
     }
 }

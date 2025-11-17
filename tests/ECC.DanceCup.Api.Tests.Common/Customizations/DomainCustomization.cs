@@ -79,5 +79,13 @@ public class DomainCustomization : ICustomization
         fixture.Customize<CoupleTrainerFullName>(composer =>
             composer.FromFactory(() => CoupleTrainerFullName.From(fixture.Create<string>()).AsRequired())
         );
+        
+        fixture.Customize<RoundId>(composer =>
+            composer.FromFactory(() => RoundId.From(fixture.Create<long>()).AsRequired())
+        );
+        
+        fixture.Customize<RoundOrderNumber>(composer =>
+            composer.FromFactory(() => RoundOrderNumber.From(fixture.Create<int>()).AsRequired())
+        );
     }
 }

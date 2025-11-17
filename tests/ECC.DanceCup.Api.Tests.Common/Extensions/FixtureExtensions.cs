@@ -103,6 +103,27 @@ public static class FixtureExtensions
             name: name.Value,
             dancesIds: dancesIds,
             refereesIds: refereesIds,
+            couplesIds: couplesIds,
+            rounds: []
+        );
+    }
+
+    public static Round CreateRound(
+        this IFixture fixture,
+        RoundId? id = null,
+        CategoryId? categoryId = null,
+        RoundOrderNumber? orderNumber = null,
+        List<CoupleId>? couplesIds = null)
+    {
+        id ??= fixture.Create<RoundId>();
+        categoryId ??= fixture.Create<CategoryId>();
+        orderNumber ??= fixture.Create<RoundOrderNumber>();
+        couplesIds ??= fixture.Create<List<CoupleId>>();
+
+        return new Round(
+            id: id.Value,
+            categoryId: categoryId.Value,
+            orderNumber: orderNumber.Value,
             couplesIds: couplesIds
         );
     }

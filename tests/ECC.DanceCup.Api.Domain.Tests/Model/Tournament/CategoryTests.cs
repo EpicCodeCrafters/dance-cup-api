@@ -26,7 +26,8 @@ public class CategoryTests
             name,
             dancesIds,
             refereesIds,
-            new List<CoupleId>()
+            new List<CoupleId>(),
+            new List<Round>()
         );
 
         // Assert
@@ -59,7 +60,8 @@ public class CategoryTests
             name,
             dancesIds,
             refereesIds,
-            new List<CoupleId>()
+            new List<CoupleId>(),
+            new List<Round>()
         );
 
         // Act & Assert
@@ -86,7 +88,8 @@ public class CategoryTests
             name,
             dancesIds,
             refereesIds,
-            new List<CoupleId>()
+            new List<CoupleId>(),
+            new List<Round>()
         );
 
         // Act & Assert
@@ -108,7 +111,8 @@ public class CategoryTests
             name,
             dancesIds,
             refereesIds,
-            new List<CoupleId>()
+            new List<CoupleId>(),
+            new List<Round>()
         );
 
         // Act & Assert
@@ -131,7 +135,8 @@ public class CategoryTests
             name,
             dancesIds,
             refereesIds,
-            new List<CoupleId>()
+            new List<CoupleId>(),
+            new List<Round>()
         );
 
         // Act
@@ -160,7 +165,8 @@ public class CategoryTests
             name,
             dancesIds,
             refereesIds,
-            new List<CoupleId> { coupleId }
+            new List<CoupleId> { coupleId },
+            new List<Round>()
         );
 
         // Act
@@ -190,7 +196,8 @@ public class CategoryTests
             name,
             dancesIds,
             refereesIds,
-            new List<CoupleId>()
+            new List<CoupleId>(),
+            new List<Round>()
         );
 
         // Act

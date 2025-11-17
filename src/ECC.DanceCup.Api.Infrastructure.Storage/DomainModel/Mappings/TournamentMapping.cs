@@ -30,7 +30,7 @@ internal static class TournamentMapping
         };
     }
     
-    public static Tournament ToDomain(this TournamentDbo dbo, IEnumerable<CategoryDbo> _categories, IEnumerable<CoupleDbo> _couples, Dictionary<long, List<DanceId>> danceIdsGroupedByCategory, Dictionary<long, List<RefereeId>> refereeIdsGroupedByCategory, Dictionary<long, List<CoupleId>> coupleIdsGroupedByCategory)
+    public static Tournament ToDomain(this TournamentDbo dbo, IEnumerable<CategoryDbo> _categories, IEnumerable<CoupleDbo> _couples, Dictionary<long, List<DanceId>> danceIdsGroupedByCategory, Dictionary<long, List<RefereeId>> refereeIdsGroupedByCategory, Dictionary<long, List<CoupleId>> coupleIdsGroupedByCategory, Dictionary<long, List<Round>> roundsGroupedByCategory)
     {
         return new Tournament(
             id: TournamentId.From(dbo.Id).AsRequired(),
@@ -46,7 +46,7 @@ internal static class TournamentMapping
             registrationFinishedAt: dbo.RegistrationFinishedAt,
             startedAt: dbo.StartedAt,
             finishedAt: dbo.FinishedAt,
-            categories: _categories.ToDomain(danceIdsGroupedByCategory, refereeIdsGroupedByCategory, coupleIdsGroupedByCategory),
+            categories: _categories.ToDomain(danceIdsGroupedByCategory, refereeIdsGroupedByCategory, coupleIdsGroupedByCategory, roundsGroupedByCategory),
             couples: _couples.ToDomain()
         );
     }

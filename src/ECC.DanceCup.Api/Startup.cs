@@ -6,6 +6,7 @@ using ECC.DanceCup.Api.Infrastructure.TgApi;
 using ECC.DanceCup.Api.Presentation.Grpc;
 using ECC.DanceCup.Api.Presentation.Kafka;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Prometheus;
 
 namespace ECC.DanceCup.Api;
 
@@ -29,8 +30,10 @@ public class Startup
         services.AddTgApi();
 
         services.AddGrpcServices();
-        services.AddGrpcHealthChecks().AddCheck(string.Empty, () => HealthCheckResult.Healthy());
-        
+        services.AddGrpcHealthChecks()
+            .AddCheck(string.Empty, () => HealthCheckResult.Healthy())
+            .ForwardToPrometheus();
+
         services.AddKafkaHandlers(_configuration);
     }
 
@@ -38,10 +41,14 @@ public class Startup
     {
         app.UseRouting();
 
+        app.UseGrpcMetrics();
+        app.UseHttpMetrics();
+
         app.UseEndpoints(endpointRouteBuilder =>
         {
             endpointRouteBuilder.UseGrpcServices();
             endpointRouteBuilder.MapGrpcHealthChecksService();
+            endpointRouteBuilder.MapMetrics();
         });
     }
 }

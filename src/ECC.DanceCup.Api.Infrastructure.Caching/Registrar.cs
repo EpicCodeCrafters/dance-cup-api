@@ -16,10 +16,10 @@ public static class Registrar
         services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = configuration["CachingOptions:ConnectionString"];
-            options.ConfigurationOptions = new ConfigurationOptions
-            {
-                ConnectTimeout = 50
-            };
+            // options.ConfigurationOptions = new ConfigurationOptions
+            // {
+            //     ConnectTimeout = 50
+            // };
         });
         
         services.AddScoped<IDanceViewCache, DanceViewCache>();

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ECC.DanceCup.Api.Application\ECC.DanceCup.Api.Application.csproj" />
     <ProjectReference Include="..\ECC.DanceCup.Api.Infrastructure.Caching\ECC.DanceCup.Api.Infrastructure.Caching.csproj" />
+    <ProjectReference Include="..\ECC.DanceCup.Api.Infrastructure.Metrics\ECC.DanceCup.Api.Infrastructure.Metrics.csproj" />
     <ProjectReference Include="..\ECC.DanceCup.Api.Infrastructure.Storage\ECC.DanceCup.Api.Infrastructure.Storage.csproj" />
     <ProjectReference Include="..\ECC.DanceCup.Api.Infrastructure.TgApi\ECC.DanceCup.Api.Infrastructure.TgApi.csproj" />
     <ProjectReference Include="..\ECC.DanceCup.Api.Presentation.Grpc\ECC.DanceCup.Api.Presentation.Grpc.csproj" />
@@ -20,5 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore.HealthChecks" />
+    <PackageReference Include="prometheus-net.AspNetCore" />
+    <PackageReference Include="prometheus-net.AspNetCore.Grpc" />
+    <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" />
   </ItemGroup>
 </Project>

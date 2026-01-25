@@ -1,6 +1,7 @@
 ﻿using ECC.DanceCup.Api.Application;
 using ECC.DanceCup.Api.Domain;
 using ECC.DanceCup.Api.Infrastructure.Caching;
+using ECC.DanceCup.Api.Infrastructure.Metrics;
 using ECC.DanceCup.Api.Infrastructure.Storage;
 using ECC.DanceCup.Api.Infrastructure.TgApi;
 using ECC.DanceCup.Api.Presentation.Grpc;
@@ -35,6 +36,8 @@ public class Startup
             .ForwardToPrometheus();
 
         services.AddKafkaHandlers(_configuration);
+
+        services.AddCustomMetrics();
     }
 
     public void Configure(IApplicationBuilder app)

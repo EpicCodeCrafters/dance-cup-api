@@ -16,7 +16,7 @@ public static class AsyncStreamReaderExtensions
         var current = stream.Current;
         if (current.AttachmentInfo is null)
         {
-            throw new RpcException(new Status(StatusCode.InvalidArgument, "Инормация о файле должна быть передана первым чанком"));
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Информация о файле должна быть передана первым чанком"));
         }
         
         var validationResult = await new AttachmentInfoValidator().ValidateAsync(current.AttachmentInfo);
@@ -47,7 +47,7 @@ public static class AsyncStreamReaderExtensions
 
         if (chunksCount == 0)
         {
-            throw new RpcException(new Status(StatusCode.InvalidArgument, "Не передано не одного чанка"));
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Не передано ни одного чанка"));
         }
     }
 }

@@ -270,6 +270,7 @@ public class Tournament : AggregateRoot<TournamentId>
         }
         
         _attachments.Remove(attachment);
+        RegisterChange();
 
         return attachment.Name;
     }

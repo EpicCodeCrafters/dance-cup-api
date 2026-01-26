@@ -9,4 +9,8 @@ public interface ITournamentViewRepository
     Task<IReadOnlyCollection<TournamentView>> FindAllAsync(UserId userId, int pageNumber, int pageSize, CancellationToken cancellationToken);
     
     Task<IReadOnlyCollection<TournamentRegistrationResultView>> GetRegistrationResultAsync(TournamentId tournamentId, CancellationToken cancellationToken);
+
+    Task<IReadOnlyCollection<TournamentAttachmentView>?> GetTournamentAttachmentsAsync(TournamentId tournamentId, CancellationToken cancellationToken);
+    
+    Task<string?> GetTournamentAttachmentNameAsync(TournamentId tournamentId, int attachmentNumber, CancellationToken cancellationToken);
 }

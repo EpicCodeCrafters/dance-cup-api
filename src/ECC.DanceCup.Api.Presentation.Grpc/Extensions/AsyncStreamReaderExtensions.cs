@@ -47,7 +47,7 @@ public static class AsyncStreamReaderExtensions
 
         if (chunksCount == 0)
         {
-            throw new RpcException(new Status(StatusCode.InvalidArgument, "Не передано не одного чанка"));
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Не передано ни одного чанка"));
         }
     }
 }

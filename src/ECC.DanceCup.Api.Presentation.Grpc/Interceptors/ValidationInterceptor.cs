@@ -25,6 +25,18 @@ public class ValidationInterceptor : Interceptor
         return await continuation(request, context);
     }
 
+    public override async Task ServerStreamingServerHandler<TRequest, TResponse>(
+        TRequest request, 
+        IServerStreamWriter<TResponse> responseStream,
+        ServerCallContext context, 
+        ServerStreamingServerMethod<TRequest, TResponse> continuation)
+    {
+        var requestValidator = _serviceProvider.GetService<IValidator<TRequest>>();
+        await ValidateRequestAsync(request, requestValidator, context.CancellationToken);
+
+        await continuation(request, responseStream, context);
+    }
+
     private static async Task ValidateRequestAsync<TRequest>(TRequest request, IValidator<TRequest>? requestValidator, CancellationToken cancellationToken)
     {
         if (requestValidator is null)

@@ -1,7 +1,9 @@
 ﻿using ECC.DanceCup.Api.Application.UseCases.AttachFileToTournament;
+using ECC.DanceCup.Api.Application.UseCases.GetTournamentAttachment;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
 using ECC.DanceCup.Api.Presentation.Grpc.Extensions;
 using ECC.DanceCup.Api.Utils.Extensions;
+using Google.Protobuf;
 using Grpc.Core;
 using MediatR;
 
@@ -130,5 +132,38 @@ public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
         result.HandleErrors();
         
         return new AddTournamentAttachmentResponse();
+    }
+
+    public override async Task GetTournamentAttachment(
+        GetTournamentAttachmentRequest request, 
+        IServerStreamWriter<GetTournamentAttachmentResponse> responseStream,
+        ServerCallContext context)
+    {
+        var query = new GetTournamentAttachmentUseCase.Query(
+            TournamentId.From(request.TournamentId).AsRequired(),
+            request.AttachmentNumber,
+            request.MaxBytesCount
+        );
+        
+        var result = await _sender.Send(query, context.CancellationToken);
+        
+        result.HandleErrors();
+
+        await responseStream.WriteAsync(new GetTournamentAttachmentResponse
+        {
+            AttachmentInfo = new GetTournamentAttachmentResponse.Types.AttachmentInfo
+            {
+                Name = result.Value.AttachmentName,
+                TotalBytesCount = result.Value.TotalAttachmentBytesCount
+            }
+        }, context.CancellationToken);
+
+        await foreach (var bytes in result.Value.AttachmentBytes.WithCancellation(context.CancellationToken))
+        {
+            await responseStream.WriteAsync(new GetTournamentAttachmentResponse
+            {
+                AttachmentBytes = ByteString.CopyFrom(bytes)
+            }, context.CancellationToken);
+        }
     }
 }

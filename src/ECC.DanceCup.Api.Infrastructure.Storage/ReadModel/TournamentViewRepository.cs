@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Text.Json;
+using Dapper;
 using ECC.DanceCup.Api.Application.Abstractions.Models.Views;
 using ECC.DanceCup.Api.Application.Abstractions.Storage.ReadModel;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
@@ -7,7 +8,7 @@ using ECC.DanceCup.Api.Infrastructure.Storage.Tools;
 
 namespace ECC.DanceCup.Api.Infrastructure.Storage.ReadModel;
 
-public class TournamentViewRepository: ITournamentViewRepository
+public class TournamentViewRepository : ITournamentViewRepository
 {
     private readonly IPostgresConnectionFactory _connectionFactory;
 
@@ -76,5 +77,27 @@ public class TournamentViewRepository: ITournamentViewRepository
         var resultOfRegistration = await connection.QueryAsync<TournamentRegistrationResultView>(sqlCommand, new { TournamentId = tournamentId.Value });
 
         return resultOfRegistration.ToArray();
+    }
+
+    public async Task<string?> GetTournamentAttachmentNameAsync(TournamentId tournamentId, int attachmentNumber, CancellationToken cancellationToken)
+    {
+        await using var connection = await _connectionFactory.CreateAsync();
+
+        const string sqlCommand =
+            """
+            select t."attachments"
+            from "tournaments" as t
+            where t."id" = @TournamentId;
+            """;
+        
+        var attachmentsSerialized = await connection.QueryFirstOrDefaultAsync<string>(sqlCommand, new { TournamentId = tournamentId.Value });
+        if (attachmentsSerialized is null)
+        {
+            return null;
+        }
+        
+        var attachments = JsonSerializer.Deserialize<TournamentAttachment[]>(attachmentsSerialized);
+
+        return attachments?.FirstOrDefault(x => x.Number == attachmentNumber)?.Name;
     }
 }

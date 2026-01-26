@@ -14,4 +14,15 @@ public interface ITournamentAttachmentsStorage
         TournamentId tournamentId,
         int attachmentNumber,
         CancellationToken cancellationToken);
+
+    Task<long> GetTotalAttachmentBytesCount(
+        TournamentId tournamentId,
+        int attachmentNumber,
+        CancellationToken cancellationToken);
+
+    IAsyncEnumerable<byte[]> GetAttachmentAsync(
+        TournamentId tournamentId,
+        int attachmentNumber,
+        int maxBytesCount,
+        CancellationToken cancellationToken);
 }

@@ -20,7 +20,8 @@ public class Add_Tournaments : SqlMigration
             "registration_started_at" timestamp null,
             "registration_finished_at" timestamp null,
             "started_at" timestamp null,
-            "finished_at" timestamp null
+            "finished_at" timestamp null,
+            "attachments" jsonb not null
         );
         """;
 

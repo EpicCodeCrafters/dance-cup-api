@@ -46,7 +46,8 @@ public class TournamentFactory : ITournamentFactory
             startedAt: null,
             finishedAt: null,
             categories: categories,
-            couples: []
+            couples: [],
+            attachments: []
         );
         
         return tournament;

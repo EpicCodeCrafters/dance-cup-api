@@ -2,6 +2,7 @@
 using ECC.DanceCup.Api.Domain;
 using ECC.DanceCup.Api.Infrastructure.Caching;
 using ECC.DanceCup.Api.Infrastructure.Metrics;
+using ECC.DanceCup.Api.Infrastructure.ObjectStorage;
 using ECC.DanceCup.Api.Infrastructure.Storage;
 using ECC.DanceCup.Api.Infrastructure.TgApi;
 using ECC.DanceCup.Api.Presentation.Grpc;
@@ -11,23 +12,17 @@ using Prometheus;
 
 namespace ECC.DanceCup.Api;
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
-    private readonly IConfiguration _configuration;
-
-    public Startup(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDomainServices();
         
         services.AddApplicationServices();
 
-        services.AddStorage(_configuration);
-        services.AddCaching(_configuration);
+        services.AddStorage(configuration);
+        services.AddCaching(configuration);
+        services.AddObjectStorage(configuration);
         services.AddTgApi();
 
         services.AddGrpcServices();
@@ -35,7 +30,7 @@ public class Startup
             .AddCheck(string.Empty, () => HealthCheckResult.Healthy())
             .ForwardToPrometheus();
 
-        services.AddKafkaHandlers(_configuration);
+        services.AddKafkaHandlers(configuration);
 
         services.AddCustomMetrics();
     }

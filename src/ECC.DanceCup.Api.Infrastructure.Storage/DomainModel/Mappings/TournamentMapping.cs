@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ECC.DanceCup.Api.Domain.Core;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
@@ -26,7 +27,8 @@ internal static class TournamentMapping
             RegistrationStartedAt = tournament.RegistrationStartedAt,
             RegistrationFinishedAt = tournament.RegistrationFinishedAt,
             StartedAt = tournament.StartedAt,
-            FinishedAt = tournament.FinishedAt
+            FinishedAt = tournament.FinishedAt,
+            Attachments = JsonSerializer.Serialize(tournament.Attachments),
         };
     }
     
@@ -47,7 +49,8 @@ internal static class TournamentMapping
             startedAt: dbo.StartedAt,
             finishedAt: dbo.FinishedAt,
             categories: _categories.ToDomain(danceIdsGroupedByCategory, refereeIdsGroupedByCategory, coupleIdsGroupedByCategory),
-            couples: _couples.ToDomain()
+            couples: _couples.ToDomain(),
+            attachments: JsonSerializer.Deserialize<List<TournamentAttachment>>(dbo.Attachments).AsRequired()
         );
     }
 }

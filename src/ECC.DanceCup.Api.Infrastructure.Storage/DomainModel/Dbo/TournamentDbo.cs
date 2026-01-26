@@ -27,4 +27,6 @@ internal class TournamentDbo
     public DateTime? StartedAt { get; set; }
     
     public DateTime? FinishedAt { get; set; }
+    
+    public string Attachments { get; set; } = string.Empty;
 }

@@ -1,4 +1,7 @@
-﻿using ECC.DanceCup.Api.Presentation.Grpc.Extensions;
+﻿using ECC.DanceCup.Api.Application.UseCases.AttachFileToTournament;
+using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
+using ECC.DanceCup.Api.Presentation.Grpc.Extensions;
+using ECC.DanceCup.Api.Utils.Extensions;
 using Grpc.Core;
 using MediatR;
 
@@ -111,5 +114,21 @@ public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
         result.HandleErrors();
 
         return new RegisterCoupleForTournamentResponse();
+    }
+
+    public override async Task<AddTournamentAttachmentResponse> AddTournamentAttachment(IAsyncStreamReader<AddTournamentAttachmentRequest> requestStream, ServerCallContext context)
+    {
+        var attachmentInfo = await requestStream.ReadTournamentAttachmentInfoAsync();
+        var command = new AttachFileToTournamentUseCase.Command(
+            TournamentId.From(attachmentInfo.TournamentId).AsRequired(),
+            attachmentInfo.Name,
+            requestStream.ReadTournamentAttachmentBytesAsync()
+        );
+        
+        var result = await _sender.Send(command, context.CancellationToken);
+        
+        result.HandleErrors();
+        
+        return new AddTournamentAttachmentResponse();
     }
 }

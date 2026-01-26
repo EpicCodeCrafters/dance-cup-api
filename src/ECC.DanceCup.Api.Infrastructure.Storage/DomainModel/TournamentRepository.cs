@@ -40,7 +40,8 @@ public class TournamentRepository : ITournamentRepository
                 "registration_started_at",
                 "registration_finished_at",
                 "started_at",
-                "finished_at")
+                "finished_at",
+                "attachments")
             values (
                 @Version,
                 @CreatedAt,
@@ -53,7 +54,8 @@ public class TournamentRepository : ITournamentRepository
                 @RegistrationStartedAt,
                 @RegistrationFinishedAt,
                 @StartedAt,
-                @FinishedAt
+                @FinishedAt,
+                @Attachments::jsonb
             )
             returning "id";
             """;
@@ -218,7 +220,8 @@ public class TournamentRepository : ITournamentRepository
                 "registration_started_at" = @RegistrationStartedAt,
                 "registration_finished_at" = @RegistrationFinishedAt,
                 "started_at" = @StartedAt,
-                "finished_at" = @FinishedAt
+                "finished_at" = @FinishedAt,
+                "attachments" = @Attachments::jsonb
             where "id" = @Id;
             """;
 
@@ -448,7 +451,8 @@ public class TournamentRepository : ITournamentRepository
                 "registration_started_at",
                 "registration_finished_at",
                 "started_at",
-                "finished_at"
+                "finished_at",
+                "attachments"
             from "tournaments"
             where "id" = @Id;
             """;

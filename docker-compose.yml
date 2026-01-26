@@ -71,7 +71,6 @@ services:
       /bin/sh -c "
       until mc alias set local http://dance-cup-api-object-storage:9000 admin admin123; do sleep 2; done;
       mc mb --ignore-existing local/tournament-attachments;
-      mc anonymous set download local/tournament-attachments;
       exit 0;
       "
 

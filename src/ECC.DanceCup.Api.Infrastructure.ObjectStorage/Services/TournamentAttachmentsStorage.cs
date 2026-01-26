@@ -116,7 +116,7 @@ public async Task PutAttachmentAsync(
         int attachmentNumber,
         CancellationToken cancellationToken)
     {
-        var key = string.Format(KeyTemplate, tournamentId, attachmentNumber);
+        var key = string.Format(KeyTemplate, tournamentId.Value, attachmentNumber);
         await s3Client.DeleteObjectAsync(BucketName, key, cancellationToken);
     }
 

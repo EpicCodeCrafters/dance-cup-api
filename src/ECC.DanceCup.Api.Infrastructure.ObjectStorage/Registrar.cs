@@ -24,7 +24,7 @@ public static class Registrar
             ForcePathStyle = true
         };
 
-        services.AddSingleton<IAmazonS3>(new AmazonS3Client(awsCredentials, s3Config));
+        services.AddSingleton<IAmazonS3>(_ => new AmazonS3Client(awsCredentials, s3Config));
         
         return services;
     }

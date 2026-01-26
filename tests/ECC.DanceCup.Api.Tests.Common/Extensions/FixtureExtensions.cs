@@ -48,7 +48,8 @@ public static class FixtureExtensions
         DateTime? startedAt = null,
         DateTime? finishedAt = null,
         List<Category>? categories = null,
-        List<Couple>? couples = null)
+        List<Couple>? couples = null,
+        List<TournamentAttachment>? attachments = null)
     {
         id ??= fixture.Create<TournamentId>();
         version ??= fixture.Create<AggregateVersion>();
@@ -61,6 +62,7 @@ public static class FixtureExtensions
         state ??= fixture.Create<TournamentState>();
         categories ??= fixture.Create<List<Category>>();
         couples ??= fixture.Create<List<Couple>>();
+        attachments ??= fixture.Create<List<TournamentAttachment>>();
         
         return new Tournament(
             id: id.Value,
@@ -77,7 +79,8 @@ public static class FixtureExtensions
             startedAt: startedAt,
             finishedAt: finishedAt,
             categories: categories,
-            couples: couples
+            couples: couples,
+            attachments: attachments
         );
     }
     

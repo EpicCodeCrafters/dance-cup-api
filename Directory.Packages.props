@@ -4,6 +4,8 @@
     <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
   </PropertyGroup>
   <ItemGroup>
+    <PackageVersion Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.3.21" />
+    <PackageVersion Include="AWSSDK.S3" Version="4.0.17.3" />
     <PackageVersion Include="Confluent.Kafka" Version="2.8.0" />
     <PackageVersion Include="Dapper" Version="2.1.35" />
     <PackageVersion Include="FluentMigrator" Version="6.2.0" />

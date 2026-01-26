@@ -12,6 +12,7 @@ public class Tournament : AggregateRoot<TournamentId>
 {
     private readonly List<Category> _categories;
     private readonly List<Couple> _couples;
+    private readonly List<TournamentAttachment> _attachments;
     
     public Tournament(
         TournamentId id, 
@@ -28,7 +29,8 @@ public class Tournament : AggregateRoot<TournamentId>
         DateTime? startedAt,
         DateTime? finishedAt,
         List<Category> categories,
-        List<Couple> couples
+        List<Couple> couples, 
+        List<TournamentAttachment> attachments
     ) : base(id, version, createdAt, changedAt)
     {
         UserId = userId;
@@ -42,6 +44,7 @@ public class Tournament : AggregateRoot<TournamentId>
         FinishedAt = finishedAt;
         _categories = categories;
         _couples = couples;
+        _attachments = attachments;
     }
     
     /// <summary>
@@ -103,6 +106,11 @@ public class Tournament : AggregateRoot<TournamentId>
     /// Список пар, участвующих в турнире
     /// </summary>
     public IReadOnlyCollection<Couple> Couples => _couples;
+    
+    /// <summary>
+    /// Прикреплённые к турниру файлы
+    /// </summary>
+    public IReadOnlyCollection<TournamentAttachment> Attachments => _attachments;
 
     /// <summary>
     /// Количество пар, участвующих в турнире
@@ -233,5 +241,37 @@ public class Tournament : AggregateRoot<TournamentId>
         RegisterChange();
         
         return Result.Ok();
+    }
+
+    /// <summary>
+    /// Добавляет прикрепление
+    /// </summary>
+    /// <param name="attachmentName"></param>
+    /// <returns></returns>
+    public Result<TournamentAttachment> AddAttachment(string attachmentName)
+    {
+        var attachment = new TournamentAttachment(_attachments.Count + 1, attachmentName);
+        _attachments.Add(attachment);
+        
+        return attachment;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="attachmentNumber"></param>
+    /// <returns></returns>
+    public Result<string> RemoveAttachment(int attachmentNumber)
+    {
+        var attachment = _attachments.FirstOrDefault(attachment => attachment.Number == attachmentNumber);
+        if (attachment is null)
+        {
+            return Result.Fail("Attachment not found");
+        }
+        
+        _attachments.Remove(attachment);
+        RegisterChange();
+
+        return attachment.Name;
     }
 }

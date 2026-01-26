@@ -9,6 +9,7 @@ using ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.GetReferees;
 using ECC.DanceCup.Api.Application.UseCases.GetTournamentRegistrationResult;
 using ECC.DanceCup.Api.Application.UseCases.GetTournaments;
+using ECC.DanceCup.Api.Application.UseCases.ListTournamentAttachments;
 using ECC.DanceCup.Api.Domain.Model.DanceAggregate;
 using ECC.DanceCup.Api.Domain.Model.RefereeAggregate;
 using ECC.DanceCup.Api.Domain.Model.TournamentAggregate;
@@ -199,6 +200,27 @@ internal static class Mappings
             CategoriesIds: request.CategoriesIds.Select(categoryId => CategoryId.From(categoryId).AsRequired()).ToArray()
         );
     }
-    
-    
+
+    public static ListTournamentAttachmentsUseCase.Query ToInternal(this ListTournamentAttachmentsRequest request)
+    {
+        return new ListTournamentAttachmentsUseCase.Query(
+            TournamentId: TournamentId.From(request.TournamentId).AsRequired()
+        );
+    }
+
+    public static ListTournamentAttachmentsResponse ToGrpc(this ListTournamentAttachmentsUseCase.QueryResponse response)
+    {
+        return new ListTournamentAttachmentsResponse
+        {
+            Attachments =
+            {
+                response.Attachments
+                    .Select(attachment => new ListTournamentAttachmentsResponse.Types.TournamentAttachment
+                    {
+                        Number = attachment.Number,
+                        Name = attachment.Name
+                    })
+            }
+        };
+    }
 }

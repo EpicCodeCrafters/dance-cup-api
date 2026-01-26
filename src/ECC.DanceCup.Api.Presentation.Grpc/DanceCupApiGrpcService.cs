@@ -134,6 +134,16 @@ public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
         return new AddTournamentAttachmentResponse();
     }
 
+    public override async Task<ListTournamentAttachmentsResponse> ListTournamentAttachments(ListTournamentAttachmentsRequest request, ServerCallContext context)
+    {
+        var query = request.ToInternal();
+        var result = await _sender.Send(query, context.CancellationToken);
+
+        result.HandleErrors();
+
+        return result.Value.ToGrpc();
+    }
+
     public override async Task GetTournamentAttachment(
         GetTournamentAttachmentRequest request, 
         IServerStreamWriter<GetTournamentAttachmentResponse> responseStream,

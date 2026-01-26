@@ -22,6 +22,7 @@ service DanceCupApi {
     rpc RegisterCoupleForTournament (RegisterCoupleForTournamentRequest) returns (RegisterCoupleForTournamentResponse);
     
     rpc AddTournamentAttachment (stream AddTournamentAttachmentRequest) returns (AddTournamentAttachmentResponse);
+    rpc ListTournamentAttachments (ListTournamentAttachmentsRequest) returns (ListTournamentAttachmentsResponse);
     rpc GetTournamentAttachment (GetTournamentAttachmentRequest) returns (stream GetTournamentAttachmentResponse);
 }
 
@@ -158,6 +159,19 @@ message AddTournamentAttachmentRequest {
 }
 
 message AddTournamentAttachmentResponse { }
+
+message ListTournamentAttachmentsRequest {
+    int64 tournament_id = 1;
+}
+
+message ListTournamentAttachmentsResponse {
+    repeated TournamentAttachment attachments = 1;
+    
+    message TournamentAttachment {
+        int32 number = 1;
+        string name = 2;
+    }
+}
 
 message GetTournamentAttachmentRequest {
     int64 tournament_id = 1;

@@ -79,6 +79,28 @@ public class TournamentViewRepository : ITournamentViewRepository
         return resultOfRegistration.ToArray();
     }
 
+    public async Task<IReadOnlyCollection<TournamentAttachmentView>?> GetTournamentAttachmentsAsync(TournamentId tournamentId, CancellationToken cancellationToken)
+    {
+        await using var connection = await _connectionFactory.CreateAsync();
+
+        const string sqlCommand =
+            """
+            select t."attachments"
+            from "tournaments" as t
+            where t."id" = @TournamentId;
+            """;
+        
+        var attachmentsSerialized = await connection.QueryFirstOrDefaultAsync<string>(sqlCommand, new { TournamentId = tournamentId.Value });
+        if (attachmentsSerialized is null)
+        {
+            return null;
+        }
+        
+        var attachments = JsonSerializer.Deserialize<TournamentAttachmentView[]>(attachmentsSerialized);
+
+        return attachments ?? [];
+    }
+
     public async Task<string?> GetTournamentAttachmentNameAsync(TournamentId tournamentId, int attachmentNumber, CancellationToken cancellationToken)
     {
         await using var connection = await _connectionFactory.CreateAsync();

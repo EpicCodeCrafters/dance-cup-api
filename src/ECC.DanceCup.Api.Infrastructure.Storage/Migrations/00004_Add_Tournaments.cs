@@ -21,7 +21,7 @@ public class Add_Tournaments : SqlMigration
             "registration_finished_at" timestamp null,
             "started_at" timestamp null,
             "finished_at" timestamp null,
-            "attachments" jsonb not null
+            "attachments" jsonb not null default '[]'::jsonb
         );
         """;
 

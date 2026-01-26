@@ -16,7 +16,7 @@ public static class AsyncStreamReaderExtensions
         var current = stream.Current;
         if (current.AttachmentInfo is null)
         {
-            throw new RpcException(new Status(StatusCode.InvalidArgument, "Инормация о файле должна быть передана первым чанком"));
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Информация о файле должна быть передана первым чанком"));
         }
         
         var validationResult = await new AttachmentInfoValidator().ValidateAsync(current.AttachmentInfo);

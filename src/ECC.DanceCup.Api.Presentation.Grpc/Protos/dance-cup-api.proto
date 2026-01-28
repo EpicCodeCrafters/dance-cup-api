@@ -95,6 +95,12 @@ message GetTournamentsResponse {
         string description = 4;
         google.protobuf.Timestamp date = 5;
         string state = 6;
+        repeated Category categories = 7;
+        
+        message Category {
+            int64 id = 1;
+            string name = 2;
+        }
     }
 }
 

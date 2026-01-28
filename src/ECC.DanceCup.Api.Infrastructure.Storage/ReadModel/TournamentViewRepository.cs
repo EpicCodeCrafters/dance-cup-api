@@ -21,7 +21,7 @@ public class TournamentViewRepository : ITournamentViewRepository
     {
         await using var connection = await _connectionFactory.CreateAsync();
 
-        const string sqlCommand =
+        const string sqlCommandTournament =
             """
             select "id"
                  , "user_id"
@@ -29,23 +29,48 @@ public class TournamentViewRepository : ITournamentViewRepository
                  , "description"
                  , "date"
                  , "state"
-              from "tournaments"
+             from "tournaments"
              where "user_id" = @UserId
              order by "id" desc
              limit @Limit
             offset @Offset;
             """;
         
-        var result = await connection.QueryAsync<TournamentView>(
-            sqlCommand, 
+        var tournaments = await connection.QueryAsync<TournamentView>(
+            sqlCommandTournament, 
             new
             {
                 UserId = userId.Value,
                 Limit = pageSize,
                 Offset = (pageNumber - 1) * pageSize
-            });
+            }
+        );
 
-        return result.ToArray();
+        const string sqlCommandCategory =
+            """
+            select "id"
+                  ,"name"
+                  , @TournamentId as TournamentId
+            from "categories"
+            where "tournament_id" = @TournamentId
+            """;
+        
+        var result = tournaments.ToArray();
+        
+        foreach (var tournament in result)
+        {
+            var categories = await connection.QueryAsync<CategoryView>(
+                sqlCommandCategory,
+                new
+                {
+                    TournamentId = tournament.Id
+                }
+            );
+            
+            tournament.Categories = categories.ToList();
+        }
+        
+        return result;
     }
 
     public async Task<IReadOnlyCollection<TournamentRegistrationResultView>> GetRegistrationResultAsync(TournamentId tournamentId, CancellationToken cancellationToken)

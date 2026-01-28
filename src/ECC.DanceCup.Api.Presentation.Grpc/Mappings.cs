@@ -148,7 +148,12 @@ internal static class Mappings
             Name = tournamentView.Name,
             Description = tournamentView.Description,
             Date = DateTime.SpecifyKind(tournamentView.Date, DateTimeKind.Utc).ToTimestamp(),
-            State = tournamentView.State
+            State = tournamentView.State,
+            Categories = {tournamentView.Categories.Select(category=>new GetTournamentsResponse.Types.GetTournamentsItem.Types.Category
+            {
+                Id=category.Id,
+                Name = category.Name
+            })}
         };
     }
 

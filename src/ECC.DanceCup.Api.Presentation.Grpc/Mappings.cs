@@ -7,6 +7,7 @@ using ECC.DanceCup.Api.Application.UseCases.FinishTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.RegisterCoupleForTournament;
 using ECC.DanceCup.Api.Application.UseCases.ReopenTournamentRegistration;
 using ECC.DanceCup.Api.Application.UseCases.GetReferees;
+using ECC.DanceCup.Api.Application.UseCases.GetTournament;
 using ECC.DanceCup.Api.Application.UseCases.GetTournamentRegistrationResult;
 using ECC.DanceCup.Api.Application.UseCases.GetTournaments;
 using ECC.DanceCup.Api.Application.UseCases.ListTournamentAttachments;
@@ -152,6 +153,30 @@ internal static class Mappings
             Categories = {tournamentView.Categories.Select(category=>new GetTournamentsResponse.Types.GetTournamentsItem.Types.Category
             {
                 Id=category.Id,
+                Name = category.Name
+            })}
+        };
+    }
+    
+    public static GetTournamentUseCase.Query ToInternal(this GetTournamentRequest request)
+    {
+        return new GetTournamentUseCase.Query(
+            TournamentId: TournamentId.From(request.TournamentId).AsRequired()
+        );
+    }
+    public static GetTournamentResponse ToGrpc(this GetTournamentUseCase.QueryResponse response)
+    {
+        return new GetTournamentResponse
+        {
+            Id = response.Tournament.Id,
+            UserId = response.Tournament.UserId,
+            Name = response.Tournament.Name,
+            Description = response.Tournament.Description,
+            Date = DateTime.SpecifyKind(response.Tournament.Date, DateTimeKind.Utc).ToTimestamp(),
+            State = response.Tournament.State,
+            Categories = {response.Tournament.Categories.Select(category=>new GetTournamentResponse.Types.Category
+            {
+                Id = category.Id,
                 Name = category.Name
             })}
         };

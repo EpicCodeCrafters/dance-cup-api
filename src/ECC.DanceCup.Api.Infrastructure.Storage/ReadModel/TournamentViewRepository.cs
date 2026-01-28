@@ -93,7 +93,7 @@ public class TournamentViewRepository : ITournamentViewRepository
             sqlCommandTournament,
             new
             {
-                TournamentId = tournamentId
+                TournamentId = tournamentId.Value
             }
         );
         
@@ -110,7 +110,7 @@ public class TournamentViewRepository : ITournamentViewRepository
             sqlCommandCategory,
             new
             {
-                TournamentId = tournamentId
+                TournamentId = tournamentId.Value
             }
         );
 

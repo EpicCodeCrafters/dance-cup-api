@@ -1,20 +1,25 @@
 using ECC.DanceCup.Api;
 using ECC.DanceCup.Api.Extensions;
 using Microsoft.AspNetCore;
+using Serilog;
 
-var host = WebHost
-    .CreateDefaultBuilder(args)
-    .UseStartup<Startup>()
-    .ConfigureAppConfiguration(configurationBuilder =>
-    {
-        configurationBuilder.AddEnvironmentVariables();
-    })
-    .Build();
-
-if (args is ["--migrate"])
+try
 {
-    await host.MigrateAsync();
-    return;
-}
+    var host = WebHost
+        .CreateDefaultBuilder(args)
+        .UseStartup<Startup>()
+        .ConfigureAppConfiguration(configurationBuilder => { configurationBuilder.AddEnvironmentVariables(); })
+        .Build();
 
-await host.RunAsync();
+    if (args is ["--migrate"])
+    {
+        await host.MigrateAsync();
+        return;
+    }
+
+    await host.RunAsync();
+}
+finally
+{
+    Log.CloseAndFlush();
+}

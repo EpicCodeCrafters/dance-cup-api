@@ -25,5 +25,7 @@
     <PackageReference Include="prometheus-net.AspNetCore" />
     <PackageReference Include="prometheus-net.AspNetCore.Grpc" />
     <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" />
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Sinks.ConfluentKafka" />
   </ItemGroup>
 </Project>

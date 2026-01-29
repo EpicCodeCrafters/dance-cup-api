@@ -5,6 +5,7 @@ using ECC.DanceCup.Api.Infrastructure.Metrics;
 using ECC.DanceCup.Api.Infrastructure.ObjectStorage;
 using ECC.DanceCup.Api.Infrastructure.Storage;
 using ECC.DanceCup.Api.Infrastructure.TgApi;
+using ECC.DanceCup.Api.Logging;
 using ECC.DanceCup.Api.Presentation.Grpc;
 using ECC.DanceCup.Api.Presentation.Kafka;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -12,7 +13,7 @@ using Prometheus;
 
 namespace ECC.DanceCup.Api;
 
-public class Startup(IConfiguration configuration)
+public class Startup(IConfiguration configuration, IWebHostEnvironment environment)
 {
     public void ConfigureServices(IServiceCollection services)
     {
@@ -33,10 +34,14 @@ public class Startup(IConfiguration configuration)
         services.AddKafkaHandlers(configuration);
 
         services.AddCustomMetrics();
+
+        services.AddCustomLogging(configuration, environment);
     }
 
     public void Configure(IApplicationBuilder app)
     {
+        app.UseCustomLogging();
+        
         app.UseRouting();
 
         app.UseGrpcMetrics();

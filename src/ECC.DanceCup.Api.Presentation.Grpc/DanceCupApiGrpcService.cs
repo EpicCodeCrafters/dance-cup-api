@@ -67,6 +67,16 @@ public class DanceCupApiGrpcService : DanceCupApi.DanceCupApiBase
 
         return result.Value.ToGrpc();
     }
+    
+    public override async Task<GetTournamentResponse> GetTournament(GetTournamentRequest request, ServerCallContext context)
+    {
+        var query = request.ToInternal();
+        var result = await _sender.Send(query, context.CancellationToken);
+
+        result.HandleErrors();
+
+        return result.Value.ToGrpc();
+    }
 
     public override async Task<StartTournamentRegistrationResponse> StartTournamentRegistration(StartTournamentRegistrationRequest request, ServerCallContext context)
     {

@@ -73,6 +73,57 @@ public class TournamentViewRepository : ITournamentViewRepository
         return result;
     }
 
+    public async Task<TournamentView> FindOneAsync(TournamentId tournamentId, CancellationToken cancellationToken)
+    {
+        await using var connection = await _connectionFactory.CreateAsync();
+
+        const string sqlCommandTournament =
+            """
+            select "id"
+                , "user_id"
+                , "name"
+                , "description"
+                , "date"
+                , "state"
+            from "tournaments"
+            where "id" = @TournamentId
+            """;
+
+        var result = await connection.QueryFirstOrDefaultAsync<TournamentView>(
+            sqlCommandTournament,
+            new
+            {
+                TournamentId = tournamentId.Value
+            }
+        );
+        
+        const string sqlCommandCategory =
+            """
+            select "id"
+                  ,"name"
+                  , @TournamentId as TournamentId
+            from "categories"
+            where "tournament_id" = @TournamentId
+            """;
+        
+        var categories = await connection.QueryAsync<CategoryView>(
+            sqlCommandCategory,
+            new
+            {
+                TournamentId = tournamentId.Value
+            }
+        );
+
+        if (result != null)
+        {
+            result.Categories = categories.ToList();
+
+            return result;
+        }
+        else
+            throw new Exception();
+    }
+
     public async Task<IReadOnlyCollection<TournamentRegistrationResultView>> GetRegistrationResultAsync(TournamentId tournamentId, CancellationToken cancellationToken)
     {
         await using var connection = await _connectionFactory.CreateAsync();
